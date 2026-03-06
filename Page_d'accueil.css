@@ -1,0 +1,229 @@
+/* Configuration Générale */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Header et Logo */
+.image {
+  width: 200px;
+  height: auto;
+  margin-left: 150px;
+  padding: 10px 0;
+}
+
+.bordure {
+  border: none;
+  border-top: 3px solid #6b6b6b;
+  width: 100%;
+  margin: 0;
+}
+
+/* Navigation du haut */
+.navigation-principale ul {
+  list-style: none;
+  padding: 20px 0;
+
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.navigation-principale ul li a {
+  color: rgb(51, 13, 218);
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  position: relative;
+  top: -100px;
+}
+
+.navigation-principale ul li a:hover {
+  transform: translateY(-5px);
+  color: #000;
+}
+
+/* Titres */
+.titre {
+  font-size: 35px;
+  text-align: center;
+  font-weight: 600;
+  color: rgb(39, 32, 110);
+  margin-top: 80px;
+}
+
+.titre2 {
+  font-size: 22px;
+  text-align: center;
+  font-weight: 600;
+  color: rgb(39, 32, 110);
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+/* Menu d'optionss (Boutons arrondis) */
+.option nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px 0;
+}
+/*test
+*/
+.option nav ul li a {
+  color: rgb(39, 32, 110);
+  text-decoration: none;
+  font-size: 18px;
+  padding: 10px 25px;
+  border: 2px solid;
+  border-radius: 50px;
+  transition: 0.3s;
+  transition: 0.3s;
+}
+
+.option nav ul li a:hover {
+  background-color: rgb(39, 32, 110);
+  color: white;
+}
+
+/* Section Objectif */
+#Objectif {
+  padding: 100px 20px;
+  text-align: center;
+  scroll-margin-top: 50px;
+}
+
+.objectif {
+  font-size: 30px;
+  color: rgb(39, 32, 110);
+  margin-top: 120px;
+  scroll-margin-top: 25vh;
+}
+
+.contenu_objectif {
+  font-size: 20px;
+  font-family: sans-serif;
+  text-align: center;
+  font-weight: 600;
+  color: rgb(39, 32, 110);
+}
+
+.liste-puces {
+  list-style: none;
+  padding: 0;
+}
+
+.liste_obj {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 10px 0;
+  color: rgb(39, 32, 110);
+}
+
+/* Section Offres (Rectangles alignés) */
+#Offre {
+  padding: 50px 0;
+  scroll-margin-top: 50px;
+}
+
+.titre-section {
+  text-align: center;
+  color: rgb(39, 32, 110);
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+.conteneur-rectangles {
+  display: flex; /* Aligne les rectangles en ligne */
+  justify-content: center; /* Les centre horizontalement */
+  gap: 40px; /* Espace entre les rectangles */
+  flex-wrap: wrap; /* Permet de passer à la ligne sur petit écran */
+}
+
+.rectangle {
+  width: 320px;
+  height: 380px;
+  background-color: #ffffff;
+  border: 2px solid #27206e;
+  border-radius: 50px;
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  cursor: pointer;
+}
+
+.rectangle:hover {
+  transform: translateX(10px);
+}
+
+.image_offre {
+  width: 80%;
+  height: auto;
+  margin-top: 20px;
+}
+
+#Entreprise {
+  padding-top: 100px; /* Ajustez la valeur selon vos besoins */
+  scroll-margin-top: 50px;
+}
+
+.trait {
+  border: none;
+  border-top: 3px solid #6b6b6b;
+  width: 100%;
+  margin-top: 50px;
+}
+
+/* Chat GPT */
+
+.container-performance {
+  display: flex; /* Aligne les enfants côte à côte */
+  align-items: center; /* Centre verticalement le texte par rapport à l'image */
+  gap: 50px; /* Espace entre le texte et l'image */
+  max-width: 1200px; /* Largeur maximale de la section */
+  margin: 0 auto; /* Centre la section dans la page */
+  padding: 40px;
+}
+
+.text-content {
+  flex: 1; /* Prend 50% de l'espace */
+}
+
+.text-content h2 {
+  font-size: 2.5rem;
+  font-weight: 300; /* Pour un look épuré comme sur la photo */
+  line-height: 1.2;
+}
+
+.image-content {
+  flex: 1; /* Prend les autres 50% */
+}
+
+.image-content img {
+  width: 70%; /* L'image s'adapte à son conteneur */
+  height: auto;
+  display: block;
+}
+
+.container-performance.reverse {
+  flex-direction: row-reverse;
+}
+
+/* Ajoute un fond gris très léger pour différencier les sections */
+.bg-light {
+  background-color: #f8f9fa;
+  width: 100%; /* S'assure que le fond prend toute la largeur */
+}
+
+/* Correction du décalage de la navigation haute */
+.navigation-principale ul li a {
+  color: rgb(51, 13, 218);
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  position: relative;
+  /* top: -100px;  <-- Retirez ceci si vos liens disparaissent du header */
+}
