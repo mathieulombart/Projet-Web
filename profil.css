@@ -1,0 +1,73 @@
+body {
+  background: #f8f9fa;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background: white;
+  border-bottom: 1px solid #ddd;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+header .logo {
+  height: 120px;
+  width: auto;
+}
+
+header h1 {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.profile-info {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.profile-info h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.profile-info p {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.profile-side div {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.profile-side h5 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.profile-side a {
+  color: #0d6efd;
+  text-decoration: none;
+  margin-bottom: 5px;
+}
+
+.profile-side a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  header .logo {
+    height: 100px;
+  }
+}
