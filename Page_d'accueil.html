@@ -6,15 +6,46 @@
 
     <title>AlloStage</title>
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+
+    <style>
+      /* Animation des cartes (remplace ton ancien hover) */
+
+      .card-hover {
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Image dans les cartes */
+
+      .card img {
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      }
+
+      /* Scroll fluide */
+
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
   </head>
 
   <body>
     <!-- HEADER -->
+
     <header class="border-bottom">
       <div
         class="container py-3 d-flex justify-content-between align-items-center"
@@ -47,7 +78,8 @@
       </div>
     </header>
 
-    <!-- TITRE PRINCIPAL -->
+    <!-- TITRE -->
+
     <section class="container text-center py-5">
       <h1 class="display-5 fw-semibold text-primary">
         On connecte les meilleurs employeurs avec une jeunesse curieuse et
@@ -61,7 +93,6 @@
       </p>
     </section>
 
-    <!-- OPTIONS -->
     <section class="container text-center pb-5">
       <a
         href="Offre.html"
@@ -92,25 +123,21 @@
       </a>
     </section>
 
-    <!-- OBJECTIF -->
     <section id="Objectif" class="container py-5 text-center">
       <h2 class="mb-4 text-primary">Notre objectif ?</h2>
 
       <p class="mb-4">
         L'objectif principal d'Allostage est de mettre en relation les
         professionnels du monde entier pour les rendre plus performants et
-        productifs. Nous croyons que chaque étudiant et chaque entreprise mérite
-        un espace dédié pour construire un avenir solide.
+        productifs.
       </p>
 
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
-          Connecter les talents : créer des ponts entre étudiants et employeurs.
+          Connecter les talents entre étudiants et employeurs.
         </li>
 
-        <li class="list-group-item">
-          Démocratiser l'opportunité : accès aux offres pour tous.
-        </li>
+        <li class="list-group-item">Démocratiser l'accès aux opportunités.</li>
 
         <li class="list-group-item">
           Valoriser les compétences des candidats.
@@ -122,13 +149,12 @@
       </ul>
     </section>
 
-    <!-- OFFRES -->
     <section id="Offre" class="container py-5">
       <h2 class="text-center mb-5 text-primary">Offres récentes</h2>
 
       <div class="row g-4">
         <div class="col-md-4">
-          <div class="card h-100 shadow">
+          <div class="card h-100 shadow card-hover">
             <img src="offre.jpg" class="card-img-top" alt="Offre" />
 
             <div class="card-body text-center">
@@ -138,7 +164,7 @@
         </div>
 
         <div class="col-md-4">
-          <div class="card h-100 shadow">
+          <div class="card h-100 shadow card-hover">
             <img src="offre.jpg" class="card-img-top" alt="Offre" />
 
             <div class="card-body text-center">
@@ -148,7 +174,7 @@
         </div>
 
         <div class="col-md-4">
-          <div class="card h-100 shadow">
+          <div class="card h-100 shadow card-hover">
             <img src="offre.jpg" class="card-img-top" alt="Offre" />
 
             <div class="card-body text-center">
@@ -159,13 +185,12 @@
       </div>
     </section>
 
-    <!-- ENTREPRISES -->
     <section id="Entreprise" class="container py-5">
       <h2 class="text-center mb-5 text-primary">Entreprises récentes</h2>
 
       <div class="row g-4">
         <div class="col-md-4">
-          <div class="card shadow text-center">
+          <div class="card shadow text-center card-hover">
             <img src="entreprise.jpg" class="card-img-top" alt="Entreprise" />
 
             <div class="card-body">
@@ -175,7 +200,7 @@
         </div>
 
         <div class="col-md-4">
-          <div class="card shadow text-center">
+          <div class="card shadow text-center card-hover">
             <img src="entreprise.jpg" class="card-img-top" alt="Entreprise" />
 
             <div class="card-body">
@@ -185,7 +210,7 @@
         </div>
 
         <div class="col-md-4">
-          <div class="card shadow text-center">
+          <div class="card shadow text-center card-hover">
             <img src="entreprise.jpg" class="card-img-top" alt="Entreprise" />
 
             <div class="card-body">
@@ -198,15 +223,14 @@
 
     <hr class="container" />
 
-    <!-- EQUIPE -->
     <section id="Equipe" class="container py-5">
       <div class="row align-items-center mb-5">
         <div class="col-md-6">
-          <h2>Notre équipe sur votre projet !</h2>
+          <h2>Notre équipe sur votre projet</h2>
 
           <p>
-            Je vous présente Mehefuz, un ingénieur informatique spécialisé dans
-            le développement web.
+            Je vous présente Mehefuz, ingénieur informatique spécialisé dans le
+            développement web.
           </p>
         </div>
 
@@ -249,12 +273,31 @@
         <div class="col-md-6">
           <h2>Coordination et stratégie</h2>
 
-          <p>Emma est chef de projet et coordonne toute l'équipe.</p>
+          <p>
+            Emma coordonne toute l'équipe pour garantir la qualité du projet.
+          </p>
         </div>
       </div>
     </section>
 
     <!-- Bootstrap JS -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+      <div class="container">
+        <p class="mb-1">© 2026 AlloStage</p>
+
+        <p class="mb-2">
+          Connecter les étudiants et les entreprises pour construire l'avenir.
+        </p>
+
+        <div>
+          <a href="#" class="">Mentions légales</a>
+          <a href="#" class="">Contact</a>
+          <a href="#" class="">Confidentialité</a>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
