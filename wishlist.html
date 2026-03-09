@@ -2,43 +2,203 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>Profil</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlloStage – Wishlist</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: #f8f9ff;
+      }
 
-    <link rel="stylesheet" href="wishlist.css" />
+      .offer-card {
+        border-radius: 20px;
+        border: none;
+        box-shadow: 0 4px 20px rgba(13, 110, 253, 0.09);
+        background: #fff;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+      .offer-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 16px 40px rgba(13, 110, 253, 0.18);
+        color: inherit;
+      }
+
+      .offer-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #0d6efd 0%, #6ea8fe 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+      }
+
+      .heart-btn {
+        border: none;
+        background: #fff0f3;
+        color: #dc3545;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          transform 0.2s;
+      }
+      .heart-btn:hover {
+        background: #dc3545;
+        color: #fff;
+        transform: scale(1.1);
+      }
+
+      .tag {
+        background: #e7f0ff;
+        color: #0d6efd;
+        border-radius: 20px;
+        padding: 3px 12px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        display: inline-block;
+      }
+    </style>
   </head>
-
   <body>
-    <!--test-->
-    <header>
-      <img src="Logo_projet_web.png" alt="Logo" class="logo" />
-      <nav class="ms-5 d-flex">
-        <h1>
-          <a href="Profil.html" class="text-decoration-none">Profil</a>
-          <a href="acceuil.html" class="text-decoration-none">Acceuil</a>
-          <a href="offres.html" class="text-decoration-none">Offres</a>
-        </h1>
-      </nav>
+    <header class="border-bottom bg-white">
+      <div
+        class="container py-3 d-flex justify-content-between align-items-center"
+      >
+        <img src="Logo_projet_web.png" alt="Logo AlloStage" width="180" />
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link fw-bold text-primary" href="acceuil.html"
+              >Accueil</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-bold text-primary" href="offres.html"
+              >Offres</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-bold text-primary" href="Profil.html"
+              >Profil</a
+            >
+          </li>
+        </ul>
+      </div>
     </header>
-    <h1>Wishlist</h1>
-    <div class="mb-4">
-      <div class="list-group">
-        <a href="#" class="list-group-item list-group-item-action">
-          <strong>Développeur Front-End</strong><br />
-          <span class="text-muted">Paris – Société X</span>
+
+    <section class="container text-center py-5">
+      <h1 class="display-6 fw-semibold text-primary">❤️ Ma Wishlist</h1>
+      <p class="text-muted">
+        Les offres que vous avez mises de côté pour postuler plus tard.
+      </p>
+    </section>
+
+    <section class="container pb-5">
+      <!-- Stats bar -->
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <span class="text-muted fw-semibold">2 offres sauvegardées</span>
+      </div>
+
+      <div class="d-flex flex-column gap-3">
+        <!-- Offre 1 -->
+        <a href="#" class="offer-card card p-4">
+          <div class="d-flex align-items-center justify-content-between gap-3">
+            <div class="d-flex align-items-center gap-3 flex-grow-1">
+              <div class="offer-icon">💻</div>
+              <div>
+                <h5 class="fw-bold mb-1">Développeur Front-End</h5>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <span class="text-muted">📍 Paris</span>
+                  <span class="text-muted">·</span>
+                  <span class="text-muted">Société X</span>
+                  <span class="tag">Stage 6 mois</span>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-column align-items-end gap-2">
+              <button class="heart-btn" title="Retirer de la wishlist">
+                ♥
+              </button>
+              <span class="badge bg-primary rounded-pill">En cours</span>
+            </div>
+          </div>
         </a>
 
-        <a href="#" class="list-group-item list-group-item-action">
-          <strong>Technicien Support</strong><br />
-          <span class="text-muted">Nancy – Entreprise Y</span>
+        <!-- Offre 2 -->
+        <a href="#" class="offer-card card p-4">
+          <div class="d-flex align-items-center justify-content-between gap-3">
+            <div class="d-flex align-items-center gap-3 flex-grow-1">
+              <div
+                class="offer-icon"
+                style="background: linear-gradient(135deg, #198754, #75b798)"
+              >
+                🛠️
+              </div>
+              <div>
+                <h5 class="fw-bold mb-1">Technicien Support</h5>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <span class="text-muted">📍 Nancy</span>
+                  <span class="text-muted">·</span>
+                  <span class="text-muted">Entreprise Y</span>
+                  <span class="tag">Stage 3 mois</span>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-column align-items-end gap-2">
+              <button class="heart-btn" title="Retirer de la wishlist">
+                ♥
+              </button>
+              <span class="badge bg-success rounded-pill">Disponible</span>
+            </div>
+          </div>
         </a>
       </div>
-    </div>
+
+      <!-- Bouton retour profil -->
+      <div class="text-center mt-5">
+        <a href="Profil.html" class="btn btn-outline-primary rounded-pill px-5"
+          >← Retour au profil</a
+        >
+      </div>
+    </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+      <div class="container">
+        <p class="mb-1">© 2026 AlloStage</p>
+        <p class="mb-2">
+          Connecter les étudiants et les entreprises pour construire l'avenir.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+          <a href="#" class="text-white-50 text-decoration-none"
+            >Mentions légales</a
+          >
+          <a href="#" class="text-white-50 text-decoration-none">Contact</a>
+          <a href="#" class="text-white-50 text-decoration-none"
+            >Confidentialité</a
+          >
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
