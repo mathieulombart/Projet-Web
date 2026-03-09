@@ -40,6 +40,16 @@
       html {
         scroll-behavior: smooth;
       }
+
+      .search-bar {
+        border-radius: 50px;
+        border: 2px solid #dee2e6;
+        padding: 10px 22px;
+        font-size: 1rem;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
     </style>
   </head>
 
@@ -54,25 +64,23 @@
 
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link fw-bold text-primary" href="#Objectif"
-              >Objectif</a
+            <a class="nav-link fw-bold text-primary" href="#Offre">Offre</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link fw-bold text-primary" href="Entreprise.html"
+              >Entreprise</a
             >
           </li>
 
           <li class="nav-item">
-            <a class="nav-link fw-bold text-primary" href="#Offre"
-              >Offres récentes</a
+            <a class="nav-link fw-bold text-primary" href="#Connexion"
+              >Connexion</a
             >
           </li>
 
           <li class="nav-item">
-            <a class="nav-link fw-bold text-primary" href="#Entreprise"
-              >Entreprises récentes</a
-            >
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link fw-bold text-primary" href="#Equipe">Équipe</a>
+            <a class="nav-link fw-bold text-primary" href="#Profil">Profil</a>
           </li>
         </ul>
       </div>
@@ -93,37 +101,18 @@
       </p>
     </section>
 
-    <section class="container text-center pb-5">
-      <a
-        href="Offre.html"
-        class="btn btn-outline-primary rounded-pill px-4 m-2"
-      >
-        Offre
-      </a>
-
-      <a
-        href="Entreprise.html"
-        class="btn btn-outline-primary rounded-pill px-4 m-2"
-      >
-        Entreprise
-      </a>
-
-      <a
-        href="Connexion.html"
-        class="btn btn-outline-primary rounded-pill px-4 m-2"
-      >
-        Connexion
-      </a>
-
-      <a
-        href="#Profil.html"
-        class="btn btn-outline-primary rounded-pill px-4 m-2"
-      >
-        Profil
-      </a>
+    <section class="container mb-5">
+      <div class="d-flex flex-column flex-md-row gap-3 align-items-center mb-3">
+        <input
+          type="text"
+          class="search-bar flex-grow-1 w-100 rounded-pill border px-4"
+          placeholder="🔍 Rechercher une entreprise, un secteur…"
+        />
+        <a href="#" class="btn btn-primary rounded-pill px-4">Rechercher</a>
+      </div>
     </section>
 
-    <section id="Objectif" class="container py-5 text-center">
+    <section class="container py-5 text-center">
       <h2 class="mb-4 text-primary">Notre objectif ?</h2>
 
       <p class="mb-4">
@@ -149,7 +138,7 @@
       </ul>
     </section>
 
-    <section id="Offre" class="container py-5">
+    <section class="container py-5">
       <h2 class="text-center mb-5 text-primary">Offres récentes</h2>
 
       <div class="row g-4">
@@ -185,7 +174,7 @@
       </div>
     </section>
 
-    <section id="Entreprise" class="container py-5">
+    <section class="container py-5">
       <h2 class="text-center mb-5 text-primary">Entreprises récentes</h2>
 
       <div class="row g-4">
@@ -223,7 +212,7 @@
 
     <hr class="container" />
 
-    <section id="Equipe" class="container py-5">
+    <section class="container py-5">
       <div class="row align-items-center mb-5">
         <div class="col-md-6">
           <h2>Notre équipe sur votre projet</h2>
