@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offres de stage{% endblock %}
+
+{% block styles %}
+<style>
+  .filter-btn {
+    transition: all 0.2s ease;
+  }
+  .filter-btn:hover {
+    background-color: #0d6efd;
+    color: white;
+  }
+  .table tbody tr {
+    transition: background-color 0.15s ease;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<main class="py-5 bg-light">
+  <section class="container">
+
+    <div class="text-center mb-4">
+      <h1 class="display-5 fw-semibold text-primary">
+        Un stage adapté à vous et vos compétences
+      </h1>
+      <p class="lead text-muted mt-3">
+        Découvrez les dernières offres ajoutées sur AlloStage.
+      </p>
+    </div>
+
+    <div class="text-center mb-4">
+      <div class="d-inline-flex gap-3 flex-wrap">
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4 filter-btn">Pertinence</button>
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4 filter-btn">Localisation la plus proche</button>
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4 filter-btn">Publication récente</button>
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4 filter-btn">Les plus ajoutées à la wishlist</button>
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4 filter-btn">Rémunération les plus élevée</button>
+      </div>
+    </div>
+
+    <article class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h2 class="h5 mb-0">Dernières offres ajoutées</h2>
+      </div>
+
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Entreprise</th>
+                <th>Intitulé</th>
+                <th>Localisation</th>
+                <th>Employeur</th>
+                <th>Rémunération</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Boston Dynamics</td>
+                <td>Stagiaire Robotique</td>
+                <td>Boston</td>
+                <td>Marc Raibert</td>
+                <td><span class="badge bg-success">3050 $</span></td>
+                <td>Wake up samurai, we have a robot to build.<br>
+                  <a href="#" class="btn btn-sm btn-outline-primary mt-2">Voir l'offre</a></td>
+              </tr>
+              <tr>
+                <td>Ferrari</td>
+                <td>Stagiaire Ingénierie</td>
+                <td>Maranello</td>
+                <td>Enzo Ferrari</td>
+                <td><span class="badge bg-success">330 €</span></td>
+                <td>Je ne peux plus conduire, mais j'ai encore plein d'idées.<br>
+                  <a href="#" class="btn btn-sm btn-outline-primary mt-2">Voir l'offre</a></td>
+              </tr>
+              <tr>
+                <td>Google</td>
+                <td>Stagiaire Développeur Backend</td>
+                <td>Paris</td>
+                <td>Sundar Pichai</td>
+                <td><span class="badge bg-success">1200 €</span></td>
+                <td>Travail sur des microservices en Go et Java.<br>
+                  <a href="#" class="btn btn-sm btn-outline-primary mt-2">Voir l'offre</a></td>
+              </tr>
+              <tr>
+                <td>Ubisoft</td>
+                <td>Stagiaire Gameplay</td>
+                <td>Montreuil</td>
+                <td>Yves Guillemot</td>
+                <td><span class="badge bg-success">1000 €</span></td>
+                <td>Prototypage de mécaniques de jeu innovantes.<br>
+                  <a href="#" class="btn btn-sm btn-outline-primary mt-2">Voir l'offre</a></td>
+              </tr>
+              <tr>
+                <td>Tesla</td>
+                <td>Stagiaire Ingénieur Batterie</td>
+                <td>Berlin</td>
+                <td>Elon Musk</td>
+                <td><span class="badge bg-success">1500 $</span></td>
+                <td>Optimisation de la performance énergétique.<br>
+                  <a href="#" class="btn btn-sm btn-outline-primary mt-2">Voir l'offre</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-5">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item disabled">
+            <a class="page-link rounded-start-pill" href="#">←</a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">1</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">2</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">3</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link rounded-end-pill" href="#">→</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+  </section>
+</main>
+{% endblock %}

@@ -12,7 +12,7 @@ $page = $_GET['page'] ?? 'accueil';
 $allowedPages = [
     'accueil',
     'profil',
-    'wishlist',
+    'offre',
     'offres_postulees',
     'entreprise'
 ];
