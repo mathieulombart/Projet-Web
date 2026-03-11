@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ offre.intitule }} – {{ offre.entreprise }}{% endblock %}
+
+{% block body %}
+
+<main class="py-5 bg-light">
+    <section class="container">
+
+        <a href="?page=offre" class="btn btn-link mb-3">&larr; Retour aux offres</a>
+
+        <div class="card shadow-sm">
+
+            <div class="card-header bg-primary text-white">
+                <h1 class="h4 mb-0">{{ offre.intitule }}</h1>
+                <p class="mb-0">{{ offre.entreprise }} · {{ offre.localisation }}</p>
+            </div>
+
+                <div class="card-body">
+                    <p><strong>Employeur :</strong> {{ offre.employeur }}</p>
+                    <p><strong>Localisation :</strong> {{ offre.localisation }}</p>
+                    <p><strong>Rémunération :</strong> {{ offre.remuneration }}</p>
+                    <p><strong>Durée :</strong> {{ offre.duree }}</p>
+                    <p><strong>Type :</strong> {{ offre.type }}</p>
+
+                    <hr>
+
+                    <h2 class="h5">Description de l’offre</h2>
+                    <p>{{ offre.description }}</p>
+
+                    <div class="mt-4 d-flex gap-3">
+                    <a href="#" class="btn btn-primary">Postuler à cette offre</a>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+{% endblock %}
