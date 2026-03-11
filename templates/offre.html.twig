@@ -2,23 +2,8 @@
 
 {% block title %}Offres de stage{% endblock %}
 
-{% block styles %}
-<style>
-  .filter-btn {
-    transition: all 0.2s ease;
-  }
-  .filter-btn:hover {
-    background-color: #0d6efd;
-    color: white;
-  }
-  .table tbody tr {
-    transition: background-color 0.15s ease;
-  }
-</style>
-{% endblock %}
-
 {% block body %}
-<main class="py-5 bg-light">
+<main class="py-5">
   <section class="container">
 
     <div class="text-center mb-4">
@@ -32,15 +17,15 @@
 
     <div class="text-center mb-4">
       <div class="d-inline-flex gap-3 flex-wrap">
-        <button type="button" class="btn btn-outline-primary rounded-pill px-4 filter-btn">Pertinence</button>
-        <button type="button" class="btn btn-outline-primary rounded-pill px-4 filter-btn">Localisation la plus proche</button>
-        <button type="button" class="btn btn-outline-primary rounded-pill px-4 filter-btn">Publication récente</button>
-        <button type="button" class="btn btn-outline-primary rounded-pill px-4 filter-btn">Les plus ajoutées à la wishlist</button>
-        <button type="button" class="btn btn-outline-primary rounded-pill px-4 filter-btn">Rémunération les plus élevée</button>
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4">Pertinence</button>
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4">Localisation la plus proche</button>
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4">Publication récente</button>
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4">Les plus ajoutées à la wishlist</button>
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4">Rémunération les plus élevée</button>
       </div>
     </div>
 
-    <article class="card shadow-sm">
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
       <div class="card-header bg-primary text-white">
         <h2 class="h5 mb-0">Dernières offres ajoutées</h2>
       </div>
@@ -108,7 +93,7 @@
           </table>
         </div>
       </div>
-    </article>
+    </div>
 
     <!-- Pagination -->
     <div class="d-flex justify-content-center mt-5">

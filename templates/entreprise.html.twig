@@ -1,100 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}AlloStage – Offres postulées{% endblock %}
-
-{% block styles %}
-<style>
-html {
-  scroll-behavior: smooth;
-}
-body {
-  background: #f8f9ff;
-}
-
-/* --- CARDS ENTREPRISES --- */
-.company-card {
-  border-radius: 20px;
-  border: none;
-  box-shadow: 0 4px 20px rgba(13, 110, 253, 0.09);
-  background: #fff;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
-}
-.company-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(13, 110, 253, 0.2);
-}
-
-/* Bandeau coloré en haut de la carte */
-.card-banner {
-  height: 72px;
-  background: linear-gradient(135deg, #0d6efd 0%, #6ea8fe 100%);
-}
-.card-banner.green {
-  background: linear-gradient(135deg, #198754, #75b798);
-}
-.card-banner.purple {
-  background: linear-gradient(135deg, #6f42c1, #a98eda);
-}
-.card-banner.orange {
-  background: linear-gradient(135deg, #fd7e14, #ffb974);
-}
-.card-banner.teal {
-  background: linear-gradient(135deg, #0dcaf0, #6edff6);
-}
-.card-banner.red {
-  background: linear-gradient(135deg, #dc3545, #f08080);
-}
-
-/* Tags secteur */
-.tag {
-  background: #e7f0ff;
-  color: #0d6efd;
-  border-radius: 20px;
-  padding: 3px 12px;
-  font-size: 0.76rem;
-  font-weight: 600;
-  display: inline-block;
-}
-
-/* Barre de recherche */
-.search-bar {
-  border-radius: 50px;
-  border: 2px solid #dee2e6;
-  padding: 10px 22px;
-  font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-.search-bar:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.12);
-  outline: none;
-}
-
-/* Filtre pills */
-.filter-pill {
-  border-radius: 50px;
-  border: 2px solid #dee2e6;
-  background: #fff;
-  padding: 6px 18px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #495057;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.filter-pill:hover,
-.filter-pill.active {
-  background: #0d6efd;
-  border-color: #0d6efd;
-  color: #fff;
-}
-</style>
-{% endblock %}
+{% block title %}AlloStage – Entreprises{% endblock %}
 
 {% block body %}
-
-
 
 <!-- HERO -->
 <section class="container text-center py-5">
@@ -111,20 +19,20 @@ body {
   <div class="d-flex flex-column flex-md-row gap-3 align-items-center mb-3">
     <input
       type="text"
-      class="search-bar flex-grow-1 w-100"
+      class="form-control rounded-pill px-4"
       placeholder="Rechercher une entreprise, un secteur…"
     />
     <a href="#" class="btn btn-primary rounded-pill px-4">Rechercher</a>
   </div>
 
   <div class="d-flex flex-wrap gap-2">
-    <button class="filter-pill active">Tous</button>
-    <button class="filter-pill">Tech & IT</button>
-    <button class="filter-pill">Cybersécurité</button>
-    <button class="filter-pill">Conseil</button>
-    <button class="filter-pill">Industrie</button>
-    <button class="filter-pill">Finance</button>
-    <button class="filter-pill">Santé</button>
+    <button class="btn btn-primary rounded-pill px-3">Tous</button>
+    <button class="btn btn-outline-secondary rounded-pill px-3">Tech & IT</button>
+    <button class="btn btn-outline-secondary rounded-pill px-3">Cybersécurité</button>
+    <button class="btn btn-outline-secondary rounded-pill px-3">Conseil</button>
+    <button class="btn btn-outline-secondary rounded-pill px-3">Industrie</button>
+    <button class="btn btn-outline-secondary rounded-pill px-3">Finance</button>
+    <button class="btn btn-outline-secondary rounded-pill px-3">Santé</button>
   </div>
 </section>
 
@@ -136,21 +44,19 @@ body {
 
     <!-- Capgemini -->
     <div class="col-12 col-md-6 col-lg-4">
-      <div class="company-card h-100">
-        <div class="card-banner"></div>
+      <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="bg-primary" style="height:72px"></div>
         <div class="p-4 pt-2">
           <h5 class="fw-bold mb-1">Capgemini</h5>
           <p class="text-muted small mb-2">
-            📍 Paris · <span class="tag">Conseil & IT</span>
+            📍 Paris · <span class="badge text-bg-primary rounded-pill">Conseil & IT</span>
           </p>
           <p class="text-muted small mb-3">
             Leader mondial du conseil et des services numériques, présent dans plus de 50 pays.
           </p>
           <div class="d-flex align-items-center justify-content-between">
             <span class="badge bg-primary rounded-pill">12 offres</span>
-            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-              Voir les offres
-            </a>
+            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">Voir les offres</a>
           </div>
         </div>
       </div>
@@ -158,21 +64,19 @@ body {
 
     <!-- Thales -->
     <div class="col-12 col-md-6 col-lg-4">
-      <div class="company-card h-100">
-        <div class="card-banner purple"></div>
+      <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="bg-purple" style="height:72px; background-color:#6f42c1 !important;"></div>
         <div class="p-4 pt-2">
           <h5 class="fw-bold mb-1">Thales</h5>
           <p class="text-muted small mb-2">
-            📍 Toulouse · <span class="tag">Cybersécurité</span>
+            📍 Toulouse · <span class="badge text-bg-secondary rounded-pill">Cybersécurité</span>
           </p>
           <p class="text-muted small mb-3">
             Spécialiste de la défense, de l'aérospatiale et de la cybersécurité à l'échelle mondiale.
           </p>
           <div class="d-flex align-items-center justify-content-between">
             <span class="badge bg-primary rounded-pill">8 offres</span>
-            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-              Voir les offres
-            </a>
+            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">Voir les offres</a>
           </div>
         </div>
       </div>
@@ -180,21 +84,19 @@ body {
 
     <!-- Orange -->
     <div class="col-12 col-md-6 col-lg-4">
-      <div class="company-card h-100">
-        <div class="card-banner orange"></div>
+      <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="bg-warning" style="height:72px"></div>
         <div class="p-4 pt-2">
           <h5 class="fw-bold mb-1">Orange</h5>
           <p class="text-muted small mb-2">
-            📍 Nancy · <span class="tag">Télécoms</span>
+            📍 Nancy · <span class="badge text-bg-warning rounded-pill">Télécoms</span>
           </p>
           <p class="text-muted small mb-3">
             Opérateur télécom de référence proposant des stages dans le réseau, la data et le dev.
           </p>
           <div class="d-flex align-items-center justify-content-between">
             <span class="badge bg-primary rounded-pill">6 offres</span>
-            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-              Voir les offres
-            </a>
+            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">Voir les offres</a>
           </div>
         </div>
       </div>
@@ -202,21 +104,19 @@ body {
 
     <!-- Société Générale -->
     <div class="col-12 col-md-6 col-lg-4">
-      <div class="company-card h-100">
-        <div class="card-banner red"></div>
+      <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="bg-danger" style="height:72px"></div>
         <div class="p-4 pt-2">
           <h5 class="fw-bold mb-1">Société Générale</h5>
           <p class="text-muted small mb-2">
-            📍 Paris · <span class="tag">Finance</span>
+            📍 Paris · <span class="badge text-bg-danger rounded-pill">Finance</span>
           </p>
           <p class="text-muted small mb-3">
             Grande banque française avec de nombreuses opportunités en finance, tech et data.
           </p>
           <div class="d-flex align-items-center justify-content-between">
             <span class="badge bg-primary rounded-pill">5 offres</span>
-            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-              Voir les offres
-            </a>
+            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">Voir les offres</a>
           </div>
         </div>
       </div>
@@ -224,21 +124,19 @@ body {
 
     <!-- Schneider Electric -->
     <div class="col-12 col-md-6 col-lg-4">
-      <div class="company-card h-100">
-        <div class="card-banner green"></div>
+      <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="bg-success" style="height:72px"></div>
         <div class="p-4 pt-2">
           <h5 class="fw-bold mb-1">Schneider Electric</h5>
           <p class="text-muted small mb-2">
-            📍 Grenoble · <span class="tag">Industrie</span>
+            📍 Grenoble · <span class="badge text-bg-success rounded-pill">Industrie</span>
           </p>
           <p class="text-muted small mb-3">
             Expert mondial de la gestion de l'énergie et de l'automatisation industrielle.
           </p>
           <div class="d-flex align-items-center justify-content-between">
             <span class="badge bg-primary rounded-pill">9 offres</span>
-            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-              Voir les offres
-            </a>
+            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">Voir les offres</a>
           </div>
         </div>
       </div>
@@ -246,21 +144,19 @@ body {
 
     <!-- Doctolib -->
     <div class="col-12 col-md-6 col-lg-4">
-      <div class="company-card h-100">
-        <div class="card-banner teal"></div>
+      <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="bg-info" style="height:72px"></div>
         <div class="p-4 pt-2">
           <h5 class="fw-bold mb-1">Doctolib</h5>
           <p class="text-muted small mb-2">
-            📍 Paris · <span class="tag">Santé & Tech</span>
+            📍 Paris · <span class="badge text-bg-info rounded-pill">Santé & Tech</span>
           </p>
           <p class="text-muted small mb-3">
             Scale-up française leader de la prise de rendez-vous médicaux en ligne en Europe.
           </p>
           <div class="d-flex align-items-center justify-content-between">
             <span class="badge bg-primary rounded-pill">4 offres</span>
-            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-              Voir les offres
-            </a>
+            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">Voir les offres</a>
           </div>
         </div>
       </div>
