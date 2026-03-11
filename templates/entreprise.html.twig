@@ -1,102 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}AlloStage – Offres postulées{% endblock %}
-
-{% block styles %}
-<style>
-html {
-  scroll-behavior: smooth;
-}
-body {
-  background: #f8f9ff;
-}
-
-/* --- CARDS ENTREPRISES --- */
-.company-card {
-  border-radius: 20px;
-  border: none;
-  box-shadow: 0 4px 20px rgba(13, 110, 253, 0.09);
-  background: #fff;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
-}
-.company-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(13, 110, 253, 0.2);
-}
-
-/* Bandeau coloré en haut de la carte */
-.card-banner {
-  height: 72px;
-  background: linear-gradient(135deg, #0d6efd 0%, #6ea8fe 100%);
-}
-.card-banner.green {
-  background: linear-gradient(135deg, #198754, #75b798);
-}
-.card-banner.purple {
-  background: linear-gradient(135deg, #6f42c1, #a98eda);
-}
-.card-banner.orange {
-  background: linear-gradient(135deg, #fd7e14, #ffb974);
-}
-.card-banner.teal {
-  background: linear-gradient(135deg, #0dcaf0, #6edff6);
-}
-.card-banner.red {
-  background: linear-gradient(135deg, #dc3545, #f08080);
-}
-
-/* Tags secteur */
-.tag {
-  background: #e7f0ff;
-  color: #0d6efd;
-  border-radius: 20px;
-  padding: 3px 12px;
-  font-size: 0.76rem;
-  font-weight: 600;
-  display: inline-block;
-}
-
-/* Barre de recherche */
-.search-bar {
-  border-radius: 50px;
-  border: 2px solid #dee2e6;
-  padding: 10px 22px;
-  font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-.search-bar:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.12);
-  outline: none;
-}
-
-/* Filtre pills */
-.filter-pill {
-  border-radius: 50px;
-  border: 2px solid #dee2e6;
-  background: #fff;
-  padding: 6px 18px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #495057;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.filter-pill:hover,
-.filter-pill.active {
-  background: #0d6efd;
-  border-color: #0d6efd;
-  color: #fff;
-}
-</style>
-{% endblock %}
+{% block title %}AlloStage – Entreprises{% endblock %}
 
 {% block body %}
 
-
-
-<!-- HERO -->
 <section class="container text-center py-5">
   <h1 class="display-5 fw-semibold text-primary">
     Nos entreprises partenaires
@@ -106,167 +13,70 @@ body {
   </p>
 </section>
 
-<!-- RECHERCHE + FILTRES -->
 <section class="container mb-5">
   <div class="d-flex flex-column flex-md-row gap-3 align-items-center mb-3">
     <input
       type="text"
-      class="search-bar flex-grow-1 w-100"
+      class="form-control rounded-pill px-4"
       placeholder="Rechercher une entreprise, un secteur…"
     />
     <a href="#" class="btn btn-primary rounded-pill px-4">Rechercher</a>
   </div>
 
   <div class="d-flex flex-wrap gap-2">
-    <button class="filter-pill active">Tous</button>
-    <button class="filter-pill">Tech & IT</button>
-    <button class="filter-pill">Cybersécurité</button>
-    <button class="filter-pill">Conseil</button>
-    <button class="filter-pill">Industrie</button>
-    <button class="filter-pill">Finance</button>
-    <button class="filter-pill">Santé</button>
+    {% for filtre in filtres %}
+      <button class="btn {{ loop.first ? 'btn-primary' : 'btn-outline-secondary' }} rounded-pill px-3">
+        {{ filtre }}
+      </button>
+    {% endfor %}
   </div>
 </section>
 
-<!-- GRILLE ENTREPRISES -->
 <section class="container pb-5">
   <h2 class="text-primary fw-semibold mb-4">Entreprises récentes</h2>
 
   <div class="row g-4">
-
-    <!-- Capgemini -->
+    {% for entreprise in entreprises %}
     <div class="col-12 col-md-6 col-lg-4">
-      <div class="company-card h-100">
-        <div class="card-banner"></div>
+      <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="bg-{{ entreprise.couleur }}" style="height:72px"></div>
         <div class="p-4 pt-2">
-          <h5 class="fw-bold mb-1">Capgemini</h5>
+          <h5 class="fw-bold mb-1">{{ entreprise.nom }}</h5>
           <p class="text-muted small mb-2">
-            📍 Paris · <span class="tag">Conseil & IT</span>
+            📍 {{ entreprise.ville }} · <span class="badge text-bg-{{ entreprise.couleur }} rounded-pill">{{ entreprise.secteur }}</span>
           </p>
-          <p class="text-muted small mb-3">
-            Leader mondial du conseil et des services numériques, présent dans plus de 50 pays.
-          </p>
+          <p class="text-muted small mb-3">{{ entreprise.description }}</p>
           <div class="d-flex align-items-center justify-content-between">
-            <span class="badge bg-primary rounded-pill">12 offres</span>
-            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-              Voir les offres
-            </a>
+            <span class="badge bg-primary rounded-pill">{{ entreprise.nb_offres }} offres</span>
+            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">Voir les offres</a>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Thales -->
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="company-card h-100">
-        <div class="card-banner purple"></div>
-        <div class="p-4 pt-2">
-          <h5 class="fw-bold mb-1">Thales</h5>
-          <p class="text-muted small mb-2">
-            📍 Toulouse · <span class="tag">Cybersécurité</span>
-          </p>
-          <p class="text-muted small mb-3">
-            Spécialiste de la défense, de l'aérospatiale et de la cybersécurité à l'échelle mondiale.
-          </p>
-          <div class="d-flex align-items-center justify-content-between">
-            <span class="badge bg-primary rounded-pill">8 offres</span>
-            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-              Voir les offres
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Orange -->
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="company-card h-100">
-        <div class="card-banner orange"></div>
-        <div class="p-4 pt-2">
-          <h5 class="fw-bold mb-1">Orange</h5>
-          <p class="text-muted small mb-2">
-            📍 Nancy · <span class="tag">Télécoms</span>
-          </p>
-          <p class="text-muted small mb-3">
-            Opérateur télécom de référence proposant des stages dans le réseau, la data et le dev.
-          </p>
-          <div class="d-flex align-items-center justify-content-between">
-            <span class="badge bg-primary rounded-pill">6 offres</span>
-            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-              Voir les offres
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Société Générale -->
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="company-card h-100">
-        <div class="card-banner red"></div>
-        <div class="p-4 pt-2">
-          <h5 class="fw-bold mb-1">Société Générale</h5>
-          <p class="text-muted small mb-2">
-            📍 Paris · <span class="tag">Finance</span>
-          </p>
-          <p class="text-muted small mb-3">
-            Grande banque française avec de nombreuses opportunités en finance, tech et data.
-          </p>
-          <div class="d-flex align-items-center justify-content-between">
-            <span class="badge bg-primary rounded-pill">5 offres</span>
-            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-              Voir les offres
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Schneider Electric -->
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="company-card h-100">
-        <div class="card-banner green"></div>
-        <div class="p-4 pt-2">
-          <h5 class="fw-bold mb-1">Schneider Electric</h5>
-          <p class="text-muted small mb-2">
-            📍 Grenoble · <span class="tag">Industrie</span>
-          </p>
-          <p class="text-muted small mb-3">
-            Expert mondial de la gestion de l'énergie et de l'automatisation industrielle.
-          </p>
-          <div class="d-flex align-items-center justify-content-between">
-            <span class="badge bg-primary rounded-pill">9 offres</span>
-            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-              Voir les offres
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Doctolib -->
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="company-card h-100">
-        <div class="card-banner teal"></div>
-        <div class="p-4 pt-2">
-          <h5 class="fw-bold mb-1">Doctolib</h5>
-          <p class="text-muted small mb-2">
-            📍 Paris · <span class="tag">Santé & Tech</span>
-          </p>
-          <p class="text-muted small mb-3">
-            Scale-up française leader de la prise de rendez-vous médicaux en ligne en Europe.
-          </p>
-          <div class="d-flex align-items-center justify-content-between">
-            <span class="badge bg-primary rounded-pill">4 offres</span>
-            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-              Voir les offres
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    {% endfor %}
   </div>
-</section>
 
+<div class="d-flex justify-content-center mt-5">
+  <nav>
+    <ul class="pagination">
+
+      <li class="page-item {{ pageCourante == 1 ? 'disabled' : '' }}">
+        <a class="page-link" href="?page=entreprise&p={{ pageCourante - 1 }}">Précédent</a>
+      </li>
+
+      {% for i in 1..totalPages %}
+        <li class="page-item {{ i == pageCourante ? 'active' : '' }}">
+          <a class="page-link" href="?page=entreprise&p={{ i }}">{{ i }}</a>
+        </li>
+      {% endfor %}
+
+      <li class="page-item {{ pageCourante == totalPages ? 'disabled' : '' }}">
+        <a class="page-link" href="?page=entreprise&p={{ pageCourante + 1 }}">Suivant</a>
+      </li>
+
+    </ul>
+  </nav>
+</div>
+
+</section>
 {% endblock %}

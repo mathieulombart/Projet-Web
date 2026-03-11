@@ -2,41 +2,12 @@
 
 {% block title %}AlloStage{% endblock %}
 
-{% block styles %}
-<style>
-  .card-hover {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 20px;
-    cursor: pointer;
-  }
-  .card-hover:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  }
-  .card img {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-  }
-  html {
-    scroll-behavior: smooth;
-  }
-  .search-bar {
-    border-radius: 50px;
-    border: 2px solid #dee2e6;
-    padding: 10px 22px;
-    font-size: 1rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-</style>
-{% endblock %}
-
 {% block body %}
 
 <section class="container text-center py-5">
   <h1 class="display-5 fw-semibold text-primary">
     On connecte les meilleurs employeurs avec une jeunesse curieuse et engagée.
   </h1>
-
   <p class="lead mt-4">
     Que vous fassiez vos premiers pas dans le monde professionnel ou que vous cherchiez à renforcer vos équipes, Allostage est votre tremplin vers la réussite !
   </p>
@@ -44,7 +15,7 @@
 
 <section class="container mb-5">
   <div class="d-flex flex-column flex-md-row gap-3 align-items-center mb-3">
-    <input type="text" class="search-bar flex-grow-1 w-100 rounded-pill border px-4"
+    <input type="text" class="form-control rounded-pill px-4"
            placeholder="🔍 Rechercher une entreprise, un secteur…">
     <a href="#" class="btn btn-primary rounded-pill px-4">Rechercher</a>
   </div>
@@ -52,11 +23,9 @@
 
 <section class="container py-5 text-center">
   <h2 class="mb-4 text-primary">Notre objectif ?</h2>
-
   <p class="mb-4">
     L'objectif principal d'Allostage est de mettre en relation les professionnels du monde entier pour les rendre plus performants et productifs.
   </p>
-
   <ul class="list-group list-group-flush">
     <li class="list-group-item">Connecter les talents entre étudiants et employeurs.</li>
     <li class="list-group-item">Démocratiser l'accès aux opportunités.</li>
@@ -67,29 +36,26 @@
 
 <section class="container py-5">
   <h2 class="text-center mb-5 text-primary">Offres récentes</h2>
-
   <div class="row g-4">
     <div class="col-md-4">
-      <div class="card h-100 shadow card-hover">
-        <img src="offre.jpg" class="card-img-top" alt="Offre">
+      <div class="card h-100 shadow border-0 rounded-4">
+        <img src="offre.jpg" class="card-img-top rounded-top-4" alt="Offre">
         <div class="card-body text-center">
           <h5 class="card-title">Offre spéciale 1</h5>
         </div>
       </div>
     </div>
-
     <div class="col-md-4">
-      <div class="card h-100 shadow card-hover">
-        <img src="offre.jpg" class="card-img-top" alt="Offre">
+      <div class="card h-100 shadow border-0 rounded-4">
+        <img src="offre.jpg" class="card-img-top rounded-top-4" alt="Offre">
         <div class="card-body text-center">
           <h5 class="card-title">Offre spéciale 2</h5>
         </div>
       </div>
     </div>
-
     <div class="col-md-4">
-      <div class="card h-100 shadow card-hover">
-        <img src="offre.jpg" class="card-img-top" alt="Offre">
+      <div class="card h-100 shadow border-0 rounded-4">
+        <img src="offre.jpg" class="card-img-top rounded-top-4" alt="Offre">
         <div class="card-body text-center">
           <h5 class="card-title">Offre spéciale 3</h5>
         </div>
@@ -100,29 +66,26 @@
 
 <section class="container py-5">
   <h2 class="text-center mb-5 text-primary">Entreprises récentes</h2>
-
   <div class="row g-4">
     <div class="col-md-4">
-      <div class="card shadow text-center card-hover">
-        <img src="entreprise.jpg" class="card-img-top" alt="Entreprise">
+      <div class="card shadow border-0 rounded-4 text-center">
+        <img src="entreprise.jpg" class="card-img-top rounded-top-4" alt="Entreprise">
         <div class="card-body">
           <h5>Entreprise récente 1</h5>
         </div>
       </div>
     </div>
-
     <div class="col-md-4">
-      <div class="card shadow text-center card-hover">
-        <img src="entreprise.jpg" class="card-img-top" alt="Entreprise">
+      <div class="card shadow border-0 rounded-4 text-center">
+        <img src="entreprise.jpg" class="card-img-top rounded-top-4" alt="Entreprise">
         <div class="card-body">
           <h5>Entreprise récente 2</h5>
         </div>
       </div>
     </div>
-
     <div class="col-md-4">
-      <div class="card shadow text-center card-hover">
-        <img src="entreprise.jpg" class="card-img-top" alt="Entreprise">
+      <div class="card shadow border-0 rounded-4 text-center">
+        <img src="entreprise.jpg" class="card-img-top rounded-top-4" alt="Entreprise">
         <div class="card-body">
           <h5>Entreprise récente 3</h5>
         </div>
@@ -145,7 +108,7 @@
     </div>
   </div>
 
-  <div class="row align-items-center bg-light p-4 rounded mb-5">
+  <div class="row align-items-center bg-white rounded shadow-sm p-4 mb-5">
     <div class="col-md-6">
       <img src="personne.jpg" class="img-fluid rounded">
     </div>
@@ -165,7 +128,7 @@
     </div>
   </div>
 
-  <div class="row align-items-center bg-light p-4 rounded">
+  <div class="row align-items-center bg-white rounded shadow-sm p-4">
     <div class="col-md-6">
       <img src="personne.jpg" class="img-fluid rounded">
     </div>
