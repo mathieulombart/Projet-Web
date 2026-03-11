@@ -1,44 +1,54 @@
 <?php
 
 return [
-    [
+    1=>[
         'entreprise'   => 'Boston Dynamics',
         'intitule'     => 'Stagiaire Robotique',
         'localisation' => 'Boston',
         'employeur'    => 'Marc Raibert',
         'remuneration' => '3050 $',
         'description'  => 'Wake up samurai, we have a robot to build.',
+        'duree'        => '6 mois',
+        'type'         => 'Stage temps plein',
     ],
-    [
+    2=>[
         'entreprise'   => 'Ferrari',
         'intitule'     => 'Stagiaire Ingénierie',
         'localisation' => 'Maranello',
         'employeur'    => 'Enzo Ferrari',
         'remuneration' => '330 €',
         'description'  => "Je ne peux plus conduire, mais j'ai encore plein d'idées.",
+        'duree'        => '4 mois',
+        'type'         => 'Stage temps plein',
     ],
-    [
+   3=> [
         'entreprise'   => 'Google',
         'intitule'     => 'Stagiaire Développeur Backend',
         'localisation' => 'Paris',
         'employeur'    => 'Sundar Pichai',
         'remuneration' => '1200 €',
         'description'  => 'Travail sur des microservices en Go et Java.',
+        'duree'        => '3 mois',
+        'type'         => 'Stage temps plein',
     ],
-    [
+    4=>[
         'entreprise'   => 'Ubisoft',
         'intitule'     => 'Stagiaire Gameplay',
         'localisation' => 'Montreuil',
         'employeur'    => 'Yves Guillemot',
         'remuneration' => '1000 €',
         'description'  => 'Prototypage de mécaniques de jeu innovantes.',
+        'duree'        => '2 mois',
+        'type'         => 'Stage temps plein',
     ],
-    [
+    5=>[
         'entreprise'   => 'Tesla',
         'intitule'     => 'Stagiaire Ingénieur Batterie',
         'localisation' => 'Berlin',
         'employeur'    => 'Elon Musk',
         'remuneration' => '1500 $',
         'description'  => 'Optimisation de la performance énergétique.',
+        'duree'        => '9 mois',
+        'type'         => 'Stage temps plein',
     ],
 ];
