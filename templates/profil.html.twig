@@ -17,8 +17,8 @@
       <div class="card border-0 shadow-sm rounded-4 p-4">
         <div class="d-flex align-items-center mb-4">
           <div>
-            <h2 class="fw-bold mb-1">Nom Prénom</h2>
-            <span class="badge text-bg-primary rounded-pill px-3 py-2">Étudiant – A2</span>
+            <h2 class="fw-bold mb-1">{{ utilisateur.nom }}</h2>
+            <span class="badge text-bg-primary rounded-pill px-3 py-2">{{ utilisateur.statut }}</span>
           </div>
         </div>
 
@@ -30,7 +30,7 @@
             <span class="badge bg-primary-subtle text-primary fs-5 rounded-3 p-2">🏫</span>
             <div>
               <small class="text-muted d-block">École</small>
-              <strong>CESI</strong>
+              <strong>{{ utilisateur.ecole }}</strong>
             </div>
           </div>
 
@@ -38,7 +38,7 @@
             <span class="badge bg-primary-subtle text-primary fs-5 rounded-3 p-2">👩‍🏫</span>
             <div>
               <small class="text-muted d-block">Pilote</small>
-              <strong>Dupont Marie</strong>
+              <strong>{{ utilisateur.pilote }}</strong>
             </div>
           </div>
 
@@ -46,7 +46,7 @@
             <span class="badge bg-primary-subtle text-primary fs-5 rounded-3 p-2">✉️</span>
             <div>
               <small class="text-muted d-block">Email</small>
-              <strong>etudiant@cesi.fr</strong>
+              <strong>{{ utilisateur.email }}</strong>
             </div>
           </div>
 
@@ -54,7 +54,7 @@
             <span class="badge bg-primary-subtle text-primary fs-5 rounded-3 p-2">📍</span>
             <div>
               <small class="text-muted d-block">Ville d'étude</small>
-              <strong>Nancy</strong>
+              <strong>{{ utilisateur.ville }}</strong>
             </div>
           </div>
 

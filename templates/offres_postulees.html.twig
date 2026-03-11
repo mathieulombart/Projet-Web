@@ -12,48 +12,47 @@
 <section class="container pb-5">
 
   <div class="d-flex align-items-center justify-content-between mb-4">
-    <span class="text-muted fw-semibold">2 candidatures en cours</span>
+    <span class="text-muted fw-semibold">{{ candidatures|length }} candidature{{ candidatures|length > 1 ? 's' : '' }} en cours</span>
   </div>
 
   <div class="d-flex flex-column gap-4">
 
-    <!-- Candidature 1 -->
+    {% for c in candidatures %}
     <div class="card border-0 shadow-sm rounded-4 p-4">
       <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
         <div>
-          <h5 class="fw-bold mb-1">Stage DevOps</h5>
+          <h5 class="fw-bold mb-1">{{ c.intitule }}</h5>
           <div class="d-flex align-items-center gap-2 flex-wrap">
-            <span class="text-muted">Capgemini</span>
+            <span class="text-muted">{{ c.entreprise }}</span>
             <span class="text-muted">·</span>
-            <span class="text-muted">📍 Paris</span>
-            <span class="badge text-bg-primary rounded-pill">Stage 6 mois</span>
+            <span class="text-muted">📍 {{ c.ville }}</span>
+            <span class="badge text-bg-primary rounded-pill">{{ c.duree }}</span>
           </div>
         </div>
-        <span class="badge bg-warning text-dark rounded-pill px-3 py-2">En attente</span>
+        <span class="badge bg-{{ c.badge }} {{ c.badge in ['warning', 'info'] ? 'text-dark' : '' }} rounded-pill px-3 py-2">
+          {{ c.statut }}
+        </span>
       </div>
 
       <!-- Progression steps -->
       <div class="mt-3">
         <div class="d-flex text-center">
+          {% for etape in c.etapes %}
           <div class="flex-fill">
-            <div class="rounded-circle bg-primary mx-auto mb-1" style="width:12px;height:12px"></div>
-            <small class="text-primary fw-semibold">Postulé</small>
+            <div class="rounded-circle mx-auto mb-1
+              {{ etape.fait is defined and etape.fait ? 'bg-primary' :
+                 etape.actif is defined and etape.actif ? 'bg-' ~ c.badge : 'bg-secondary' }}"
+              style="width:12px;height:12px"></div>
+            <small class="
+              {{ etape.fait is defined and etape.fait ? 'text-primary fw-semibold' :
+                 etape.actif is defined and etape.actif ? 'text-' ~ c.badge ~ ' fw-semibold' : 'text-muted' }}">
+              {{ etape.label }}
+            </small>
           </div>
-          <div class="flex-fill">
-            <div class="rounded-circle bg-warning mx-auto mb-1" style="width:12px;height:12px"></div>
-            <small class="text-warning fw-semibold">En attente</small>
-          </div>
-          <div class="flex-fill">
-            <div class="rounded-circle bg-secondary mx-auto mb-1" style="width:12px;height:12px"></div>
-            <small class="text-muted">Entretien</small>
-          </div>
-          <div class="flex-fill">
-            <div class="rounded-circle bg-secondary mx-auto mb-1" style="width:12px;height:12px"></div>
-            <small class="text-muted">Décision</small>
-          </div>
+          {% endfor %}
         </div>
         <div class="progress mt-2" style="height:4px">
-          <div class="progress-bar bg-warning" style="width:40%"></div>
+          <div class="progress-bar bg-{{ c.badge }}" style="width:{{ c.progression }}%"></div>
         </div>
       </div>
 
@@ -62,52 +61,7 @@
         <a href="#" class="btn btn-sm btn-outline-secondary rounded-pill">Retirer</a>
       </div>
     </div>
-
-    <!-- Candidature 2 -->
-    <div class="card border-0 shadow-sm rounded-4 p-4">
-      <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
-        <div>
-          <h5 class="fw-bold mb-1">Stage Cybersécurité</h5>
-          <div class="d-flex align-items-center gap-2 flex-wrap">
-            <span class="text-muted">Thales</span>
-            <span class="text-muted">·</span>
-            <span class="text-muted">📍 Toulouse</span>
-            <span class="badge text-bg-primary rounded-pill">Stage 6 mois</span>
-          </div>
-        </div>
-        <span class="badge bg-info text-dark rounded-pill px-3 py-2">Entretien planifié</span>
-      </div>
-
-      <!-- Progression steps -->
-      <div class="mt-3">
-        <div class="d-flex text-center">
-          <div class="flex-fill">
-            <div class="rounded-circle bg-primary mx-auto mb-1" style="width:12px;height:12px"></div>
-            <small class="text-primary fw-semibold">Postulé</small>
-          </div>
-          <div class="flex-fill">
-            <div class="rounded-circle bg-primary mx-auto mb-1" style="width:12px;height:12px"></div>
-            <small class="text-primary fw-semibold">En attente</small>
-          </div>
-          <div class="flex-fill">
-            <div class="rounded-circle bg-info mx-auto mb-1" style="width:12px;height:12px"></div>
-            <small class="text-info fw-semibold">Entretien</small>
-          </div>
-          <div class="flex-fill">
-            <div class="rounded-circle bg-secondary mx-auto mb-1" style="width:12px;height:12px"></div>
-            <small class="text-muted">Décision</small>
-          </div>
-        </div>
-        <div class="progress mt-2" style="height:4px">
-          <div class="progress-bar bg-info" style="width:70%"></div>
-        </div>
-      </div>
-
-      <div class="mt-3 d-flex gap-2">
-        <a href="#" class="btn btn-sm btn-outline-primary rounded-pill">Voir l'offre</a>
-        <a href="#" class="btn btn-sm btn-outline-secondary rounded-pill">Retirer</a>
-      </div>
-    </div>
+    {% endfor %}
 
   </div>
 

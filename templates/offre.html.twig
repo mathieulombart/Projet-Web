@@ -44,79 +44,49 @@
               </tr>
             </thead>
             <tbody>
+              {% for offre in offres %}
               <tr>
-                <td>Boston Dynamics</td>
-                <td>Stagiaire Robotique</td>
-                <td>Boston</td>
-                <td>Marc Raibert</td>
-                <td><span class="badge bg-success">3050 $</span></td>
-                <td>Wake up samurai, we have a robot to build.<br>
-                  <a href="#" class="btn btn-sm btn-outline-primary mt-2">Voir l'offre</a></td>
+                <td>{{ offre.entreprise }}</td>
+                <td>{{ offre.intitule }}</td>
+                <td>{{ offre.localisation }}</td>
+                <td>{{ offre.employeur }}</td>
+                <td><span class="badge bg-success">{{ offre.remuneration }}</span></td>
+                <td>
+                  {{ offre.description }}<br>
+                  <a href="#" class="btn btn-sm btn-outline-primary mt-2">Voir l'offre</a>
+                </td>
               </tr>
-              <tr>
-                <td>Ferrari</td>
-                <td>Stagiaire Ingénierie</td>
-                <td>Maranello</td>
-                <td>Enzo Ferrari</td>
-                <td><span class="badge bg-success">330 €</span></td>
-                <td>Je ne peux plus conduire, mais j'ai encore plein d'idées.<br>
-                  <a href="#" class="btn btn-sm btn-outline-primary mt-2">Voir l'offre</a></td>
-              </tr>
-              <tr>
-                <td>Google</td>
-                <td>Stagiaire Développeur Backend</td>
-                <td>Paris</td>
-                <td>Sundar Pichai</td>
-                <td><span class="badge bg-success">1200 €</span></td>
-                <td>Travail sur des microservices en Go et Java.<br>
-                  <a href="#" class="btn btn-sm btn-outline-primary mt-2">Voir l'offre</a></td>
-              </tr>
-              <tr>
-                <td>Ubisoft</td>
-                <td>Stagiaire Gameplay</td>
-                <td>Montreuil</td>
-                <td>Yves Guillemot</td>
-                <td><span class="badge bg-success">1000 €</span></td>
-                <td>Prototypage de mécaniques de jeu innovantes.<br>
-                  <a href="#" class="btn btn-sm btn-outline-primary mt-2">Voir l'offre</a></td>
-              </tr>
-              <tr>
-                <td>Tesla</td>
-                <td>Stagiaire Ingénieur Batterie</td>
-                <td>Berlin</td>
-                <td>Elon Musk</td>
-                <td><span class="badge bg-success">1500 $</span></td>
-                <td>Optimisation de la performance énergétique.<br>
-                  <a href="#" class="btn btn-sm btn-outline-primary mt-2">Voir l'offre</a></td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- Pagination -->
     <div class="d-flex justify-content-center mt-5">
-      <nav>
-        <ul class="pagination">
-          <li class="page-item disabled">
-            <a class="page-link rounded-start-pill" href="#">←</a>
-          </li>
-          <li class="page-item active">
-            <a class="page-link" href="#">1</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">2</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">3</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link rounded-end-pill" href="#">→</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
+  <nav>
+    <ul class="pagination">
+
+      {# Bouton précédent #}
+      <li class="page-item {{ pageCourante == 1 ? 'disabled' : '' }}">
+        <a class="page-link" href="?page=offre&p={{ pageCourante - 1 }}">Précédent</a>
+      </li>
+
+      {# Pages #}
+      {% for i in 1..totalPages %}
+        <li class="page-item {{ i == pageCourante ? 'active' : '' }}">
+          <a class="page-link" href="?page=offre&p={{ i }}">{{ i }}</a>
+        </li>
+      {% endfor %}
+
+      {# Bouton suivant #}
+      <li class="page-item {{ pageCourante == totalPages ? 'disabled' : '' }}">
+        <a class="page-link" href="?page=offre&p={{ pageCourante + 1 }}">Suivant</a>
+      </li>
+
+    </ul>
+  </nav>
+</div>
 
   </section>
 </main>
