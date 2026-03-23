@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AlloStage – Offres postulées{% endblock %}
+
+{% block body %}
+
+<section class="container text-center py-5">
+  <h1 class="display-6 fw-semibold text-primary">📋 Offres postulées</h1>
+  <p class="text-muted">Suivez l'avancement de vos candidatures en temps réel.</p>
+</section>
+
+<section class="container pb-5">
+
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <span class="text-muted fw-semibold">{{ candidatures|length }} candidature{{ candidatures|length > 1 ? 's' : '' }} en cours</span>
+  </div>
+
+  <div class="d-flex flex-column gap-4">
+
+    {% for c in candidatures %}
+    <div class="card border-0 shadow-sm rounded-4 p-4">
+      <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
+        <div>
+          <h5 class="fw-bold mb-1">{{ c.intitule }}</h5>
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <span class="text-muted">{{ c.entreprise }}</span>
+            <span class="text-muted">·</span>
+            <span class="text-muted">📍 {{ c.ville }}</span>
+            <span class="badge text-bg-primary rounded-pill">{{ c.duree }}</span>
+          </div>
+        </div>
+        <span class="badge bg-{{ c.badge }} {{ c.badge in ['warning', 'info'] ? 'text-dark' : '' }} rounded-pill px-3 py-2">
+          {{ c.statut }}
+        </span>
+      </div>
+
+      
+
+      <div class="mt-3 d-flex gap-2">
+        <a href="#" class="btn btn-sm btn-outline-primary rounded-pill">Voir l'offre</a>
+        <a href="#" class="btn btn-sm btn-outline-secondary rounded-pill">Retirer</a>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+
+  <div class="text-center mt-5">
+    <a href="?page=profil" class="btn btn-outline-primary rounded-pill px-5">← Retour au profil</a>
+  </div>
+
+</section>
+
+{% endblock %}

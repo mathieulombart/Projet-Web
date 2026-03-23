@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offres de stage{% endblock %}
+
+{% block body %}
+<main class="py-5">
+  <section class="container">
+
+    <div class="text-center mb-4">
+      <h1 class="display-5 fw-semibold text-primary">
+        Un stage adapté à vous et vos compétences
+      </h1>
+      <p class="lead text-muted mt-3">
+        Découvrez les dernières offres ajoutées sur AlloStage.
+      </p>
+    </div>
+
+    <div class="text-center mb-4">
+      <div class="d-inline-flex gap-3 flex-wrap">
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4">Pertinence</button>
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4">Localisation la plus proche</button>
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4">Publication récente</button>
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4">Les plus ajoutées à la wishlist</button>
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4">Rémunération les plus élevée</button>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+      <div class="card-header bg-primary text-white">
+        <h2 class="h5 mb-0">Dernières offres ajoutées</h2>
+      </div>
+
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Entreprise</th>
+                <th>Intitulé</th>
+                <th>Localisation</th>
+                <th>Employeur</th>
+                <th>Rémunération</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for offre in offres %}
+              <tr>
+                <td>{{ offre.entreprise ? offre.entreprise.nom : 'N/A' }}</td>
+                <td>{{ offre.titre }}</td>
+                <td>{{ offre.localisation }}</td>
+                <td>{{ offre.entreprise ? offre.entreprise.nom : 'N/A' }}</td>
+                <td><span class="badge bg-success">{{ offre.remuneration ? offre.remuneration ~ ' €/mois' : 'Non rémunéré' }}</span></td>
+                <td>
+                  {{ offre.description }}<br>
+                  <a href="/offre/{{ offre.id }}" class="btn btn-sm btn-outline-primary mt-2">
+                    Voir l'offre
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-5">
+  <nav>
+    <ul class="pagination">
+
+      
+      <li class="page-item {{ pageCourante == 1 ? 'disabled' : '' }}">
+        <a class="page-link" href="/offres/{{ pageCourante - 1 }}">Précédent</a>
+      </li>
+
+      
+      {% for i in 1..totalPages %}
+        <li class="page-item {{ i == pageCourante ? 'active' : '' }}">
+          <a class="page-link" href="/offres/{{ i }}">{{ i }}</a>
+        </li>
+      {% endfor %}
+
+      
+      <li class="page-item {{ pageCourante == totalPages ? 'disabled' : '' }}">
+        <a class="page-link" href="/offres/{{ pageCourante + 1 }}">Suivant</a>
+      </li>
+
+    </ul>
+  </nav>
+</div>
+
+  </section>
+</main>
+{% endblock %}

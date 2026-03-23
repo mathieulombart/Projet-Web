@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion – AlloStage{% endblock %}
+
+{% block body %}
+
+<section class="container py-5 d-flex justify-content-center">
+  <div class="card shadow border-0 rounded-4 p-4" style="max-width: 480px; width: 100%;">
+    <h2 class="text-center text-primary fw-semibold mb-4">Connexion</h2>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Identifiant ou e-mail</label>
+      <input type="email" class="form-control rounded-pill px-4" placeholder="exemple@mail.com">
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label fw-semibold">Mot de passe</label>
+      <input type="password" class="form-control rounded-pill px-4" placeholder="••••••••">
+    </div>
+
+    <div class="d-grid gap-2">
+      <button class="btn btn-primary rounded-pill px-4">Se connecter</button>
+      <button class="btn btn-outline-secondary rounded-pill px-4">Mot de passe oublié ?</button>
+      <a href="?page=inscription" class="btn btn-outline-secondary rounded-pill px-4">Créer un compte</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

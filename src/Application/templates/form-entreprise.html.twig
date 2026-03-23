@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% set edition = entreprise is defined and entreprise is not null %}
+
+{% block title %}{{ edition ? 'Modifier' : 'Ajouter' }} une Entreprise{% endblock %}
+
+{% block body %}
+<main class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+
+        {% if success %}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            L'entreprise a été {{ edition ? 'modifiée' : 'ajoutée' }} avec succès !
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endif %}
+
+        <div class="card shadow">
+          <div class="card-header {{ edition ? 'bg-warning' : 'bg-primary text-white' }}">
+            <h4 class="mb-0">
+              {% if edition %}
+                Modifier l'Entreprise #{{ entreprise.id }}
+              {% else %}
+                Nouvelle Entreprise
+              {% endif %}
+            </h4>
+          </div>
+          <div class="card-body">
+            <form action="{{ edition ? '/modifier-entreprise/' ~ entreprise.id : '/ajout-entreprise' }}" method="POST">
+
+              <div class="mb-3">
+                <label for="nom" class="form-label">Nom de l'entreprise</label>
+                <input type="text" class="form-control" id="nom" name="nom"
+                       value="{{ edition ? entreprise.nom : nom }}" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="secteur" class="form-label">Secteur d'activité</label>
+                {% set currentSecteur = edition ? entreprise.secteur : secteur %}
+                <select class="form-control" id="secteur" name="secteur" required>
+                  <option value="">Choisir...</option>
+                  <option value="IA"          {% if currentSecteur == 'IA' %}selected{% endif %}>Intelligence Artificielle</option>
+                  <option value="Écologie"    {% if currentSecteur == 'Écologie' %}selected{% endif %}>Écologie</option>
+                  <option value="Sécurité"    {% if currentSecteur == 'Sécurité' %}selected{% endif %}>Sécurité</option>
+                  <option value="Logistique"  {% if currentSecteur == 'Logistique' %}selected{% endif %}>Logistique</option>
+                  <option value="Tech & IT"   {% if currentSecteur == 'Tech & IT' %}selected{% endif %}>Tech & IT</option>
+                  <option value="Finance"     {% if currentSecteur == 'Finance' %}selected{% endif %}>Finance</option>
+                  <option value="Santé"       {% if currentSecteur == 'Santé' %}selected{% endif %}>Santé</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Statut</label>
+                {% set currentStatut = edition ? entreprise.statut : statut %}
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="statut" id="statut1" value="Actif"
+                         {% if currentStatut == 'Actif' or currentStatut == '' %}checked{% endif %}>
+                  <label class="form-check-label" for="statut1">Actif</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="statut" id="statut2" value="En attente"
+                         {% if currentStatut == 'En attente' %}checked{% endif %}>
+                  <label class="form-check-label" for="statut2">En attente</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="statut" id="statut3" value="Inactif"
+                         {% if currentStatut == 'Inactif' %}checked{% endif %}>
+                  <label class="form-check-label" for="statut3">Inactif</label>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="d-flex justify-content-between">
+                <a href="/entreprises" class="btn btn-light">Annuler</a>
+                <button type="submit" class="btn btn-success">Enregistrer</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
