@@ -43,4 +43,17 @@ return function (App $app) {
     $app->get('/postuler', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'postuler.html.twig', []);
     });
+    
+    // Pages statiques supplémentaires
+    $app->get('/contact', function (Request $request, Response $response) {
+        return Twig::fromRequest($request)->render($response, 'contact.html.twig', []);
+    })->setName('app_contact');
+
+    $app->get('/mention', function (Request $request, Response $response) {
+        return Twig::fromRequest($request)->render($response, 'mention.html.twig', []);
+    })->setName('app_mention');
+
+    $app->get('/confidentialité', function (Request $request, Response $response) {
+        return Twig::fromRequest($request)->render($response, 'confidentialité.html.twig', []);
+    })->setName('app_confidentialité');
 };

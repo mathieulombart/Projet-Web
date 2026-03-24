@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact – AlloStage{% endblock %}
+
+{% block body %}
+    {# Utilisation d'un container fluide et de marges cohérentes avec tes autres pages #}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                
+                {# En-tête de la page #}
+                <div class="text-center mb-5">
+                    <h1 class="display-5 fw-bold text-primary">Nous contacter</h1>
+                    <p class="text-muted">Une question ? L'équipe d'AlloStage vous répond.</p>
+                    <hr class="w-25 mx-auto border-primary border-2 opacity-75">
+                </div>
+
+                {# Carte pour le formulaire (Style similaire à tes pages d'inscription/profil) #}
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-body p-4 p-md-5">
+                        
+                        <form action="#" method="post">
+                            {# Nom #}
+                            <div class="mb-4">
+                                <label for="nom" class="form-label fw-semibold">Nom complet</label>
+                                <input type="text" id="nom" name="nom" class="form-control form-control-lg rounded-3" placeholder="Votre nom..." required>
+                            </div>
+
+                            {# Email #}
+                            <div class="mb-4">
+                                <label for="email" class="form-label fw-semibold">Adresse mail</label>
+                                <input type="email" id="email" name="email" class="form-control form-control-lg rounded-3" placeholder="exemple@mail.com" required>
+                            </div>
+
+                            {# Commentaire #}
+                            <div class="mb-4">
+                                <label for="message" class="form-label fw-semibold">Commentaire / Message</label>
+                                <textarea id="message" name="message" class="form-control rounded-3" rows="5" placeholder="Comment pouvons-nous vous aider ?" required></textarea>
+                            </div>
+
+                            {# Bouton de soumission #}
+                            <div class="d-grid mt-5">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm py-3 fw-bold" style="background-color: #044278; border: none;">
+                                    Envoyer le message
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+                {# Lien de retour ou mentions (optionnel) #}
+                <div class="text-center mt-4">
+                    <a href="/" class="text-decoration-none text-secondary">
+                    <i class="bi bi-arrow-left"></i> Retour à l'accueil
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

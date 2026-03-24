@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions Légales – AlloStage{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold text-primary">Mentions Légales</h1>
+                <p class="text-muted">Informations obligatoires concernant l'éditeur du site.</p>
+                <hr class="w-25 mx-auto border-primary border-2 opacity-75">
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-4 p-4 p-md-5 bg-white">
+                
+                <section class="mb-5">
+                    <h2 class="h4 text-primary fw-semibold mb-3">1. Éditeur du site</h2>
+                    <p>Le site <strong>AlloStage</strong> est édité par l'équipe de développement AlloStage[cite: 1].</p>
+                    <ul class="list-unstyled">
+                        <li><strong>Siège social :</strong> 123 Rue de l'Innovation, 54000 Nancy [cite: 15]</li>
+                        <li><strong>Email :</strong> contact@allostage.fr</li>
+                        <li><strong>Directeur de la publication :</strong> Emma, Responsable de coordination [cite: 17]</li>
+                    </ul>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 text-primary fw-semibold mb-3">2. Hébergement</h2>
+                    <p>Le site est hébergé par :</p>
+                    <ul class="list-unstyled">
+                        <li><strong>Nom de l'hébergeur :</strong> Serveur Local (Développement)</li>
+                        <li><strong>Adresse :</strong> localhost:8080 [cite: 30]</li>
+                    </ul>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 text-primary fw-semibold mb-3">3. Propriété intellectuelle</h2>
+                    <p>L'ensemble du contenu (textes, images, logos) est la propriété exclusive d'AlloStage[cite: 1]. Toute reproduction est interdite sans accord préalable.</p>
+                </section>
+
+                <section>
+                    <h2 class="h4 text-primary fw-semibold mb-3">4. Données personnelles</h2>
+                    <p>Conformément au RGPD, vous disposez d'un droit d'accès et de rectification de vos données. Pour toute demande, utilisez notre <a href="?page=contact" class="text-primary text-decoration-none fw-bold">formulaire de contact</a>[cite: 30].</p>
+                </section>
+
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="/" class="text-decoration-none text-secondary">
+                    <i class="bi bi-arrow-left"></i> Retour à l'accueil
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

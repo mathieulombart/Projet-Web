@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Politique de Confidentialité – AlloStage{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            
+            {# En-tête de la page #}
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold text-primary">Politique de Confidentialité</h1>
+                <p class="text-muted">Comment nous protégeons vos données personnelles.</p>
+                <hr class="w-25 mx-auto border-primary border-2 opacity-75">
+            </div>
+
+            {# Contenu principal #}
+            <div class="card shadow-sm border-0 rounded-4 p-4 p-md-5 bg-white">
+                
+                <section class="mb-5">
+                    <h2 class="h4 text-primary fw-semibold mb-3">1. Collecte des données</h2>
+                    <p>Nous collectons les informations que vous nous fournissez volontairement lors de :</p>
+                    <ul>
+                        <li>La création de votre compte (Nom, email, école).</li>
+                        <li>L'envoi d'un message via le formulaire de contact.</li>
+                        <li>Le dépôt d'une candidature à une offre de stage.</li>
+                    </ul>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 text-primary fw-semibold mb-3">2. Utilisation des données</h2>
+                    <p>Vos données sont exclusivement utilisées pour :</p>
+                    <ul>
+                        <li>Gérer votre profil et vos candidatures.</li>
+                        <li>Vous permettre d'enregistrer des offres en "Wishlist".</li>
+                        <li>Faciliter la mise en relation avec les entreprises partenaires.</li>
+                    </ul>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 text-primary fw-semibold mb-3">3. Conservation et Sécurité</h2>
+                    <p>Vos données sont conservées pour une durée n'excédant pas celle nécessaire aux finalités pour lesquelles elles ont été collectées. Nous mettons en œuvre des mesures de sécurité pour protéger vos informations contre tout accès non autorisé.</p>
+                </section>
+
+                <section>
+                    <h2 class="h4 text-primary fw-semibold mb-3">4. Vos droits</h2>
+                    <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, de suppression et d'opposition au traitement de vos données personnelles. Vous pouvez exercer ces droits en nous écrivant via la page <a href="?page=contact" class="text-primary text-decoration-none fw-bold">Contact</a>.</p>
+                </section>
+
+            </div>
+
+            {# Bouton retour #}
+            <div class="text-center mt-4">
+                <a href="/" class="text-decoration-none text-secondary">
+                    <i class="bi bi-arrow-left"></i> Retour à l'accueil
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
