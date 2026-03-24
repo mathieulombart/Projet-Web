@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une offre{% endblock %}
+
+{% block body %}
+<main class="py-5">
+  <section class="container">
+    <h1 class="mb-4">Créer une nouvelle offre</h1>
+
+    <form method="post" action="{{ url_for('ajout-offre') }}">
+    <div class="mb-3">
+        <label class="form-label">Titre</label>
+        <input type="text" name="titre" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <input type="text" name="description" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Domaine</label>
+        <input type="text" name="domaine" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Localisation</label>
+        <input type="text" name="localisation" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Rémunération (€ / mois)</label>
+        <input type="number"  name="remuneration" class="form-control">
+    </div>
+    
+    
+    <div class="mb-3">
+        <label class="form-label">Durée du Stage (semaines)</label>
+        <input type="number"  name="duree" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </form>
+
+  </section>
+</main>
+{% endblock %}

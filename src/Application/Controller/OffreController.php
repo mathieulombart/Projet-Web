@@ -6,8 +6,8 @@ namespace App\Application\Controller;
 
 use App\Domain\Offre;
 use Doctrine\ORM\EntityManager;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
 class OffreController
@@ -19,7 +19,7 @@ class OffreController
         $this->em = $em;
     }
 
-    public function liste(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function liste(Request $request, Response $response, array $args): Response
     {
         $view    = Twig::fromRequest($request);
         $perPage = 10;
@@ -49,7 +49,7 @@ class OffreController
         ]);
     }
 
-    public function detail(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function detail(Request $request, Response $response, array $args): Response
     {
         $view  = Twig::fromRequest($request);
         $id    = (int)$args['id'];
@@ -62,5 +62,62 @@ class OffreController
         return $view->render($response, 'offre_detail.html.twig', [
             'offre' => $offre,
         ]);
+    }
+
+    public function ajoute(Request $request, Response $response, array $args): Response
+    {
+        $view = Twig::fromRequest($request);
+
+        // GET : afficher le formulaire
+        if ($request->getMethod() === 'GET') {
+            return $view->render($response, 'form-offre.html.twig', [
+                'offre'   => null,
+                'erreurs' => [],
+            ]);
+        }
+
+        // POST : traiter le formulaire
+        $data = $request->getParsedBody();
+
+        $titre        = trim($data['titre'] ?? '');        
+        $description  = trim($data['description'] ?? '');
+        $domaine      = trim($data['domaine'] ?? '');
+        $localisation = trim($data['localisation'] ?? '');
+        $type         = $data['type'] ?? Offre::TYPE_STAGE;
+        $remuneration = $data['remuneration'] !== '' ? (int) $data['remuneration'] : null;
+
+        // À adapter selon ta classe App\Domain\Offre
+        $offre = new Offre(
+            $titre,
+            $description,
+            $domaine,
+            $localisation,
+            $type,
+        );
+       
+            $offre->setRemuneration($remuneration);
+        // Si tu as une relation avec Entreprise, il faudra récupérer l'entité Entreprise ici
+
+        $this->em->persist($offre);
+        $this->em->flush();
+
+        return $response
+            ->withHeader('Location', '/offres')
+            ->withStatus(302);
+    }
+
+    public function supprimer(Request $request, Response $response, array $args): Response
+    {
+        $id    = (int) $args['id'];
+        $offre = $this->em->find(Offre::class, $id);
+
+        if ($offre) {
+            $this->em->remove($offre);
+            $this->em->flush();
+        }
+
+        return $response
+            ->withHeader('Location', '/offres')
+            ->withStatus(302);
     }
 }

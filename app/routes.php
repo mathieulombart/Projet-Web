@@ -56,4 +56,17 @@ return function (App $app) {
     $app->get('/confidentialité', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'confidentialité.html.twig', []);
     })->setName('app_confidentialité');
+
+
+    // >>> Formulaire de création d'offre (GET) <<<
+    $app->get('/ajout-offre', [OffreController::class, 'ajoute'])
+        ->setName('ajout-offre');
+
+    // >>> Traitement du formulaire (POST) <<<
+    $app->post('/ajout-offre', [OffreController::class, 'ajoute']);
+
+    // Supprimer une offre
+    $app->post('/offre/supprimer/{id:\d+}', [OffreController::class, 'supprimer'])
+        ->setName('offre-supprimer');
+
 };
