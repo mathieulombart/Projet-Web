@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Application\Controller\EntrepriseController;
 use App\Application\Controller\HomeController;
 use App\Application\Controller\OffreController;
+use App\Application\Controller\ProfilController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -36,17 +37,17 @@ return function (App $app) {
     // Pages statiques
     $app->get('/connexion', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'connexion.html.twig', []);
-    });
+    })->setName('connexion');
     $app->get('/inscription', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'inscription.html.twig', []);
-    });
+    })->setName('inscription');
     $app->get('/profil', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'profil.html.twig', []);
-    });
+    })->setName('profil');
     $app->get('/postuler', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'postuler.html.twig', []);
-    });
-    
+    })->setName('postuler');
+
     // Pages statiques supplémentaires
     $app->get('/contact', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'contact.html.twig', []);
@@ -60,7 +61,13 @@ return function (App $app) {
         return Twig::fromRequest($request)->render($response, 'confidentialité.html.twig', []);
     })->setName('app_confidentialité');
 
+    
+    $app->get('/wishlist', [ProfilController::class, 'wishlist'])
+        ->setName('wishlist');
 
+    $app->get('/offres-postulees', [ProfilController::class, 'offresPostulees'])
+        ->setName('offres-postulees');
+        
     // >>> Formulaire de création d'offre (GET) <<<
     $app->get('/ajout-offre', [OffreController::class, 'ajoute'])
         ->setName('ajout-offre');
