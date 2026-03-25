@@ -30,6 +30,9 @@ return function (App $app) {
     $app->get('/offres[/{page:\d+}]', [OffreController::class, 'liste'])->setName('liste-offres');
     $app->get('/offre/{id:\d+}', [OffreController::class, 'detail'])->setName('detail-offre');
 
+    // Offres entreprise
+    $app->get('/entreprise/{id:\d+}/offres', [EntrepriseController::class, 'offres'])->setName('entreprise-offres');
+
     // Pages statiques
     $app->get('/connexion', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'connexion.html.twig', []);

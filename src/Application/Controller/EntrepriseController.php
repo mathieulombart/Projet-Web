@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Controller;
 
+use App\Domain\Offre;
 use App\Domain\Entreprise;
 use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface;
@@ -124,5 +125,29 @@ class EntrepriseController
         }
 
         return $response->withHeader('Location', '/entreprises')->withStatus(302);
+    }
+
+    public function offres(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $view       = Twig::fromRequest($request);
+        $id         = (int)$args['id'];
+        $entreprise = $this->em->find(Entreprise::class, $id);
+
+        if (!$entreprise) {
+            return $response->withStatus(404);
+        }
+
+        $offres = $this->em->getRepository(Offre::class)
+            ->createQueryBuilder('o')
+            ->where('o.entreprise = :entreprise')
+            ->andWhere('o.isActive = true')
+            ->setParameter('entreprise', $entreprise)
+            ->getQuery()
+            ->getResult();
+
+        return $view->render($response, 'entreprise_offres.html.twig', [
+            'entreprise' => $entreprise,
+            'offres'     => $offres,
+        ]);
     }
 }
