@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping\Table;
 class Entreprise
 {
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
-    private ?int $id = null;  // ?int car null avant le premier persist()
+    private ?int $id = null;  
 
     #[Column(type: 'string', nullable: false)]
     private string $nom;
