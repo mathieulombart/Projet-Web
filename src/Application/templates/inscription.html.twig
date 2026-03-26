@@ -8,19 +8,35 @@
   <div class="card shadow border-0 rounded-4 p-4" style="max-width: 560px; width: 100%;">
     <h2 class="text-center text-primary fw-semibold mb-4">Créer un compte</h2>
 
+    {% if erreurs is defined and erreurs|length > 0 %}
+      <div class="alert alert-danger">
+        <ul class="mb-0">
+          {% for e in erreurs %}<li>{{ e }}</li>{% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <form method="post" action="{{ path('app_inscription') }}">
+      <input type="hidden" name="_token" value="{{ csrf_token('inscription') }}">
+
     <div class="mb-3">
-      <label class="form-label fw-semibold">Identifiant ou e-mail</label>
-      <input type="email" class="form-control rounded-pill px-4" placeholder="exemple@mail.com">
+      <label class="form-label fw-semibold">E-mail</label>
+      <input type="email" name="email" class="form-control rounded-pill px-4" placeholder="exemple@mail.com">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Identifiant</label>
+      <input type="Identifiant" name="identifiant" class="form-control rounded-pill px-4" placeholder="exemple.Identifiant">
     </div>
 
     <div class="mb-3">
       <label class="form-label fw-semibold">Nom</label>
-      <input type="text" class="form-control rounded-pill px-4" placeholder="Dupont">
+      <input type="text" name="nom" class="form-control rounded-pill px-4" placeholder="Dupont">
     </div>
 
     <div class="mb-3">
       <label class="form-label fw-semibold">Prénom</label>
-      <input type="text" class="form-control rounded-pill px-4" placeholder="Marie">
+      <input type="text" name="prenom" class="form-control rounded-pill px-4" placeholder="Marie">
     </div>
 
     <div class="mb-3">
@@ -78,18 +94,18 @@
 
     <div class="mb-3">
       <label class="form-label fw-semibold">Mot de passe</label>
-      <input type="password" class="form-control rounded-pill px-4" placeholder="••••••••">
+      <input type="password" name="password" class="form-control rounded-pill px-4" placeholder="••••••••">
     </div>
 
     <div class="mb-4">
       <label class="form-label fw-semibold">Confirmer le mot de passe</label>
-      <input type="password" class="form-control rounded-pill px-4" placeholder="••••••••">
+      <input type="password" name="password-confirm" class="form-control rounded-pill px-4" placeholder="••••••••">
     </div>
 
     <div class="d-grid">
-      <button class="btn btn-primary rounded-pill px-4">Créer le compte</button>
+      <button type="submit"class="btn btn-primary rounded-pill px-4">Créer le compte</button>
     </div>
-
+    </form>   {# ← fermeture du form, avant le </div> de la card #}
   </div>
 </section>
 
