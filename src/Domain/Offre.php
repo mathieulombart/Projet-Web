@@ -9,10 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'offres')]
 class Offre
 {
-    public const TYPE_STAGE       = 'stage';
-    public const TYPE_ALTERNANCE  = 'alternance';
-
-    public const TYPES = [self::TYPE_STAGE, self::TYPE_ALTERNANCE];
 
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
@@ -31,8 +27,7 @@ class Offre
     #[ORM\Column(type: 'string', length: 150, nullable: true)]
     private ?string $localisation = null;
 
-    #[ORM\Column(type: 'string', length: 20)]
-    private string $type = self::TYPE_STAGE;
+    
 
     #[ORM\Column(type: 'decimal', precision: 8, scale: 2, nullable: true)]
     private ?float $remuneration = null;
@@ -43,8 +38,7 @@ class Offre
     #[ORM\Column(type: 'date_immutable', nullable: true, name: 'date_debut')]
     private ?DateTimeImmutable $dateDebut = null;
 
-    #[ORM\Column(type: 'boolean', name: 'is_active')]
-    private bool $isActive = true;
+   
 
     #[ORM\Column(type: 'datetime_immutable', name: 'created_at')]
     private DateTimeImmutable $createdAt;
@@ -58,17 +52,17 @@ class Offre
         ?string $description = null,
         ?string $domaine = null,
         ?string $localisation = null,
-        string $type = self::TYPE_STAGE,
+        
     ) {
         $this->titre = $titre;
         $this->description = $description;
         $this->domaine = $domaine;
         $this->localisation = $localisation;
-        $this->type = $type;
+    
         $this->createdAt = new DateTimeImmutable();
     }
 
-    // --- Getters ---
+  
 
     public function getId(): ?int
     {
@@ -95,10 +89,7 @@ class Offre
         return $this->localisation;
     }
 
-    public function getType(): string
-    {
-        return $this->type;
-    }
+ 
 
     public function getRemuneration(): ?float
     {
@@ -115,10 +106,6 @@ class Offre
         return $this->dateDebut;
     }
 
-    public function isActive(): bool
-    {
-        return $this->isActive;
-    }
 
     public function getCreatedAt(): DateTimeImmutable
     {
@@ -130,7 +117,7 @@ class Offre
         return $this->entreprise;
     }
 
-    // --- Setters ---
+   
 
     public function setTitre(string $titre): static
     {
@@ -156,14 +143,7 @@ class Offre
         return $this;
     }
 
-    public function setType(string $type): static
-    {
-        if (!in_array($type, self::TYPES, true)) {
-            throw new \InvalidArgumentException("Type invalide : $type");
-        }
-        $this->type = $type;
-        return $this;
-    }
+    
 
     public function setRemuneration(?float $remuneration): static
     {
@@ -183,27 +163,10 @@ class Offre
         return $this;
     }
 
-    public function setIsActive(bool $isActive): static
-    {
-        $this->isActive = $isActive;
-        return $this;
-    }
 
     public function setEntreprise(?Entreprise $entreprise): static
     {
         $this->entreprise = $entreprise;
         return $this;
-    }
-
-    // --- Helpers ---
-
-    public function isStage(): bool
-    {
-        return $this->type === self::TYPE_STAGE;
-    }
-
-    public function isAlternance(): bool
-    {
-        return $this->type === self::TYPE_ALTERNANCE;
     }
 }

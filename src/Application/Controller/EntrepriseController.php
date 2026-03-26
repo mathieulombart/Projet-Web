@@ -140,7 +140,6 @@ class EntrepriseController
         $offres = $this->em->getRepository(Offre::class)
             ->createQueryBuilder('o')
             ->where('o.entreprise = :entreprise')
-            ->andWhere('o.isActive = true')
             ->setParameter('entreprise', $entreprise)
             ->getQuery()
             ->getResult();
