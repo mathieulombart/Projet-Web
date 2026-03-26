@@ -42,6 +42,7 @@ return function (App $app) {
     $app->get('/inscription', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'inscription.html.twig', []);
     })->setName('inscription');
+    $app->post('/inscription', [AuthController::class, 'inscription']);
     
 
     /*$app->get('/profil', function (Request $request, Response $response) {
