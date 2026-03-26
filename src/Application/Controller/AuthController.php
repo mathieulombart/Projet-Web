@@ -50,9 +50,9 @@ class AuthController
             $utilisateur->setNom($data['nom']);
             $utilisateur->setPrenom($data['prenom']);
             $utilisateur->setMotDePasse($hash);
-            $utilisateur->setRole($data['Type'] ?? Utilisateur::ROLE_ETUDIANT);
+            $utilisateur->setRole($data['role'] ?? Utilisateur::ROLE_ETUDIANT);
             $utilisateur->setPromotion($data['Promo'] ?? '');
-            $utilisateur->setCampus($data['zone'] ?? '');
+            $utilisateur->setCampus($data['campus'] ?? '');
 
             // Sauvegarde en BDD
             $this->entityManager->persist($utilisateur);
@@ -64,5 +64,35 @@ class AuthController
 
         // GET → affiche simplement le formulaire
         return $this->twig->render($response, 'inscription.html.twig');
+    }
+
+    public function connexion(Request $request, Response $response): Response
+    {
+        if ($request->getMethod() === 'POST') {
+            $data = $request->getParsedBody();
+
+            $utilisateur = $this->entityManager
+                ->getRepository(Utilisateur::class)
+                ->findOneBy(['identifiant' => $data['identifiant']]);
+
+            if (!$utilisateur) {
+                return $this->twig->render($response, 'connexion.html.twig', [
+                    'erreur' => 'Identifiant ou mot de passe incorrect.'
+                ]);
+            }
+
+            if (!password_verify($data['password'], $utilisateur->getMotDePasse())) {
+                return $this->twig->render($response, 'connexion.html.twig', [
+                    'erreur' => 'Identifiant ou mot de passe incorrect.'
+                ]);
+            }
+
+            $_SESSION['user_id']   = $utilisateur->getId();
+            $_SESSION['user_role'] = $utilisateur->getRole();
+
+            return $response->withHeader('Location', '/')->withStatus(302);
+        }
+
+        return $this->twig->render($response, 'connexion.html.twig');
     }
 }

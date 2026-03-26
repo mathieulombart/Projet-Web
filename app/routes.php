@@ -36,9 +36,6 @@ return function (App $app) {
     $app->get('/entreprise/{id:\d+}/offres', [EntrepriseController::class, 'offres'])->setName('entreprise-offres');
 
     // Pages statiques
-    $app->get('/connexion', function (Request $request, Response $response) {
-        return Twig::fromRequest($request)->render($response, 'connexion.html.twig', []);
-    })->setName('connexion');
     $app->get('/inscription', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'inscription.html.twig', []);
     })->setName('inscription');
@@ -75,8 +72,8 @@ return function (App $app) {
         // routes.php
 
     $app->post('/wishlist', function ($request, $response) {
-    // ... logique d'ajout ...
-    return $response->withHeader('Location', '/profil')->withStatus(302);
+        // ... logique d'ajout ...
+        return $response->withHeader('Location', '/profil')->withStatus(302);
     })->setName('wishlist');
 
     $app->get('/offres-postulees', [ProfilController::class, 'offresPostulees'])
@@ -93,38 +90,41 @@ return function (App $app) {
     $app->post('/offre/supprimer/{id:\d+}', [OffreController::class, 'supprimer'])
         ->setName('offre-supprimer');
 
-$app->post('/wishlist/ajouter', function ($request, $response) {
-    if (session_status() === PHP_SESSION_NONE) session_start();
+    $app->post('/wishlist/ajouter', function ($request, $response) {
+        if (session_status() === PHP_SESSION_NONE) session_start();
 
-    $data = $request->getParsedBody();
-    $offreId = $data['offre_id'] ?? null;
+        $data = $request->getParsedBody();
+        $offreId = $data['offre_id'] ?? null;
 
-    if ($offreId) {
-        if (!isset($_SESSION['wishlist'])) $_SESSION['wishlist'] = [];
+        if ($offreId) {
+            if (!isset($_SESSION['wishlist'])) $_SESSION['wishlist'] = [];
 
-        // On crée un tableau avec les infos pour l'affichage
-        // Note : Dans un vrai projet, on chercherait ces infos en BDD via l'ID
-        $_SESSION['wishlist'][$offreId] = [
-            'id'           => $offreId,
-            'intitule'     => $data['titre'] ?? 'Poste sans titre',
-            'entreprise'   => $data['entreprise'] ?? 'N/A',
-            'localisation' => $data['localisation'] ?? 'Non précisée',
-            'duree'        => 'Stage' // Valeur par défaut
-        ];
-    }
-    return $response->withHeader('Location', '/wishlist')->withStatus(302);
-})->setName('wishlist-ajouter');
+            // On crée un tableau avec les infos pour l'affichage
+            // Note : Dans un vrai projet, on chercherait ces infos en BDD via l'ID
+            $_SESSION['wishlist'][$offreId] = [
+                'id'           => $offreId,
+                'intitule'     => $data['titre'] ?? 'Poste sans titre',
+                'entreprise'   => $data['entreprise'] ?? 'N/A',
+                'localisation' => $data['localisation'] ?? 'Non précisée',
+                'duree'        => 'Stage' // Valeur par défaut
+            ];
+        }
+        return $response->withHeader('Location', '/wishlist')->withStatus(302);
+    })->setName('wishlist-ajouter');
 
 
-$app->post('/wishlist/supprimer/{id:\d+}', function ($request, $response, $args) {
-    if (session_status() === PHP_SESSION_NONE) session_start();
+    $app->post('/wishlist/supprimer/{id:\d+}', function ($request, $response, $args) {
+        if (session_status() === PHP_SESSION_NONE) session_start();
     
-$idOffre = $args['id'];
+    $idOffre = $args['id'];
 
-    if (isset($_SESSION['wishlist'][$idOffre])) {
-        unset($_SESSION['wishlist'][$idOffre]);
-    }
-    return $response->withHeader('Location', '/wishlist')->withStatus(302);
-})->setName('wishlist-supprimer');
+        if (isset($_SESSION['wishlist'][$idOffre])) {
+            unset($_SESSION['wishlist'][$idOffre]);
+        }
+        return $response->withHeader('Location', '/wishlist')->withStatus(302);
+    })->setName('wishlist-supprimer');
+
+    $app->get('/connexion', [AuthController::class, 'connexion'])->setName('connexion');
+    $app->post('/connexion', [AuthController::class, 'connexion']);
 
 };

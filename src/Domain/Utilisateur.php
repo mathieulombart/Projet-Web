@@ -12,12 +12,12 @@ class Utilisateur
     public const ROLE_ETUDIANT = 'etudiant';
 
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', unique: true)]
     #[ORM\GeneratedValue]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private string $email;
+    private ?string $email = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private string $identifiant;
@@ -29,16 +29,16 @@ class Utilisateur
     private string $role = self::ROLE_ETUDIANT;
 
     #[ORM\Column(type: 'string', length: 100)]
-    private string $nom;
+    private ?string $nom = null;
 
     #[ORM\Column(type: 'string', length: 100)]
-    private string $prenom;
+    private ?string $prenom = null;
 
     #[ORM\Column(type: 'string', length: 100)]
-    private string $campus;
+    private ?string $campus = null;
 
     #[ORM\Column(type: 'string', length: 100)]
-    private string $promotion;
+    private ?string $promotion = null;
 
     public function getId(): ?int { return $this->id; }
 
