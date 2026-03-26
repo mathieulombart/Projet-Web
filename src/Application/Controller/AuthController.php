@@ -51,7 +51,7 @@ class AuthController
             $utilisateur->setPrenom($data['prenom']);
             $utilisateur->setMotDePasse($hash);
             $utilisateur->setRole($data['role'] ?? Utilisateur::ROLE_ETUDIANT);
-            $utilisateur->setPromotion($data['Promo'] ?? '');
+            $utilisateur->setPromotion($data['promo'] ?? '');
             $utilisateur->setCampus($data['campus'] ?? '');
 
             // Sauvegarde en BDD
