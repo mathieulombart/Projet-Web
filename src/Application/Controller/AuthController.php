@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Application\Controller;
-namespace App\Domain;
 
 use App\Domain\Utilisateur;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +25,7 @@ class AuthController
 
             // Validation basique
             if (empty($data['email']))    $erreurs[] = 'L\'email est obligatoire.';
-            if (empty($data['Identifiant']))    $erreurs[] = 'L\'identifiant est obligatoire.';
+            if (empty($data['identifiant']))    $erreurs[] = 'L\'identifiant est obligatoire.';
             if (empty($data['nom']))      $erreurs[] = 'Le nom est obligatoire.';
             if (empty($data['prenom']))   $erreurs[] = 'Le prénom est obligatoire.';
             if (empty($data['password'])) $erreurs[] = 'Le mot de passe est obligatoire.';
@@ -47,7 +46,7 @@ class AuthController
             // Création de l'utilisateur
             $utilisateur = new Utilisateur();
             $utilisateur->setEmail($data['email']);
-            $utilisateur->setIdentifiant($data['Identifiant']);
+            $utilisateur->setIdentifiant($data['identifiant']);
             $utilisateur->setNom($data['nom']);
             $utilisateur->setPrenom($data['prenom']);
             $utilisateur->setMotDePasse($hash);
