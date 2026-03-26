@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Application\Controller\AuthController;
 use App\Application\Controller\EntrepriseController;
 use App\Application\Controller\HomeController;
 use App\Application\Controller\OffreController;
@@ -41,6 +42,7 @@ return function (App $app) {
     $app->get('/inscription', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'inscription.html.twig', []);
     })->setName('inscription');
+    
 
     /*$app->get('/profil', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'profil.html.twig', []);
@@ -70,10 +72,11 @@ return function (App $app) {
         ->setName('wishlist');
 
         // routes.php
-$app->post('/wishlist', function ($request, $response) {
+
+    $app->post('/wishlist', function ($request, $response) {
     // ... logique d'ajout ...
     return $response->withHeader('Location', '/profil')->withStatus(302);
-})->setName('wishlist');
+    })->setName('wishlist');
 
     $app->get('/offres-postulees', [ProfilController::class, 'offresPostulees'])
         ->setName('offres-postulees');

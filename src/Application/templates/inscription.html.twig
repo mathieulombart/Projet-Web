@@ -17,7 +17,6 @@
     {% endif %}
 
     <form method="post" action="{{ path('app_inscription') }}">
-      <input type="hidden" name="_token" value="{{ csrf_token('inscription') }}">
 
     <div class="mb-3">
       <label class="form-label fw-semibold">E-mail</label>

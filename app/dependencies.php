@@ -1,10 +1,13 @@
 <?php
 
+use App\Application\Controller\AuthController; 
 use DI\ContainerBuilder;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
+use Slim\Views\Twig;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
+
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
@@ -26,6 +29,12 @@ return function (ContainerBuilder $containerBuilder) {
             ]);
 
             return new EntityManager($connection, $config);
+        },
+                AuthController::class => function ($c) {
+            return new AuthController(
+                $c->get(EntityManager::class),
+                $c->get(Twig::class)
+            );
         },
     ]);
 };
