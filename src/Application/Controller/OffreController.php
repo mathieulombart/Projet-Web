@@ -19,36 +19,6 @@ class OffreController
         $this->em = $em;
     }
 
-    public function liste(Request $request, Response $response, array $args): Response
-    {
-        $view    = Twig::fromRequest($request);
-        $perPage = 10;
-        $page    = isset($args['page']) ? (int)$args['page'] : 1;
-        $offset  = ($page - 1) * $perPage;
-
-        $total = $this->em->getRepository(Offre::class)
-            ->createQueryBuilder('o')
-            ->select('COUNT(o.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
-
-        $offres = $this->em->getRepository(Offre::class)
-            ->createQueryBuilder('o')
-            ->orderBy('o.id', 'DESC')
-            ->setFirstResult($offset)
-            ->setMaxResults($perPage)
-            ->getQuery()
-            ->getResult();
-
-        $totalPages = (int) ceil($total / $perPage);
-
-        return $view->render($response, 'offre.html.twig', [
-            'offres'       => $offres,
-            'pageCourante' => $page,
-            'totalPages'   => max(1, $totalPages),
-        ]);
-    }
-
     public function detail(Request $request, Response $response, array $args): Response
     {
         $view  = Twig::fromRequest($request);
@@ -86,7 +56,7 @@ class OffreController
         $type         = $data['type'] ?? Offre::TYPE_STAGE;
         $remuneration = $data['remuneration'] !== '' ? (int) $data['remuneration'] : null;
 
-        // À adapter selon ta classe App\Domain\Offre
+        
         $offre = new Offre(
             $titre,
             $description,
@@ -96,7 +66,7 @@ class OffreController
         );
        
             $offre->setRemuneration($remuneration);
-        // Si tu as une relation avec Entreprise, il faudra récupérer l'entité Entreprise ici
+        
 
         $this->em->persist($offre);
         $this->em->flush();
@@ -119,5 +89,43 @@ class OffreController
         return $response
             ->withHeader('Location', '/offres')
             ->withStatus(302);
+    }
+    public function liste(Request $request, Response $response, array $args): Response
+    {
+        $view = Twig::fromRequest($request);
+        $perPage = 10;
+        $page =isset($args['page']) ? (int)$args['page'] : 1;
+
+        $params = $request ->getQueryParams();
+        $search = trim($params['q'] ?? '');
+        
+        $qb = $this->em->getRepository (Offre::class)->createQueryBuilder('o');
+
+        if ($search!==''){
+            $qb->andWhere('o.titre LIKE :term OR o.description LIKE :term OR o.localisation LIKE :term')
+                ->setParameter('term', '%' . $search . '%');
+        
+        }
+
+        $totalQb= clone $qb;
+        $total = (int) $totalQb->select('COUNT(o.id)')->getQuery()->getSingleScalarResult();
+
+        $offset = ($page - 1) * $perPage;
+        $offres = $qb
+            ->select('o')
+            ->orderBy('o.id', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($perPage)
+            ->getQuery()
+            ->getResult();
+
+            $totalPages=(int) ceil($total/$perPage);
+
+            return $view->render($response, 'offre.html.twig', [
+                'offres' => $offres,
+                'pageCourante' => $page,
+                'totalPages' => max(1, $totalPages),
+                'search' => $search,
+            ]);
     }
 }
