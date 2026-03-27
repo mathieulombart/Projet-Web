@@ -80,8 +80,14 @@ class AuthController
                     'erreur' => 'Identifiant ou mot de passe incorrect.'
                 ]);
             }
-
-            if (!password_verify($data['password'], $utilisateur->getMotDePasse())) {
+            if(strlen($utilisateur->getMotDePasse())>=20){
+                if (!password_verify($data['password'], $utilisateur->getMotDePasse())) {
+                    return $this->twig->render($response, 'connexion.html.twig', [
+                        'erreur' => 'Identifiant ou mot de passe incorrect.'
+                    ]);
+                }
+            }
+            else if($data['password']!=$utilisateur->getMotDepasse()){
                 return $this->twig->render($response, 'connexion.html.twig', [
                     'erreur' => 'Identifiant ou mot de passe incorrect.'
                 ]);
