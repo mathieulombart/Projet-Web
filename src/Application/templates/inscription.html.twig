@@ -8,88 +8,103 @@
   <div class="card shadow border-0 rounded-4 p-4" style="max-width: 560px; width: 100%;">
     <h2 class="text-center text-primary fw-semibold mb-4">Créer un compte</h2>
 
-    <div class="mb-3">
-      <label class="form-label fw-semibold">Identifiant ou e-mail</label>
-      <input type="email" class="form-control rounded-pill px-4" placeholder="exemple@mail.com">
-    </div>
+    {% if erreurs is defined and erreurs|length > 0 %}
+      <div class="alert alert-danger">
+        <ul class="mb-0">
+          {% for e in erreurs %}<li>{{ e }}</li>{% endfor %}
+        </ul>
+      </div>
+    {% endif %}
 
-    <div class="mb-3">
-      <label class="form-label fw-semibold">Nom</label>
-      <input type="text" class="form-control rounded-pill px-4" placeholder="Dupont">
-    </div>
+    <form action="/inscription" method="post">
 
-    <div class="mb-3">
-      <label class="form-label fw-semibold">Prénom</label>
-      <input type="text" class="form-control rounded-pill px-4" placeholder="Marie">
-    </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold">E-mail</label>
+        <input type="email" name="email" class="form-control rounded-pill px-4" placeholder="exemple@mail.com">
+      </div>
 
-    <div class="mb-3">
-      <label class="form-label fw-semibold">Type</label>
-      <select class="form-select rounded-pill px-4" name="Type" id="Type">
-        <option value="">-- Choisir un type --</option>
-        <option value="pilote">Pilote</option>
-        <option value="etudiant">Étudiant</option>
-      </select>
-    </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Identifiant</label>
+        <input type="text" name="identifiant" class="form-control rounded-pill px-4" placeholder="exemple.Identifiant">
+      </div>
 
-    <div class="mb-3">
-      <label class="form-label fw-semibold">Promotion</label>
-      <select class="form-select rounded-pill px-4" name="Promo" id="Promo">
-        <option value="">-- Choisir une promotion --</option>
-        <option value="A1">CPI A1</option>
-        <option value="A2">CPI A2</option>
-        <option value="A3">FISA A3</option>
-        <option value="A4">FISA A4</option>
-        <option value="A5">FISA A5</option>
-      </select>
-    </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Nom</label>
+        <input type="text" name="nom" class="form-control rounded-pill px-4" placeholder="Dupont">
+      </div>
 
-    <div class="mb-3">
-      <label class="form-label fw-semibold">Zone</label>
-      <select class="form-select rounded-pill px-4" name="zone" id="zone">
-        <option value="">-- Choisir une zone --</option>
-        <option value="aix">Aix-en-Provence</option>
-        <option value="angouleme">Angoulême</option>
-        <option value="arras">Arras</option>
-        <option value="bordeaux">Bordeaux</option>
-        <option value="brest">Brest</option>
-        <option value="caen">Caen</option>
-        <option value="dijon">Dijon</option>
-        <option value="grenoble">Grenoble</option>
-        <option value="la-rochelle">La Rochelle</option>
-        <option value="le-mans">Le Mans</option>
-        <option value="lille">Lille</option>
-        <option value="lyon">Lyon</option>
-        <option value="montpellier">Montpellier</option>
-        <option value="nancy">Nancy</option>
-        <option value="nantes">Nantes</option>
-        <option value="nice">Nice</option>
-        <option value="orleans">Orléans</option>
-        <option value="paris-la-defense">Paris-La Défense</option>
-        <option value="paris-nanterre">Paris-Nanterre</option>
-        <option value="pau">Pau</option>
-        <option value="reims">Reims</option>
-        <option value="rouen">Rouen</option>
-        <option value="saint-nazaire">Saint-Nazaire</option>
-        <option value="strasbourg">Strasbourg</option>
-        <option value="toulouse">Toulouse</option>
-      </select>
-    </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Prénom</label>
+        <input type="text" name="prenom" class="form-control rounded-pill px-4" placeholder="Marie">
+      </div>
 
-    <div class="mb-3">
-      <label class="form-label fw-semibold">Mot de passe</label>
-      <input type="password" class="form-control rounded-pill px-4" placeholder="••••••••">
-    </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Type</label>
+        <select class="form-select rounded-pill px-4" name="role" id="Type">
+          <option value="">-- Choisir un type --</option>
+          <option value="pilote">Pilote</option>
+          <option value="etudiant">Étudiant</option>
+        </select>
+      </div>
 
-    <div class="mb-4">
-      <label class="form-label fw-semibold">Confirmer le mot de passe</label>
-      <input type="password" class="form-control rounded-pill px-4" placeholder="••••••••">
-    </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Promotion</label>
+        <select class="form-select rounded-pill px-4" name="promo" id="promo">
+          <option value="">-- Choisir une promotion --</option>
+          <option value="A1">CPI A1</option>
+          <option value="A2">CPI A2</option>
+          <option value="A3">FISA A3</option>
+          <option value="A4">FISA A4</option>
+          <option value="A5">FISA A5</option>
+        </select>
+      </div>
 
-    <div class="d-grid">
-      <button class="btn btn-primary rounded-pill px-4">Créer le compte</button>
-    </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Zone</label>
+        <select class="form-select rounded-pill px-4" name="campus" id="campus">
+          <option value="">-- Choisir une zone --</option>
+          <option value="aix">Aix-en-Provence</option>
+          <option value="angouleme">Angoulême</option>
+          <option value="arras">Arras</option>
+          <option value="bordeaux">Bordeaux</option>
+          <option value="brest">Brest</option>
+          <option value="caen">Caen</option>
+          <option value="dijon">Dijon</option>
+          <option value="grenoble">Grenoble</option>
+          <option value="la-rochelle">La Rochelle</option>
+          <option value="le-mans">Le Mans</option>
+          <option value="lille">Lille</option>
+          <option value="lyon">Lyon</option>
+          <option value="montpellier">Montpellier</option>
+          <option value="nancy">Nancy</option>
+          <option value="nantes">Nantes</option>
+          <option value="nice">Nice</option>
+          <option value="orleans">Orléans</option>
+          <option value="paris-la-defense">Paris-La Défense</option>
+          <option value="paris-nanterre">Paris-Nanterre</option>
+          <option value="pau">Pau</option>
+          <option value="reims">Reims</option>
+          <option value="rouen">Rouen</option>
+          <option value="saint-nazaire">Saint-Nazaire</option>
+          <option value="strasbourg">Strasbourg</option>
+          <option value="toulouse">Toulouse</option>
+        </select>
+      </div>
 
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Mot de passe</label>
+        <input type="password" name="password" class="form-control rounded-pill px-4" placeholder="••••••••">
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label fw-semibold">Confirmer le mot de passe</label>
+        <input type="password" name="password-confirm" class="form-control rounded-pill px-4" placeholder="••••••••">
+      </div>
+
+      <div class="d-grid">
+        <button type="submit"class="btn btn-primary rounded-pill px-4">Créer le compte</button>
+      </div>
+    </form>   {# ← fermeture du form, avant le </div> de la card #}
   </div>
 </section>
 

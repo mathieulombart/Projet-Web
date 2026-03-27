@@ -44,20 +44,23 @@
                 <th>Entreprise</th>
                 <th>Intitulé</th>
                 <th>Localisation</th>
-                <th>Employeur</th>
                 <th>Rémunération</th>
                 <th>Description</th>
-                <th>Actions</th>
               </tr>
                 
             </thead>
             <tbody>
               {% for offre in offres %}
               <tr>
-                <td>{{ offre.entreprise ? offre.entreprise.nom : 'N/A' }}</td>
+                <td>
+                  {% if offre.entreprise %}
+                    <a href="/entreprise/{{ offre.entreprise.id }}/offres" class="text-decoration-none fw-semibold">{{ offre.entreprise.nom }}</a>
+                  {% else %}
+                    N/A
+                  {% endif %}
+                </td>
                 <td>{{ offre.titre }}</td>
                 <td>{{ offre.localisation }}</td>
-                <td>{{ offre.entreprise ? offre.entreprise.nom : 'N/A' }}</td>
                 <td><span class="badge bg-success">{{ offre.remuneration ? offre.remuneration ~ ' €/mois' : 'Non rémunéré' }}</span></td>
                 <td>
                   {{ offre.description }}<br>

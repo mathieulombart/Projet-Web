@@ -23,7 +23,7 @@ class EntrepriseController
     public function liste(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $view    = Twig::fromRequest($request);
-        $perPage = 6;
+        $perPage = 2;
         $page    = isset($args['page']) ? (int)$args['page'] : 1;
         $offset  = ($page - 1) * $perPage;
 
@@ -140,7 +140,6 @@ class EntrepriseController
         $offres = $this->em->getRepository(Offre::class)
             ->createQueryBuilder('o')
             ->where('o.entreprise = :entreprise')
-            ->andWhere('o.isActive = true')
             ->setParameter('entreprise', $entreprise)
             ->getQuery()
             ->getResult();

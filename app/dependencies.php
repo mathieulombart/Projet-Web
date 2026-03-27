@@ -1,13 +1,21 @@
 <?php
 
+use App\Application\Controller\AuthController; 
 use DI\ContainerBuilder;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
+use Slim\Views\Twig;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
+        Twig::class => function () {
+            return Twig::create(__DIR__ . '/../src/Application/templates', [
+                'cache' => false,
+            ]);
+        },
+
         EntityManager::class => function () {
             $config = ORMSetup::createAttributeMetadataConfiguration(
                 paths: [__DIR__ . '/../src/Domain'],
@@ -26,6 +34,12 @@ return function (ContainerBuilder $containerBuilder) {
             ]);
 
             return new EntityManager($connection, $config);
+        },
+        AuthController::class => function ($c) {
+            return new AuthController(
+                $c->get(EntityManager::class),
+                $c->get(Twig::class)
+            );
         },
     ]);
 };

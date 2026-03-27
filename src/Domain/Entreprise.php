@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping\Table;
 class Entreprise
 {
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
-    private ?int $id = null;  // ?int car null avant le premier persist()
+    private ?int $id = null;  
 
     #[Column(type: 'string', nullable: false)]
     private string $nom;
@@ -32,8 +32,7 @@ class Entreprise
     #[Column(type: 'string', nullable: true)]
     private ?string $statut = null;
 
-    #[Column(name: 'created_at', type: 'datetimetz_immutable', nullable: false)]
-    private DateTimeImmutable $createdAt;
+   
 
     public function __construct(string $nom, string $secteur, string $statut)
     {
@@ -98,8 +97,5 @@ class Entreprise
         $this->statut = $statut;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
+   
 }
