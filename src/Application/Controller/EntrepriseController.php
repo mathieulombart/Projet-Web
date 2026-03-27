@@ -20,36 +20,7 @@ class EntrepriseController
         $this->em = $em;
     }
 
-    public function liste(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-        $view    = Twig::fromRequest($request);
-        $perPage = 2;
-        $page    = isset($args['page']) ? (int)$args['page'] : 1;
-        $offset  = ($page - 1) * $perPage;
-
-        $total = $this->em->getRepository(Entreprise::class)
-            ->createQueryBuilder('e')
-            ->select('COUNT(e.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
-
-        $entreprises = $this->em->getRepository(Entreprise::class)
-            ->createQueryBuilder('e')
-            ->orderBy('e.id', 'DESC')
-            ->setFirstResult($offset)
-            ->setMaxResults($perPage)
-            ->getQuery()
-            ->getResult();
-
-        $totalPages = (int) ceil($total / $perPage);
-
-        return $view->render($response, 'entreprise.html.twig', [
-            'entreprises'  => $entreprises,
-            'filtres'      => ['Tous', 'Tech & IT', 'Cybersécurité', 'Conseil', 'Industrie', 'Finance', 'Santé'],
-            'pageCourante' => $page,
-            'totalPages'   => max(1, $totalPages),
-        ]);
-    }
+  
 
     public function ajoute(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
@@ -144,4 +115,57 @@ class EntrepriseController
             'offres'     => $offres,
         ]);
     }
+
+  public function liste(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $view    = Twig::fromRequest($request);
+        $perPage = 10;
+        $page    = isset($args['page']) ? (int) $args['page'] : 1;
+
+        // Récupérer le terme de recherche
+        $params = $request->getQueryParams();
+        $search = trim($params['q'] ?? '');
+
+        // QueryBuilder de base
+        $qb = $this->em->getRepository(Entreprise::class)
+            ->createQueryBuilder('e');
+
+        // Si recherche, WHERE avec LIKE
+        if ($search !== '') {
+            $qb->andWhere(
+                'e.nom LIKE :term OR e.secteur LIKE :term'
+            )
+            ->setParameter('term', '%' . $search . '%');
+        }
+
+        // Compter le total avec filtre
+        $totalQb = clone $qb;
+        $total   = (int) $totalQb
+            ->select('COUNT(e.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // Pagination
+        $offset = ($page - 1) * $perPage;
+
+        $entreprises = $qb
+            ->select('e')
+            ->orderBy('e.id', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($perPage)
+            ->getQuery()
+            ->getResult();
+
+        $totalPages = (int) ceil($total / $perPage);
+
+        return $view->render($response, 'entreprise.html.twig', [
+            'entreprises'  => $entreprises,
+            'filtres'      => ['Tous', 'Tech & IT', 'Cybersécurité', 'Conseil', 'Industrie', 'Finance', 'Santé'],
+            'pageCourante' => $page,
+            'totalPages'   => max(1, $totalPages),
+            'search'       => $search,
+        ]);
+    }
+
+
 }

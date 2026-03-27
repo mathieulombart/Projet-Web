@@ -13,23 +13,19 @@
   </p>
 </section>
 
-<section class="container mb-5">
-  <div class="d-flex flex-column flex-md-row gap-3 align-items-center mb-3">
-    <input
-      type="text"
-      class="form-control rounded-pill px-4"
-      placeholder="Rechercher une entreprise, un secteur…"
-    />
-    <a href="#" class="btn btn-primary rounded-pill px-4">Rechercher</a>
-  </div>
+<form method="get" action="/entreprises" class="d-flex mb-4" role="search">
+  <input
+    class="form-control me-2"
+    type="search"
+    name="q"
+    placeholder="Rechercher une entreprise..."
+    value="{{ search|default('') }}"
+  >
+  <button class="btn btn-outline-primary" type="submit">Rechercher</button>
+</form>
 
-  <div class="d-flex flex-wrap gap-2">
-    {% for filtre in filtres %}
-      <button class="btn {{ loop.first ? 'btn-primary' : 'btn-outline-secondary' }} rounded-pill px-3">
-        {{ filtre }}
-      </button>
-    {% endfor %}
-  </div>
+
+
 </section>
 
 <section class="container pb-5">

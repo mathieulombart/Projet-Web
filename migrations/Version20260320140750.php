@@ -7,9 +7,7 @@ namespace App\Migrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
+
 final class Version20260320140750 extends AbstractMigration
 {
     public function getDescription(): string
@@ -19,7 +17,6 @@ final class Version20260320140750 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // Créer la table 'entreprises'
         $table = $schema->createTable('entreprises');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('nom', 'string', ['length' => 255]);
@@ -28,7 +25,7 @@ final class Version20260320140750 extends AbstractMigration
         $table->addColumn('created_at', 'datetime_immutable');
         $table->setPrimaryKey(['id']);
 
-        // Créer la table 'offres'
+     
         $table = $schema->createTable('offres');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('titre', 'string', ['length' => 255]);
@@ -41,7 +38,7 @@ final class Version20260320140750 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // Supprimer les tables si on revient en arrière
+        
         $schema->dropTableIfExists('offres');
         $schema->dropTableIfExists('entreprises');
     }

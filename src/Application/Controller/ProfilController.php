@@ -22,11 +22,6 @@ class ProfilController
 {
     $view = Twig::fromRequest($request);
 
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-
-    // On lit directement les offres complètes stockées en session
     $offresWishlist = $_SESSION['wishlist'] ?? [];
 
     return $view->render($response, 'wishlist.html.twig', [
@@ -38,7 +33,7 @@ class ProfilController
     {
         $view = Twig::fromRequest($request);
 
-        // On récupère toutes les candidatures depuis la base de données
+       
         $candidatures = $this->em->getRepository(Candidature::class)
             ->findBy([], ['dateCandidature' => 'DESC']);
 
@@ -47,7 +42,7 @@ class ProfilController
         ]);
     }
 
-    // Cette méthode gère l'affichage du profil (avec le badge)
+   
     public function index(Request $request, Response $response): Response
     {
         $view = Twig::fromRequest($request);
@@ -58,6 +53,10 @@ class ProfilController
     // On récupère l'utilisateur depuis la BDD grâce à l'id en session
         $utilisateur = $this->em->getRepository(\App\Domain\Utilisateur::class)
             ->find($_SESSION['user_id']);
+        
+        if (!$utilisateur) {
+            return $response->withHeader('Location', '/connexion')->withStatus(302);
+        }
 
         return $view->render($response, 'profil.html.twig', [
             'nbWishlist'  => $nbWishlist,
