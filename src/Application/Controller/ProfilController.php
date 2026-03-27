@@ -4,12 +4,20 @@ declare(strict_types=1);
 
 namespace App\Application\Controller;
 
+use App\Domain\Candidature;
+use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
 class ProfilController
 {
+    private EntityManager $em;
+
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
     public function wishlist(Request $request, Response $response, array $args): Response
 {
     $view = Twig::fromRequest($request);
@@ -30,7 +38,9 @@ class ProfilController
     {
         $view = Twig::fromRequest($request);
 
-        $candidatures = [];
+        // On récupère toutes les candidatures depuis la base de données
+        $candidatures = $this->em->getRepository(Candidature::class)
+            ->findBy([], ['dateCandidature' => 'DESC']);
 
         return $view->render($response, 'offres_postulees.html.twig', [
             'candidatures' => $candidatures,

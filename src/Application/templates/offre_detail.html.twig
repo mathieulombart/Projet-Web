@@ -29,7 +29,7 @@
                     <p>{{ offre.description }}</p>
 
                     <div class="mt-4 d-flex gap-3">
-                    <a href="/postuler" class="btn btn-primary">Postuler</a>
+                    <a href="{{ url_for('postuler', { id: offre.id }) }}" class="btn btn-primary">Postuler</a>
                 </div>
             </div>
         </div>
