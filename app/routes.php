@@ -11,6 +11,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Views\Twig;
+use App\Application\Middleware\RoleMiddleware;
 
 return function (App $app) {
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
@@ -21,13 +22,21 @@ return function (App $app) {
     $app->get('/', [HomeController::class, 'home']);
 
     // Entreprises (CRUD)
-    $app->get('/entreprises[/{page:\d+}]', [EntrepriseController::class, 'liste'])->setName('liste-entreprises');
-    $app->get('/ajout-entreprise', [EntrepriseController::class, 'ajoute'])->setName('ajout-entreprise');
-    $app->post('/ajout-entreprise', [EntrepriseController::class, 'ajoute']);
-    $app->get('/modifier-entreprise/{id:\d+}', [EntrepriseController::class, 'modifier'])->setName('modifier-entreprise');
-    $app->post('/modifier-entreprise/{id:\d+}', [EntrepriseController::class, 'modifier']);
-    $app->post('/supprimer-entreprise/{id:\d+}', [EntrepriseController::class, 'supprimer'])->setName('supprimer-entreprise');
-
+    $app->get('/entreprises[/{page:\d+}]', [EntrepriseController::class, 'liste'])
+        ->setName('liste-entreprises');
+    $app->get('/ajout-entreprise', [EntrepriseController::class, 'ajoute'])
+        ->setName('ajout-entreprise')
+        ->add(new RoleMiddleware(['admin'],['pilote']));
+    $app->post('/ajout-entreprise', [EntrepriseController::class, 'ajoute'])
+        ->add(new RoleMiddleware(['admin'],['pilote']));
+    $app->get('/modifier-entreprise/{id:\d+}', [EntrepriseController::class, 'modifier'])
+        ->setName('modifier-entreprise')
+        ->add(new RoleMiddleware(['admin'],['pilote']));
+    $app->post('/modifier-entreprise/{id:\d+}', [EntrepriseController::class, 'modifier'])
+        ->add(new RoleMiddleware(['admin'],['pilote']));
+    $app->post('/supprimer-entreprise/{id:\d+}', [EntrepriseController::class, 'supprimer'])
+        ->setName('supprimer-entreprise')
+        ->add(new RoleMiddleware(['admin'],['pilote']));
     // Offres
     $app->get('/offres[/{page:\d+}]', [OffreController::class, 'liste'])->setName('liste-offres');
     $app->get('/offre/{id:\d+}', [OffreController::class, 'detail'])->setName('detail-offre');
@@ -38,8 +47,11 @@ return function (App $app) {
     // Pages statiques
     $app->get('/inscription', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'inscription.html.twig', []);
-    })->setName('inscription');
-    $app->post('/inscription', [AuthController::class, 'inscription']);
+        })
+        ->setName('inscription')
+        ->add(new RoleMiddleware(['admin'],['pilote']));
+    $app->post('/inscription', [AuthController::class, 'inscription'])
+        ->add(new RoleMiddleware(['admin'],['pilote']));
     
 
     /*$app->get('/profil', function (Request $request, Response $response) {
@@ -81,14 +93,17 @@ return function (App $app) {
         
     // >>> Formulaire de création d'offre (GET) <<<
     $app->get('/ajout-offre', [OffreController::class, 'ajoute'])
-        ->setName('ajout-offre');
+        ->setName('ajout-offre')
+        ->add(new RoleMiddleware(['admin'],['pilote']));
 
     // >>> Traitement du formulaire (POST) <<<
-    $app->post('/ajout-offre', [OffreController::class, 'ajoute']);
+    $app->post('/ajout-offre', [OffreController::class, 'ajoute'])
+        ->add(new RoleMiddleware(['admin'],['pilote']));
 
     // Supprimer une offre
     $app->post('/offre/supprimer/{id:\d+}', [OffreController::class, 'supprimer'])
-        ->setName('offre-supprimer');
+        ->setName('offre-supprimer')
+        ->add(new RoleMiddleware(['admin'],['pilote']));
 
     $app->post('/wishlist/ajouter', function ($request, $response) {
         if (session_status() === PHP_SESSION_NONE) session_start();
@@ -126,5 +141,4 @@ return function (App $app) {
 
     $app->get('/connexion', [AuthController::class, 'connexion'])->setName('connexion');
     $app->post('/connexion', [AuthController::class, 'connexion']);
-
 };
