@@ -101,4 +101,9 @@ class AuthController
 
         return $this->twig->render($response, 'connexion.html.twig');
     }
+    public function deconnexion(Request $request, Response $response): Response
+    {
+        session_destroy();
+        return $response->withHeader('Location', '/connexion')->withStatus(302);
+    }
 }

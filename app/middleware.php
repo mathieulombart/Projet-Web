@@ -9,7 +9,7 @@ use Slim\Views\TwigMiddleware;
 
 
 return function (App $app) {
-    $app->add(SessionMiddleware::class);
+    $app->add(new SessionMiddleware());
     $twig = Twig::create(__DIR__ . '/../src/Application/templates', ['cache' => false]);
     $app->add(TwigMiddleware::create($app, $twig));
 };

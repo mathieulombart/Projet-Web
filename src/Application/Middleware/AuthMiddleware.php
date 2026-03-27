@@ -12,7 +12,7 @@ class AuthMiddleware implements MiddlewareInterface
 {
     public function process(Request $request, Handler $handler): Response
     {
-        // Si pas de user_id en session → non connecté
+
         if (empty($_SESSION['user_id'])) {
             $response = new SlimResponse();
             return $response->withHeader('Location', '/connexion')->withStatus(302);

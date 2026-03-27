@@ -61,7 +61,6 @@ return function (App $app) {
     $app->post('/inscription', [AuthController::class, 'inscription'])
         ->add(new RoleMiddleware(['admin'],['pilote']))
         ->add(new AuthMiddleware());
-    
 
     /*$app->get('/profil', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'profil.html.twig', []);
@@ -73,11 +72,6 @@ return function (App $app) {
     $app->get('/postuler/{id:\d+}', [CandidatureController::class, 'formulaire'])->setName('postuler');
     $app->post('/postuler/{id:\d+}', [CandidatureController::class, 'postuler']);
     $app->post('/candidature/retirer/{id:\d+}', [CandidatureController::class, 'retirer'])->setName('candidature-retirer');
-    $app->get('/postuler', function (Request $request, Response $response) {
-        return Twig::fromRequest($request)->render($response, 'postuler.html.twig', []);
-        })
-        ->setName('postuler')
-        ->add(new AuthMiddleware());
 
     // Pages statiques supplémentaires
     $app->get('/contact', function (Request $request, Response $response) {
@@ -167,4 +161,5 @@ return function (App $app) {
 
     $app->get('/connexion', [AuthController::class, 'connexion'])->setName('connexion');
     $app->post('/connexion', [AuthController::class, 'connexion']);
+    $app->get('/deconnexion', [AuthController::class, 'deconnexion'])->setName('deconnexion');
 };

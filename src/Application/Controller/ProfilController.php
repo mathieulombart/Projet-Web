@@ -52,26 +52,15 @@ class ProfilController
     {
         $view = Twig::fromRequest($request);
 
-        // On récupère les IDs stockés en session
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        
         $wishlistIds = $_SESSION['wishlist'] ?? [];
         $nbWishlist = count($wishlistIds);
 
-        // Données utilisateur "en dur" (sans BDD)
-        $utilisateur = [
-            'nom' => 'Jean Dupont',
-            'statut' => 'Étudiant',
-            'ecole' => 'CESI',
-            'pilote' => 'M. Martin',
-            'email' => 'jean.dupont@exemple.com',
-            'ville' => 'Paris'
-        ];
+    // On récupère l'utilisateur depuis la BDD grâce à l'id en session
+        $utilisateur = $this->em->getRepository(\App\Domain\Utilisateur::class)
+            ->find($_SESSION['user_id']);
 
         return $view->render($response, 'profil.html.twig', [
-            'nbWishlist' => $nbWishlist,
+            'nbWishlist'  => $nbWishlist,
             'utilisateur' => $utilisateur,
         ]);
     }
