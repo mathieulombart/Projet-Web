@@ -7,11 +7,7 @@ namespace App\Migrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Ajout des colonnes manquantes :
- * - entreprises : ville, description
- * - offres : type, remuneration, duree_semaines, date_debut, is_active, entreprise_id
- */
+
 final class Version20260320190000 extends AbstractMigration
 {
     public function getDescription(): string
