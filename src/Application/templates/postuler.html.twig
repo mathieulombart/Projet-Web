@@ -1,41 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Postuler à une offre{% endblock %}
+{% block title %}Postuler – {{ offre.titre }}{% endblock %}
 
 {% block body %}
 <main class="py-5 bg-light">
   <section class="container">
 
-   <a href="{{ url_for('liste-offres') }}" class="btn btn-outline-primary rounded-pill px-5"> &larr; Retour aux offres </a>
+    <a href="{{ url_for('liste-offres') }}" class="btn btn-outline-primary rounded-pill px-5">
+      &larr; Retour aux offres
+    </a>
 
-    <h1 class="mb-4">Postuler à cette offre</h1>
+    <div class="card border-0 shadow-sm rounded-4 mt-4 mb-4">
+      <div class="card-header bg-primary text-white">
+        <h1 class="h4 mb-0">{{ offre.titre }}</h1>
+        <p class="mb-0 small">
+          {{ offre.entreprise ? offre.entreprise.nom : 'N/A' }}
+          {% if offre.localisation %} · {{ offre.localisation }}{% endif %}
+        </p>
+      </div>
+    </div>
 
-    <form class="was-validated" method="post" enctype="multipart/form-data">
+    {% if erreurs is not empty %}
+      <div class="alert alert-danger">
+        <ul class="mb-0">
+          {% for e in erreurs %}<li>{{ e }}</li>{% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <form method="post" action="{{ url_for('postuler', { id: offre.id }) }}" enctype="multipart/form-data">
+
       <div class="mb-3">
-        <label for="motivation" class="form-label">Lettre de motivation</label>
-        <textarea class="form-control" id="motivation"
-                  name="motivation"
-                  placeholder="Explique pourquoi tu es le bon candidat"
-                  required></textarea>
-        <div class="invalid-feedback">
-          Veuillez entrer un message dans la zone de texte.
-        </div>
+        <label for="motivation" class="form-label fw-semibold">Lettre de motivation</label>
+        <textarea class="form-control" id="motivation" name="motivation" rows="8"
+                  placeholder="Expliquez pourquoi vous êtes le bon candidat…" required></textarea>
       </div>
 
       <div class="mb-3">
-        <label for="cv" class="form-label">Ton CV (PDF)</label>
-        <input type="file" class="form-control" id="cv" name="cv"
-               aria-label="CV" required>
-        <div class="invalid-feedback">
-          Merci de joindre ton CV.
-        </div>
+        <label for="cv" class="form-label fw-semibold">Votre CV (PDF)</label>
+        <input type="file" class="form-control" id="cv" name="cv" accept=".pdf" required>
+        <div class="form-text">Fichier PDF uniquement.</div>
       </div>
 
-      <div class="mb-3">
-        <button class="btn btn-primary" type="submit">
-          Envoyer la candidature
-        </button>
+      <div class="d-flex gap-2">
+        <button class="btn btn-primary" type="submit">Envoyer la candidature</button>
+        <a href="{{ url_for('liste-offres') }}" class="btn btn-light">Annuler</a>
       </div>
+
     </form>
   </section>
 </main>

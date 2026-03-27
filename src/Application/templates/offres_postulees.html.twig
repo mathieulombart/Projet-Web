@@ -21,26 +21,31 @@
     <div class="card border-0 shadow-sm rounded-4 p-4">
       <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
         <div>
-          <h5 class="fw-bold mb-1">{{ c.intitule }}</h5>
+          <h5 class="fw-bold mb-1">{{ c.offre.titre }}</h5>
           <div class="d-flex align-items-center gap-2 flex-wrap">
-            <span class="text-muted">{{ c.entreprise }}</span>
+            <span class="text-muted">{{ c.offre.entreprise ? c.offre.entreprise.nom : 'N/A' }}</span>
             <span class="text-muted">·</span>
-            <span class="text-muted">📍 {{ c.ville }}</span>
-            <span class="badge text-bg-primary rounded-pill">{{ c.duree }}</span>
+            <span class="text-muted">{{ c.offre.localisation ?? 'N/A' }}</span>
+            {% if c.offre.dureeSemaines %}
+              <span class="badge text-bg-primary rounded-pill">{{ c.offre.dureeSemaines }} semaines</span>
+            {% endif %}
           </div>
+          <small class="text-muted">Candidaté le {{ c.dateCandidature|date('d/m/Y') }}</small>
         </div>
-        <span class="badge bg-{{ c.badge }} {{ c.badge in ['warning', 'info'] ? 'text-dark' : '' }} rounded-pill px-3 py-2">
-          {{ c.statut }}
-        </span>
+        {% set badge = c.statut == 'Acceptée' ? 'success' : (c.statut == 'Refusée' ? 'danger' : 'warning text-dark') %}
+        <span class="badge bg-{{ badge }} rounded-pill px-3 py-2">{{ c.statut }}</span>
       </div>
-
-      
 
       <div class="mt-3 d-flex gap-2">
-        <a href="#" class="btn btn-sm btn-outline-primary rounded-pill">Voir l'offre</a>
-        <a href="#" class="btn btn-sm btn-outline-secondary rounded-pill">Retirer</a>
+        <a href="{{ url_for('detail-offre', { id: c.offre.id }) }}" class="btn btn-sm btn-outline-primary rounded-pill">Voir l'offre</a>
+        <form method="post" action="{{ url_for('candidature-retirer', { id: c.id }) }}"
+              onsubmit="return confirm('Retirer cette candidature ?');">
+          <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill">Retirer</button>
+        </form>
       </div>
     </div>
+    {% else %}
+    <p class="text-muted text-center">Vous n'avez pas encore postulé à une offre.</p>
     {% endfor %}
 
   </div>

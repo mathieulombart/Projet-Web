@@ -29,16 +29,14 @@ class Entreprise
     #[Column(type: 'string', nullable: true)]
     private ?string $secteur = null;
 
-    #[Column(type: 'string', nullable: true)]
-    private ?string $statut = null;
+
 
    
 
-    public function __construct(string $nom, string $secteur, string $statut)
+    public function __construct(string $nom, string $secteur)
     {
         $this->nom      = $nom;
         $this->secteur  = $secteur;
-        $this->statut   = $statut;
         $this->createdAt = new DateTimeImmutable('now');
     }
 
@@ -87,15 +85,6 @@ class Entreprise
         $this->secteur = $secteur;
     }
 
-    public function getStatut(): ?string
-    {
-        return $this->statut;
-    }
-
-    public function setStatut(?string $statut): void
-    {
-        $this->statut = $statut;
-    }
-
+   
    
 }

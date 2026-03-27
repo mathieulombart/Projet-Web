@@ -51,26 +51,6 @@
                 </select>
               </div>
 
-              <div class="mb-3">
-                <label class="form-label">Statut</label>
-                {% set currentStatut = edition ? entreprise.statut : statut %}
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="statut" id="statut1" value="Actif"
-                         {% if currentStatut == 'Actif' or currentStatut == '' %}checked{% endif %}>
-                  <label class="form-check-label" for="statut1">Actif</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="statut" id="statut2" value="En attente"
-                         {% if currentStatut == 'En attente' %}checked{% endif %}>
-                  <label class="form-check-label" for="statut2">En attente</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="statut" id="statut3" value="Inactif"
-                         {% if currentStatut == 'Inactif' %}checked{% endif %}>
-                  <label class="form-check-label" for="statut3">Inactif</label>
-                </div>
-              </div>
-
               <hr>
 
               <div class="d-flex justify-content-between">

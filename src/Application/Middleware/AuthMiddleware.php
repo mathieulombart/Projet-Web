@@ -8,14 +8,12 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as Handler;
 use Slim\Psr7\Response as SlimResponse;
 
-class RoleMiddleware implements MiddlewareInterface
+class AuthMiddleware implements MiddlewareInterface
 {
-    public function __construct(private array $rolesRequis) {}
-
     public function process(Request $request, Handler $handler): Response
     {
-        $role = $_SESSION['user_role'] ?? null;
-        if ($role !== 'admin' && !in_array($role, $this->rolesRequis)) {
+        // Si pas de user_id en session → non connecté
+        if (empty($_SESSION['user_id'])) {
             $response = new SlimResponse();
             return $response->withHeader('Location', '/connexion')->withStatus(302);
         }
