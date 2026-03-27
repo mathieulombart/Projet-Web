@@ -12,6 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Views\Twig;
 use App\Application\Middleware\RoleMiddleware;
+use App\Application\Middleware\AuthMiddleware;
 
 return function (App $app) {
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
@@ -26,17 +27,22 @@ return function (App $app) {
         ->setName('liste-entreprises');
     $app->get('/ajout-entreprise', [EntrepriseController::class, 'ajoute'])
         ->setName('ajout-entreprise')
-        ->add(new RoleMiddleware(['admin'],['pilote']));
+        ->add(new RoleMiddleware(['admin'],['pilote']))
+        ->add(new AuthMiddleware());
     $app->post('/ajout-entreprise', [EntrepriseController::class, 'ajoute'])
-        ->add(new RoleMiddleware(['admin'],['pilote']));
+        ->add(new RoleMiddleware(['admin'],['pilote']))
+        ->add(new AuthMiddleware());
     $app->get('/modifier-entreprise/{id:\d+}', [EntrepriseController::class, 'modifier'])
         ->setName('modifier-entreprise')
-        ->add(new RoleMiddleware(['admin'],['pilote']));
+        ->add(new RoleMiddleware(['admin'],['pilote']))
+        ->add(new AuthMiddleware());
     $app->post('/modifier-entreprise/{id:\d+}', [EntrepriseController::class, 'modifier'])
-        ->add(new RoleMiddleware(['admin'],['pilote']));
+        ->add(new RoleMiddleware(['admin'],['pilote']))
+        ->add(new AuthMiddleware());
     $app->post('/supprimer-entreprise/{id:\d+}', [EntrepriseController::class, 'supprimer'])
         ->setName('supprimer-entreprise')
-        ->add(new RoleMiddleware(['admin'],['pilote']));
+        ->add(new RoleMiddleware(['admin'],['pilote']))
+        ->add(new AuthMiddleware());
     // Offres
     $app->get('/offres[/{page:\d+}]', [OffreController::class, 'liste'])->setName('liste-offres');
     $app->get('/offre/{id:\d+}', [OffreController::class, 'detail'])->setName('detail-offre');
@@ -49,20 +55,25 @@ return function (App $app) {
         return Twig::fromRequest($request)->render($response, 'inscription.html.twig', []);
         })
         ->setName('inscription')
-        ->add(new RoleMiddleware(['admin'],['pilote']));
+        ->add(new RoleMiddleware(['admin'],['pilote']))
+        ->add(new AuthMiddleware());
     $app->post('/inscription', [AuthController::class, 'inscription'])
-        ->add(new RoleMiddleware(['admin'],['pilote']));
+        ->add(new RoleMiddleware(['admin'],['pilote']))
+        ->add(new AuthMiddleware());
     
 
     /*$app->get('/profil', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'profil.html.twig', []);
     })->setName('profil');*/
 
-    $app->get('/profil', [ProfilController::class, 'index'])->setName('profil');
+    $app->get('/profil', [ProfilController::class, 'index'])->setName('profil')
+        ->add(new AuthMiddleware());
 
     $app->get('/postuler', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'postuler.html.twig', []);
-    })->setName('postuler');
+        })
+        ->setName('postuler')
+        ->add(new AuthMiddleware());
 
     // Pages statiques supplémentaires
     $app->get('/contact', function (Request $request, Response $response) {
@@ -79,31 +90,38 @@ return function (App $app) {
 
     
     $app->get('/wishlist', [ProfilController::class, 'wishlist'])
-        ->setName('wishlist');
+        ->setName('wishlist')
+        ->add(new AuthMiddleware());
 
         // routes.php
 
     $app->post('/wishlist', function ($request, $response) {
         // ... logique d'ajout ...
         return $response->withHeader('Location', '/profil')->withStatus(302);
-    })->setName('wishlist');
+        })
+        ->setName('wishlist')
+        ->add(new AuthMiddleware());
 
     $app->get('/offres-postulees', [ProfilController::class, 'offresPostulees'])
-        ->setName('offres-postulees');
+        ->setName('offres-postulees')
+        ->add(new AuthMiddleware());
         
     // >>> Formulaire de création d'offre (GET) <<<
     $app->get('/ajout-offre', [OffreController::class, 'ajoute'])
         ->setName('ajout-offre')
-        ->add(new RoleMiddleware(['admin'],['pilote']));
+        ->add(new RoleMiddleware(['admin'],['pilote']))
+        ->add(new AuthMiddleware());
 
     // >>> Traitement du formulaire (POST) <<<
     $app->post('/ajout-offre', [OffreController::class, 'ajoute'])
-        ->add(new RoleMiddleware(['admin'],['pilote']));
+        ->add(new RoleMiddleware(['admin'],['pilote']))
+        ->add(new AuthMiddleware());
 
     // Supprimer une offre
     $app->post('/offre/supprimer/{id:\d+}', [OffreController::class, 'supprimer'])
         ->setName('offre-supprimer')
-        ->add(new RoleMiddleware(['admin'],['pilote']));
+        ->add(new RoleMiddleware(['admin'],['pilote']))
+        ->add(new AuthMiddleware());
 
     $app->post('/wishlist/ajouter', function ($request, $response) {
         if (session_status() === PHP_SESSION_NONE) session_start();
@@ -125,7 +143,9 @@ return function (App $app) {
             ];
         }
         return $response->withHeader('Location', '/wishlist')->withStatus(302);
-    })->setName('wishlist-ajouter');
+    })
+        ->setName('wishlist-ajouter')
+        ->add(new AuthMiddleware());
 
 
     $app->post('/wishlist/supprimer/{id:\d+}', function ($request, $response, $args) {
@@ -137,7 +157,9 @@ return function (App $app) {
             unset($_SESSION['wishlist'][$idOffre]);
         }
         return $response->withHeader('Location', '/wishlist')->withStatus(302);
-    })->setName('wishlist-supprimer');
+    })
+        ->setName('wishlist-supprimer')
+        ->add(new AuthMiddleware());
 
     $app->get('/connexion', [AuthController::class, 'connexion'])->setName('connexion');
     $app->post('/connexion', [AuthController::class, 'connexion']);
