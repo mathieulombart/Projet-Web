@@ -56,17 +56,15 @@ class EntrepriseController
         $view    = Twig::fromRequest($request);
         $nom     = '';
         $secteur = '';
-        $statut  = 'Actif';
         $success = false;
 
         if ($request->getMethod() === 'POST') {
             $parsedBody = $request->getParsedBody();
             $nom     = trim($parsedBody['nom'] ?? '');
             $secteur = trim($parsedBody['secteur'] ?? '');
-            $statut  = trim($parsedBody['statut'] ?? 'Actif');
 
             if ($nom !== '' && $secteur !== '') {
-                $entreprise = new Entreprise($nom, $secteur, $statut);
+                $entreprise = new Entreprise($nom, $secteur);
                 $this->em->persist($entreprise);
                 $this->em->flush();
                 $success = true;
@@ -76,7 +74,6 @@ class EntrepriseController
         return $view->render($response, 'form-entreprise.html.twig', [
             'nom'     => $nom,
             'secteur' => $secteur,
-            'statut'  => $statut,
             'success' => $success,
         ]);
     }
@@ -97,12 +94,10 @@ class EntrepriseController
             $parsedBody = $request->getParsedBody();
             $nom     = trim($parsedBody['nom'] ?? '');
             $secteur = trim($parsedBody['secteur'] ?? '');
-            $statut  = trim($parsedBody['statut'] ?? '');
 
             if ($nom !== '' && $secteur !== '') {
                 $entreprise->setNom($nom);
                 $entreprise->setSecteur($secteur);
-                $entreprise->setStatut($statut);
                 $this->em->flush();
                 $success = true;
             }

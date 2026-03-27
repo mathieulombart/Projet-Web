@@ -74,7 +74,7 @@
                         <input type="hidden" name="titre" value="{{ offre.titre }}">
                         <input type="hidden" name="entreprise" value="{{ offre.entreprise.nom }}">
                         <input type="hidden" name="localisation" value="{{ offre.localisation }}">
-                        <button type="submit" class="btn btn-outline-danger btn-sm">❤️</button>
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Wishlist</button>
                     </form>
                     <form method="post"
                           action="{{ url_for('offre-supprimer', { id: offre.id }) }}"

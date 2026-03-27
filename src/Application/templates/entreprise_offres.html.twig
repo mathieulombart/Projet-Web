@@ -9,7 +9,7 @@
     Offres de {{ entreprise.nom }}
   </h1>
   <p class="lead text-muted mt-2">
-    📍 {{ entreprise.ville }} · <span class="badge text-bg-primary rounded-pill">{{ entreprise.secteur }}</span>
+    {{ entreprise.ville }} · <span class="badge text-bg-primary rounded-pill">{{ entreprise.secteur }}</span>
   </p>
 </section>
 
@@ -29,18 +29,18 @@
           <h5 class="fw-bold mb-1">{{ offre.titre }}</h5>
           <p class="text-muted small mb-2">
             <span class="badge text-bg-primary rounded-pill">{{ offre.type }}</span>
-            {% if offre.localisation %}· 📍 {{ offre.localisation }}{% endif %}
+            {% if offre.localisation %}· {{ offre.localisation }}{% endif %}
           </p>
           <p class="text-muted small mb-3">{{ offre.description }}</p>
           <div class="d-flex flex-column gap-1 small text-muted">
             {% if offre.remuneration %}
-              <span>💶 {{ offre.remuneration }}€ / mois</span>
+              <span>{{ offre.remuneration }}€ / mois</span>
             {% endif %}
             {% if offre.dureeSemaines %}
-              <span>⏱ {{ offre.dureeSemaines }} semaines</span>
+              <span>{{ offre.dureeSemaines }} semaines</span>
             {% endif %}
             {% if offre.dateDebut %}
-              <span>📅 Début : {{ offre.dateDebut|date('d/m/Y') }}</span>
+              <span>Début : {{ offre.dateDebut|date('d/m/Y') }}</span>
             {% endif %}
           </div>
         </div>

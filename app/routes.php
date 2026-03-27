@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Application\Controller\AuthController;
+use App\Application\Controller\CandidatureController;
 use App\Application\Controller\EntrepriseController;
 use App\Application\Controller\HomeController;
 use App\Application\Controller\OffreController;
@@ -60,9 +61,9 @@ return function (App $app) {
 
     $app->get('/profil', [ProfilController::class, 'index'])->setName('profil');
 
-    $app->get('/postuler', function (Request $request, Response $response) {
-        return Twig::fromRequest($request)->render($response, 'postuler.html.twig', []);
-    })->setName('postuler');
+    $app->get('/postuler/{id:\d+}', [CandidatureController::class, 'formulaire'])->setName('postuler');
+    $app->post('/postuler/{id:\d+}', [CandidatureController::class, 'postuler']);
+    $app->post('/candidature/retirer/{id:\d+}', [CandidatureController::class, 'retirer'])->setName('candidature-retirer');
 
     // Pages statiques supplémentaires
     $app->get('/contact', function (Request $request, Response $response) {
