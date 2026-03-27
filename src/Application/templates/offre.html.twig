@@ -75,6 +75,7 @@
                         <input type="hidden" name="localisation" value="{{ offre.localisation }}">
                         <button type="submit" class="btn btn-outline-danger btn-sm">Wishlist</button>
                     </form>
+                    <a href="{{ url_for('modifier-offre', { id: offre.id }) }}" class="btn btn-outline-secondary btn-sm">Modifier</a>
                     <form method="post"
                           action="{{ url_for('offre-supprimer', { id: offre.id }) }}"
                           class="d-inline"

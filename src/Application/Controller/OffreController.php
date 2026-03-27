@@ -34,29 +34,28 @@ class OffreController
         ]);
     }
 
+
     public function ajoute(Request $request, Response $response, array $args): Response
     {
         $view = Twig::fromRequest($request);
 
-        // GET : afficher le formulaire
         if ($request->getMethod() === 'GET') {
             return $view->render($response, 'form-offre.html.twig', [
                 'offre'   => null,
                 'erreurs' => [],
+                'edition' => false,
             ]);
         }
 
-        // POST : traiter le formulaire
         $data = $request->getParsedBody();
 
-        $titre        = trim($data['titre'] ?? '');        
+        $titre        = trim($data['titre'] ?? '');
         $description  = trim($data['description'] ?? '');
         $domaine      = trim($data['domaine'] ?? '');
         $localisation = trim($data['localisation'] ?? '');
         $type         = $data['type'] ?? Offre::TYPE_STAGE;
         $remuneration = $data['remuneration'] !== '' ? (int) $data['remuneration'] : null;
 
-        
         $offre = new Offre(
             $titre,
             $description,
@@ -64,9 +63,7 @@ class OffreController
             $localisation,
             $type,
         );
-       
-            $offre->setRemuneration($remuneration);
-        
+        $offre->setRemuneration($remuneration);
 
         $this->em->persist($offre);
         $this->em->flush();
@@ -75,6 +72,52 @@ class OffreController
             ->withHeader('Location', '/offres')
             ->withStatus(302);
     }
+
+
+       
+    public function modifier(Request $request, Response $response, array $args): Response
+    {
+        $view  = Twig::fromRequest($request);
+        $id    = (int)$args['id'];
+        $offre = $this->em->find(Offre::class, $id);
+
+        if (!$offre) {
+            return $response->withStatus(404);
+        }
+
+        $success = false;
+
+        if ($request->getMethod() === 'POST') {
+            $parsedBody   = $request->getParsedBody();
+
+            $titre        = trim($parsedBody['titre'] ?? '');
+            $description  = trim($parsedBody['description'] ?? '');
+            $domaine      = trim($parsedBody['domaine'] ?? '');
+            $localisation = trim($parsedBody['localisation'] ?? '');
+            $type         = $parsedBody['type'] ?? Offre::TYPE_STAGE;
+            $remuneration = $parsedBody['remuneration'] !== '' ? (int)$parsedBody['remuneration'] : null;
+
+            if ($titre !== '' && $description !== '' && $domaine !== '' && $localisation !== '') {
+                $offre->setTitre($titre);
+                $offre->setDescription($description);
+                $offre->setDomaine($domaine);
+                $offre->setLocalisation($localisation);
+                $offre->setType($type);
+                $offre->setRemuneration($remuneration);
+
+                $this->em->flush();
+                $success = true;
+            }
+        }
+
+        return $view->render($response, 'form-offre.html.twig', [
+            'offre'   => $offre,
+            'success' => $success,
+            'edition' => true,
+        ]);
+    }
+
+
 
     public function supprimer(Request $request, Response $response, array $args): Response
     {
@@ -90,6 +133,7 @@ class OffreController
             ->withHeader('Location', '/offres')
             ->withStatus(302);
     }
+
     public function liste(Request $request, Response $response, array $args): Response
     {
         $view = Twig::fromRequest($request);

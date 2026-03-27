@@ -1,46 +1,89 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Créer une offre{% endblock %}
+{% block title %}
+    {% if edition %}
+        Modifier une offre
+    {% else %}
+        Créer une offre
+    {% endif %}
+{% endblock %}
 
 {% block body %}
 <main class="py-5">
   <section class="container">
-    <h1 class="mb-4">Créer une nouvelle offre</h1>
+    <h1 class="mb-4">
+      {% if edition %}
+        Modifier une offre
+      {% else %}
+        Créer une nouvelle offre
+      {% endif %}
+    </h1>
 
-    <form method="post" action="{{ url_for('ajout-offre') }}">
-    <div class="mb-3">
+    <form method="post"
+          action="{% if edition %}
+                      {{ url_for('modifier-offre', {id: offre.id}) }}
+                  {% else %}
+                      {{ url_for('ajout-offre') }}
+                  {% endif %}">
+
+      <div class="mb-3">
         <label class="form-label">Titre</label>
-        <input type="text" name="titre" class="form-control" required>
-    </div>
+        <input type="text"
+               name="titre"
+               class="form-control"
+               required
+               value="{{ offre ? offre.titre : '' }}">
+      </div>
 
-    <div class="mb-3">
+      <div class="mb-3">
         <label class="form-label">Description</label>
-        <input type="text" name="description" class="form-control">
-    </div>
+        <input type="text"
+               name="description"
+               class="form-control"
+               value="{{ offre ? offre.description : '' }}">
+      </div>
 
-    <div class="mb-3">
+      <div class="mb-3">
         <label class="form-label">Domaine</label>
-        <input type="text" name="domaine" class="form-control">
-    </div>
+        <input type="text"
+               name="domaine"
+               class="form-control"
+               value="{{ offre ? offre.domaine : '' }}">
+      </div>
 
-    <div class="mb-3">
+      <div class="mb-3">
         <label class="form-label">Localisation</label>
-        <input type="text" name="localisation" class="form-control">
-    </div>
+        <input type="text"
+               name="localisation"
+               class="form-control"
+               value="{{ offre ? offre.localisation : '' }}">
+      </div>
 
-    <div class="mb-3">
+      <div class="mb-3">
         <label class="form-label">Rémunération (€ / mois)</label>
-        <input type="number"  name="remuneration" class="form-control">
-    </div>
-    
-    
-    <div class="mb-3">
-        <label class="form-label">Durée du Stage (semaines)</label>
-        <input type="number"  name="duree" class="form-control">
-    </div>
+        <input type="number"
+               name="remuneration"
+               class="form-control"
+               value="{{ offre and offre.remuneration is not null ? offre.remuneration : '' }}">
+      </div>
 
-    <button type="submit" class="btn btn-primary">Enregistrer</button>
+      <div class="mb-3">
+        <label class="form-label">Durée du Stage (semaines)</label>
+        <input type="number"
+               name="duree"
+               class="form-control"
+               value="{{ offre ? offre.duree : '' }}">
+      </div>
+
+      <button type="submit" class="btn btn-primary">
+        {% if edition %}
+          Mettre à jour
+        {% else %}
+          Enregistrer
+        {% endif %}
+      </button>
     </form>
+
 
   </section>
 </main>

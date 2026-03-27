@@ -44,12 +44,20 @@ return function (App $app) {
         ->setName('supprimer-entreprise')
         ->add(new RoleMiddleware(['admin'],['pilote']))
         ->add(new AuthMiddleware());
+
     // Offres
     $app->get('/offres[/{page:\d+}]', [OffreController::class, 'liste'])->setName('liste-offres');
     $app->get('/offre/{id:\d+}', [OffreController::class, 'detail'])->setName('detail-offre');
-
+    $app->get('/modifier-offre/{id:\d+}', [OffreController::class, 'modifier'])->setName('modifier-offre')
+      ->add(new RoleMiddleware(['admin'],['pilote']))
+      ->add(new AuthMiddleware());;
+    
+    $app->post('/modifier-offre/{id:\d+}', [OffreController::class, 'modifier'])
+        ->add(new RoleMiddleware(['admin'],['pilote']))
+        ->add(new AuthMiddleware());
     // Offres entreprise
-    $app->get('/entreprise/{id:\d+}/offres', [EntrepriseController::class, 'offres'])->setName('entreprise-offres');
+    $app->get('/entreprise/{id:\d+}/offres', [EntrepriseController::class, 'offres'])->setName('entreprise-offres')
+    ;
 
     // Pages statiques
     $app->get('/inscription', function (Request $request, Response $response) {
