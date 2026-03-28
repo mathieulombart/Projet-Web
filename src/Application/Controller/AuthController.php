@@ -55,11 +55,11 @@ class AuthController
             $utilisateur->setCampus($data['campus'] ?? '');
 
             if($data['role']=='etudiant'){
-                $pilote = $this->em->getRepository(Utilisateur::class)
+                $pilote = $this->entityManager->getRepository(Utilisateur::class)
                     ->findOneBy([
                         'role' => Utilisateur::ROLE_PILOTE,
-                        'Promotion' => $data['promo'],
-                        'Campus' => $data['campus']
+                        'promotion' => $data['promo'],
+                        'campus' => $data['campus']
                     ]);
                 if ($pilote) {
                     $utilisateur->setPilote($pilote->getId());
@@ -99,7 +99,7 @@ class AuthController
                     ]);
                 }
             }
-            else if($data['password']!=$utilisateur->getMotDepasse()){
+            else if($data['password']!=$utilisateur->getMotDePasse()){
                 return $this->twig->render($response, 'connexion.html.twig', [
                     'erreur' => 'Identifiant ou mot de passe incorrect.'
                 ]);
