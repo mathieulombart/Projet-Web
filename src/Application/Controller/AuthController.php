@@ -54,6 +54,18 @@ class AuthController
             $utilisateur->setPromotion($data['promo'] ?? '');
             $utilisateur->setCampus($data['campus'] ?? '');
 
+            if($data['role']=='etudiant'){
+                $pilote = $this->em->getRepository(Utilisateur::class)
+                    ->findOneBy([
+                        'role' => Utilisateur::ROLE_PILOTE,
+                        'Promotion' => $data['promo'],
+                        'Campus' => $data['campus']
+                    ]);
+                if ($pilote) {
+                    $utilisateur->setPilote($pilote->getId());
+                }
+            }
+
             // Sauvegarde en BDD
             $this->entityManager->persist($utilisateur);
             $this->entityManager->flush();

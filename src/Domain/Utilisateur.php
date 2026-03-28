@@ -40,6 +40,9 @@ class Utilisateur
     #[ORM\Column(type: 'string', length: 100)]
     private ?string $promotion = null;
 
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private ?string $pilote = null;
+
     public function getId(): ?int { return $this->id; }
 
     public function getEmail(): string { return $this->email; }
@@ -65,4 +68,7 @@ class Utilisateur
 
     public function getPromotion(): string { return $this->promotion; }
     public function setPromotion(string $promotion): void { $this->promotion = $promotion; }
+
+    public function getPilote(): ?int { return $this->pilote; }
+    public function setPilote(?int $pilote): void { $this->pilote = $pilote; }
 }
