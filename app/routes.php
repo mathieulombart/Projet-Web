@@ -158,4 +158,9 @@ return function (App $app) {
     $app->get('/connexion', [AuthController::class, 'connexion'])->setName('connexion');
     $app->post('/connexion', [AuthController::class, 'connexion']);
     $app->get('/deconnexion', [AuthController::class, 'deconnexion'])->setName('deconnexion');
+
+    $app->get('/permission', function (Request $request, Response $response) {
+        return Twig::fromRequest($request)->render($response, 'permission.html.twig', []);
+    })
+        ->setName('permission');
 };
