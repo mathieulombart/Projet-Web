@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity, Table(name: 'entreprises')]
@@ -29,9 +31,9 @@ class Entreprise
     #[Column(type: 'string', nullable: true)]
     private ?string $secteur = null;
 
-
-
-   
+    #[ManyToOne(targetEntity: Campus::class)]
+    #[JoinColumn(name: 'campus_id', nullable: true, onDelete: 'SET NULL')]
+    private ?Campus $campus = null;
 
     public function __construct(string $nom, string $secteur)
     {
@@ -85,6 +87,6 @@ class Entreprise
         $this->secteur = $secteur;
     }
 
-   
-   
+    public function getCampus(): ?Campus { return $this->campus; }
+    public function setCampus(?Campus $campus): void { $this->campus = $campus; }
 }

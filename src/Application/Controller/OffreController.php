@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Application\Controller;
 
+use App\Domain\Campus;
+use App\Domain\Entreprise;
 use App\Domain\Offre;
 use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
-use App\Domain\Entreprise;
 
 class OffreController
 {
@@ -35,45 +36,37 @@ class OffreController
         ]);
     }
 
-
-   public function ajoute(Request $request, Response $response, array $args): Response
+    public function ajoute(Request $request, Response $response, array $args): Response
     {
         $view = Twig::fromRequest($request);
-        $entreprises = $this->em->getRepository(Entreprise::class)->findAll();
 
+        
         if ($request->getMethod() === 'GET') {
             return $view->render($response, 'form-offre.html.twig', [
-                'offre' => null,
-                'erreurs' => [],
-                'edition' => false,
-                'entreprises' => $entreprises,
+                'offre'       => null,
+                'erreurs'     => [],
+                'entreprises' => $this->em->getRepository(Entreprise::class)->findBy([], ['nom' => 'ASC']),
+                'campus'      => $this->em->getRepository(Campus::class)->findBy([], ['ville' => 'ASC']),
             ]);
         }
 
-        $data = $request->getParsedBody();
-
-        $titre = trim($data['titre'] ?? '');
-        $description = trim($data['description'] ?? '');
-        $domaine = trim($data['domaine'] ?? '');
+        $data         = $request->getParsedBody();
+        $titre        = trim($data['titre'] ?? '');
+        $description  = trim($data['description'] ?? '');
+        $domaine      = trim($data['domaine'] ?? '');
         $localisation = trim($data['localisation'] ?? '');
-        $type = $data['type'] ?? 'stage';
+        $type         = $data['type'] ?? Offre::TYPE_STAGE;
         $remuneration = ($data['remuneration'] ?? '') !== '' ? (int)$data['remuneration'] : null;
-        $dureeSemaines = ($data['dureeSemaines'] ?? '') !== '' ? (int)$data['dureeSemaines'] : null;
 
-        $entrepriseId = (int)($data['entreprise_id'] ?? 0);
-        $entreprise = $entrepriseId > 0 ? $this->em->find(Entreprise::class, $entrepriseId) : null;
-
-        $offre = new Offre(
-            $titre,
-            $description,
-            $domaine,
-            $localisation,
-            $type,
-        );
-
+        $offre = new Offre($titre, $description, $domaine, $localisation, $type);
         $offre->setRemuneration($remuneration);
-        $offre->setDureeSemaines($dureeSemaines);
+
+        $entreprise = $this->em->find(Entreprise::class, (int)($data['entreprise_id'] ?? 0));
         $offre->setEntreprise($entreprise);
+
+        $campus = $this->em->find(Campus::class, (int)($data['campus_id'] ?? 0));
+        $offre->setCampus($campus);
+        
 
         $this->em->persist($offre);
         $this->em->flush();
@@ -82,63 +75,6 @@ class OffreController
             ->withHeader('Location', '/offres')
             ->withStatus(302);
     }
-
-
-       
-    public function modifier(Request $request, Response $response, array $args): Response
-    {
-        $view  = Twig::fromRequest($request);
-        $id    = (int)$args['id'];
-        $offre = $this->em->find(Offre::class, $id);
-
-        if (!$offre) {
-            return $response->withStatus(404);
-        }
-
-        $entreprises = $this->em->getRepository(Entreprise::class)->findAll();
-
-        $success = false;
-
-        if ($request->getMethod() === 'POST') {
-            $parsedBody   = $request->getParsedBody();
-
-            $titre        = trim($parsedBody['titre'] ?? '');
-            $description  = trim($parsedBody['description'] ?? '');
-            $domaine      = trim($parsedBody['domaine'] ?? '');
-            $localisation = trim($parsedBody['localisation'] ?? '');
-            $type         = $parsedBody['type'] ?? 'stage';
-            $remuneration = $parsedBody['remuneration'] !== '' ? (int)$parsedBody['remuneration'] : null;
-            $dureeSemaines = $parsedBody['dureeSemaines'] !== '' ? (int)$parsedBody['dureeSemaines'] : null;
-
-            $entrepriseId = (int)($parsedBody['entreprise_id'] ?? 0);
-            $entreprise   = $entrepriseId > 0 ? $this->em->find(Entreprise::class, $entrepriseId) : null;
-
-            if ($titre !== '' && $description !== '' && $domaine !== '' && $localisation !== '') {
-                $offre->setTitre($titre);
-                $offre->setDescription($description);
-                $offre->setDomaine($domaine);
-                $offre->setLocalisation($localisation);
-                $offre->setRemuneration($remuneration);
-                $offre->setDureeSemaines($dureeSemaines);
-                $offre->setEntreprise($entreprise);
-
-                $this->em->flush();
-
-                return $response
-                    ->withHeader('Location', '/offres')
-                    ->withStatus(302);
-            }
-        }
-
-        return $view->render($response, 'form-offre.html.twig', [
-            'offre'   => $offre,
-            'success' => $success,
-            'edition' => true,
-            'entreprises' => $entreprises,
-        ]);
-    }
-
-
 
     public function supprimer(Request $request, Response $response, array $args): Response
     {
@@ -154,7 +90,6 @@ class OffreController
             ->withHeader('Location', '/offres')
             ->withStatus(302);
     }
-
     public function liste(Request $request, Response $response, array $args): Response
     {
         $view = Twig::fromRequest($request);
@@ -163,17 +98,27 @@ class OffreController
 
         $params = $request ->getQueryParams();
         $search = trim($params['q'] ?? '');
-        
-        $qb = $this->em->getRepository (Offre::class)->createQueryBuilder('o');
 
-        if ($search!==''){
+        $qb = $this->em->getRepository(Offre::class)->createQueryBuilder('o');
+
+        if ($search !== '') {
             $qb->andWhere('o.titre LIKE :term OR o.description LIKE :term OR o.localisation LIKE :term')
-                ->setParameter('term', '%' . $search . '%');
-        
+               ->setParameter('term', '%' . $search . '%');
         }
 
-        $totalQb= clone $qb;
-        $total = (int) $totalQb->select('COUNT(o.id)')->getQuery()->getSingleScalarResult();
+        
+        if (($_SESSION['user_role'] ?? '') === 'etudiant' && !empty($_SESSION['user_id'])) {
+            $utilisateur = $this->em->find(\App\Domain\Utilisateur::class, $_SESSION['user_id']);
+            if ($utilisateur && $utilisateur->getCampus()) {
+                $campusId = $utilisateur->getCampus()->getId();
+                $qb->andWhere('IDENTITY(o.campus) = :campusId OR o.campus IS NULL')
+                   ->setParameter('campusId', $campusId);
+            }
+        }
+
+        
+        $totalQb = clone $qb;
+        $total   = (int) $totalQb->select('COUNT(o.id)')->getQuery()->getSingleScalarResult();
 
         $offset = ($page - 1) * $perPage;
         $offres = $qb
@@ -184,13 +129,13 @@ class OffreController
             ->getQuery()
             ->getResult();
 
-            $totalPages=(int) ceil($total/$perPage);
+        $totalPages = (int) ceil($total / $perPage);
 
-            return $view->render($response, 'offre.html.twig', [
-                'offres' => $offres,
-                'pageCourante' => $page,
-                'totalPages' => max(1, $totalPages),
-                'search' => $search,
-            ]);
+        return $view->render($response, 'offre.html.twig', [
+            'offres'        => $offres,
+            'pageCourante'  => $page,
+            'totalPages'    => max(1, $totalPages),
+            'search'        => $search,
+        ]);
     }
 }

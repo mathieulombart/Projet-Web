@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Application\Controller\AuthController;
+use App\Application\Controller\CampusController;
 use App\Application\Controller\CandidatureController;
 use App\Application\Controller\EntrepriseController;
 use App\Application\Controller\HomeController;
@@ -24,6 +25,31 @@ return function (App $app) {
 
     // --- HOME ---
     $app->get('/', [HomeController::class, 'home']);
+
+    // --- CAMPUS ---
+    $app->get('/campus', [CampusController::class, 'liste'])
+        ->setName('campus')
+        ->add(new RoleMiddleware(['admin']))
+        ->add(new AuthMiddleware());
+
+    $app->post('/campus/ajouter', [CampusController::class, 'ajouter'])
+        ->setName('campus-ajouter')
+        ->add(new RoleMiddleware(['admin']))
+        ->add(new AuthMiddleware());
+
+    $app->get('/campus/modifier/{id:\d+}', [CampusController::class, 'modifier'])
+        ->setName('campus-modifier')
+        ->add(new RoleMiddleware(['admin']))
+        ->add(new AuthMiddleware());
+
+    $app->post('/campus/modifier/{id:\d+}', [CampusController::class, 'modifier'])
+        ->add(new RoleMiddleware(['admin']))
+        ->add(new AuthMiddleware());
+
+    $app->post('/campus/supprimer/{id:\d+}', [CampusController::class, 'supprimer'])
+        ->setName('campus-supprimer')
+        ->add(new RoleMiddleware(['admin']))
+        ->add(new AuthMiddleware());
 
     // --- ENTREPRISES ---
     $app->get('/entreprises[/{page:\d+}]', [EntrepriseController::class, 'liste'])

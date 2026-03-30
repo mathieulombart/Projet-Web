@@ -2,6 +2,7 @@
 
 namespace App\Application\Controller;
 
+use App\Domain\Campus;
 use App\Domain\Utilisateur;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -52,14 +53,16 @@ class AuthController
             $utilisateur->setMotDePasse($hash);
             $utilisateur->setRole($data['role'] ?? Utilisateur::ROLE_ETUDIANT);
             $utilisateur->setPromotion($data['promo'] ?? '');
-            $utilisateur->setCampus($data['campus'] ?? '');
 
-            if($data['role']=='etudiant'){
+            $campus = $this->entityManager->find(Campus::class, (int)($data['campus_id'] ?? 0));
+            $utilisateur->setCampus($campus);
+
+            if ($data['role'] === 'etudiant') {
                 $pilote = $this->entityManager->getRepository(Utilisateur::class)
                     ->findOneBy([
-                        'role' => Utilisateur::ROLE_PILOTE,
+                        'role'      => Utilisateur::ROLE_PILOTE,
                         'promotion' => $data['promo'],
-                        'campus' => $data['campus']
+                        'campus'    => $campus,
                     ]);
                 if ($pilote) {
                     $utilisateur->setPilote($pilote->getId());
@@ -74,8 +77,9 @@ class AuthController
             return $response->withHeader('Location', '/connexion')->withStatus(302);
         }
 
-        // GET → affiche simplement le formulaire
-        return $this->twig->render($response, 'inscription.html.twig');
+        // GET → affiche le formulaire avec la liste des campus
+        $campus = $this->entityManager->getRepository(Campus::class)->findBy([], ['ville' => 'ASC']);
+        return $this->twig->render($response, 'inscription.html.twig', ['campus' => $campus]);
     }
 
     public function connexion(Request $request, Response $response): Response

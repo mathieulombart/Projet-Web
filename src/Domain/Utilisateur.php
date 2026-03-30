@@ -23,7 +23,7 @@ class Utilisateur
     private string $identifiant;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private string $motDePasse; // stocké hashé
+    private string $motDePasse;
 
     #[ORM\Column(type: 'string', length: 20)]
     private string $role = self::ROLE_ETUDIANT;
@@ -34,8 +34,9 @@ class Utilisateur
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private ?string $prenom = null;
 
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    private ?string $campus = null;
+    #[ORM\ManyToOne(targetEntity: Campus::class)]
+    #[ORM\JoinColumn(name: 'campus_id', nullable: true, onDelete: 'SET NULL')]
+    private ?Campus $campus = null;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private ?string $promotion = null;
@@ -45,7 +46,7 @@ class Utilisateur
 
     public function getId(): ?int { return $this->id; }
 
-    public function getEmail(): string { return $this->email; }
+    public function getEmail(): ?string { return $this->email; }
     public function setEmail(string $email): void { $this->email = $email; }
 
     public function getIdentifiant(): string { return $this->identifiant; }
@@ -57,16 +58,16 @@ class Utilisateur
     public function getRole(): string { return $this->role; }
     public function setRole(string $role): void { $this->role = $role; }
 
-    public function getNom(): string { return $this->nom; }
+    public function getNom(): ?string { return $this->nom; }
     public function setNom(string $nom): void { $this->nom = $nom; }
 
-    public function getPrenom(): string { return $this->prenom; }
+    public function getPrenom(): ?string { return $this->prenom; }
     public function setPrenom(string $prenom): void { $this->prenom = $prenom; }
 
-    public function getCampus(): string { return $this->campus; }
-    public function setCampus(string $campus): void { $this->campus = $campus; }
+    public function getCampus(): ?Campus { return $this->campus; }
+    public function setCampus(?Campus $campus): void { $this->campus = $campus; }
 
-    public function getPromotion(): string { return $this->promotion; }
+    public function getPromotion(): ?string { return $this->promotion; }
     public function setPromotion(string $promotion): void { $this->promotion = $promotion; }
 
     public function getPilote(): ?int { return $this->pilote; }

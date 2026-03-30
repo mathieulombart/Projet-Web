@@ -12,7 +12,7 @@ class AuthMiddleware implements MiddlewareInterface
 {
     public function process(Request $request, Handler $handler): Response
     {
-
+       
         if (empty($_SESSION['user_id'])) {
             $response = new SlimResponse();
             return $response->withHeader('Location', '/permission')->withStatus(302);

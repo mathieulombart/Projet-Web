@@ -63,33 +63,11 @@
 
       <div class="mb-3">
         <label class="form-label fw-semibold">Zone</label>
-        <select class="form-select rounded-pill px-4" name="campus" id="campus">
+        <select class="form-select rounded-pill px-4" name="campus_id" id="campus_id">
           <option value="">-- Choisir une zone --</option>
-          <option value="aix">Aix-en-Provence</option>
-          <option value="angouleme">Angoulême</option>
-          <option value="arras">Arras</option>
-          <option value="bordeaux">Bordeaux</option>
-          <option value="brest">Brest</option>
-          <option value="caen">Caen</option>
-          <option value="dijon">Dijon</option>
-          <option value="grenoble">Grenoble</option>
-          <option value="la-rochelle">La Rochelle</option>
-          <option value="le-mans">Le Mans</option>
-          <option value="lille">Lille</option>
-          <option value="lyon">Lyon</option>
-          <option value="montpellier">Montpellier</option>
-          <option value="nancy">Nancy</option>
-          <option value="nantes">Nantes</option>
-          <option value="nice">Nice</option>
-          <option value="orleans">Orléans</option>
-          <option value="paris-la-defense">Paris-La Défense</option>
-          <option value="paris-nanterre">Paris-Nanterre</option>
-          <option value="pau">Pau</option>
-          <option value="reims">Reims</option>
-          <option value="rouen">Rouen</option>
-          <option value="saint-nazaire">Saint-Nazaire</option>
-          <option value="strasbourg">Strasbourg</option>
-          <option value="toulouse">Toulouse</option>
+          {% for c in campus %}
+            <option value="{{ c.id }}">{{ c.ville }}</option>
+          {% endfor %}
         </select>
       </div>
 

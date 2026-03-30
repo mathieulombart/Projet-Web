@@ -47,6 +47,10 @@ class Offre
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Entreprise $entreprise = null;
 
+    #[ORM\ManyToOne(targetEntity: Campus::class)]
+    #[ORM\JoinColumn(name: 'campus_id', nullable: true, onDelete: 'SET NULL')]
+    private ?Campus $campus = null;
+
     public function __construct(
         string $titre,
         ?string $description = null,
@@ -169,4 +173,7 @@ class Offre
         $this->entreprise = $entreprise;
         return $this;
     }
+
+    public function getCampus(): ?Campus { return $this->campus; }
+    public function setCampus(?Campus $campus): void { $this->campus = $campus; }
 }
