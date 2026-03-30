@@ -6,6 +6,7 @@ namespace App\Application\Controller;
 
 use App\Domain\Candidature;
 use App\Domain\Offre;
+use App\Domain\Utilisateur;
 use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -20,7 +21,7 @@ class CandidatureController
         $this->em = $em;
     }
 
-    // GET /postuler/{id} — affiche le formulaire
+    
     public function formulaire(Request $request, Response $response, array $args): Response
     {
         $offre = $this->em->find(Offre::class, (int)$args['id']);
@@ -35,13 +36,19 @@ class CandidatureController
         ]);
     }
 
-    // POST /postuler/{id} — valide et enregistre en BDD
+    
     public function postuler(Request $request, Response $response, array $args): Response
     {
         $offre = $this->em->find(Offre::class, (int)$args['id']);
 
         if (!$offre) {
             return $response->withStatus(404);
+        }
+
+        $utilisateur = $this->em->find(Utilisateur::class, $_SESSION['user_id'] ?? null);
+
+        if (!$utilisateur) {
+            return $response->withHeader('Location', '/connexion')->withStatus(302);
         }
 
         $data       = $request->getParsedBody();
@@ -57,13 +64,21 @@ class CandidatureController
             ]);
         }
 
-        $this->em->persist(new Candidature($offre, $motivation));
-        $this->em->flush();
+        // Éviter les doublons de candidature
+        $existe = $this->em->getRepository(Candidature::class)->findOneBy([
+            'offre'       => $offre,
+            'utilisateur' => $utilisateur,
+        ]);
+
+        if (!$existe) {
+            $this->em->persist(new Candidature($offre, $utilisateur, $motivation));
+            $this->em->flush();
+        }
 
         return $response->withHeader('Location', '/offres-postulees')->withStatus(302);
     }
 
-    // POST /candidature/retirer/{id} — supprime la candidature
+    
     public function retirer(Request $request, Response $response, array $args): Response
     {
         $candidature = $this->em->find(Candidature::class, (int)$args['id']);

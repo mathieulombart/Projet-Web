@@ -24,6 +24,10 @@ class Candidature
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private Offre $offre;
 
+    #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
+    #[ORM\JoinColumn(name: 'utilisateur_id', nullable: false, onDelete: 'CASCADE')]
+    private Utilisateur $utilisateur;
+
     #[ORM\Column(type: 'text')]
     private string $motivation;
 
@@ -33,9 +37,10 @@ class Candidature
     #[ORM\Column(type: 'string', length: 30)]
     private string $statut = self::STATUT_EN_ATTENTE;
 
-    public function __construct(Offre $offre, string $motivation)
+    public function __construct(Offre $offre, Utilisateur $utilisateur, string $motivation)
     {
         $this->offre           = $offre;
+        $this->utilisateur     = $utilisateur;
         $this->motivation      = $motivation;
         $this->dateCandidature = new DateTimeImmutable();
     }
@@ -47,6 +52,10 @@ class Candidature
     public function getOffre(): Offre     
     {                     
         return $this->offre;                    
+    }
+    public function getUtilisateur(): Utilisateur
+    {
+        return $this->utilisateur;
     }
     public function getMotivation(): string               
     { 
