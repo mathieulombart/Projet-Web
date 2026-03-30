@@ -16,7 +16,7 @@ class Utilisateur
     #[ORM\GeneratedValue]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[ORM\Column(type: 'string', length: 180, unique: true, nullable: true)]
     private ?string $email = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
@@ -28,16 +28,16 @@ class Utilisateur
     #[ORM\Column(type: 'string', length: 20)]
     private string $role = self::ROLE_ETUDIANT;
 
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private ?string $nom = null;
 
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private ?string $prenom = null;
 
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private ?string $campus = null;
 
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private ?string $promotion = null;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]

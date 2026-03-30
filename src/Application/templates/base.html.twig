@@ -30,11 +30,11 @@
       <li class="nav-item">
         <a class="nav-link fw-bold text-primary" href="/profil">Profil</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link fw-bold text-primary" href="/connexion">Connexion</a>
-      </li>
-      <li class="nav-item">
-        <a href="/deconnexion" class="btn btn-danger rounded-pill px-3">Se déconnecter</a>
+      {% if user_id %}
+        <a href="/deconnexion" class="btn btn-outline-danger">Déconnexion</a>
+      {% else %}
+        <a href="/connexion" class="btn btn-primary">Connexion</a>
+      {% endif %}
       </li>
     </ul>
   </div>

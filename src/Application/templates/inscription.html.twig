@@ -42,7 +42,9 @@
         <label class="form-label fw-semibold">Type</label>
         <select class="form-select rounded-pill px-4" name="role" id="Type">
           <option value="">-- Choisir un type --</option>
-          <option value="pilote">Pilote</option>
+          {% if user_role == 'admin' %}
+            <option value="pilote">Pilote</option>
+          {% endif %}
           <option value="etudiant">Étudiant</option>
         </select>
       </div>

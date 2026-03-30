@@ -33,9 +33,11 @@
       <div class="card-body p-0">
         <div class="table-responsive">
 
-          <a href="{{ url_for('ajout-offre') }}" class="btn btn-primary">
-            Créer offre
-          </a>
+          {% if user_role in ['admin', 'pilote'] %}
+            <a href="{{ url_for('ajout-offre') }}" class="btn btn-primary">
+              Créer offre
+            </a>
+          {% endif %}
 
           <form method="get" action="/offres" class="d-flex mb-4" role="search">
           <input class="form-control me-2" type="search" name="q" placeholder= "Rechercher une offre de stage" value="{{ search|default('')}}">
