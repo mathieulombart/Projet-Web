@@ -138,6 +138,20 @@ return function (App $app) {
         ->add(new RoleMiddleware(['admin'], ['pilote']))
         ->add(new AuthMiddleware());
 
+    $app->get('/supprimer', function (Request $request, Response $response) {
+        // Changement du template vers supprimer.html.twig
+        return Twig::fromRequest($request)->render($response, 'supprimer.html.twig', []);
+    })
+        ->setName('supprimer')
+        ->add(new RoleMiddleware(['admin'], ['pilote']))
+        ->add(new AuthMiddleware());
+
+    // Si tu as également une méthode de traitement dans ton contrôleur
+    $app->post('/supprimer', [AuthController::class, 'supprimer'])
+        ->add(new RoleMiddleware(['admin'], ['pilote']))
+        ->add(new AuthMiddleware());
+        
+
     $app->get('/profil', [ProfilController::class, 'index'])
         ->setName('profil')
         ->add(new AuthMiddleware());

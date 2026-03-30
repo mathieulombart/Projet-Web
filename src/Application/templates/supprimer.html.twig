@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout utilisateur – AlloStage{% endblock %}
+
+{% block body %}
+
+{% if erreur is defined %}
+  <div class="alert alert-danger">{{ erreur }}</div>
+{% endif %}
+
+<section class="container py-5 d-flex justify-content-center">
+  <div class="card shadow border-0 rounded-4 p-4" style="max-width: 550px; width: 100%;">
+    <h2 class="text-center text-primary fw-semibold mb-4">Créer un compte</h2>
+    
+    <form action="{{ url_for('inscription') }}" method="post">
+      
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Nom</label>
+          <input type="text" name="nom" class="form-control rounded-pill px-4" placeholder="Nom" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Prénom</label>
+          <input type="text" name="prenom" class="form-control rounded-pill px-4" placeholder="Prénom" required>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Email</label>
+        <input type="email" name="email" class="form-control rounded-pill px-4" placeholder="nom@exemple.com" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Identifiant</label>
+        <input type="text" name="identifiant" class="form-control rounded-pill px-4" placeholder="Choisir un pseudo" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Mot de passe</label>
+        <input type="password" name="motDePasse" class="form-control rounded-pill px-4" placeholder="••••••••" required>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Campus</label>
+          <input type="text" name="campus" class="form-control rounded-pill px-4" placeholder="Ex: Paris" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Promotion</label>
+          <input type="text" name="promotion" class="form-control rounded-pill px-4" placeholder="Ex: 2026" required>
+        </div>
+      </div>
+
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold">S'inscrire</button>
+        <a href="/connexion" class="btn btn-link btn-sm text-decoration-none text-center">Déjà un compte ? Se connecter</a>
+      </div>
+
+    </form>
+  </div>
+</section>
+
+{% endblock %}

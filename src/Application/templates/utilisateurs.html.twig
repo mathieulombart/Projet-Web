@@ -22,12 +22,13 @@
 <section class="container pb-5">
 
   <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-      <h2 class="h5 mb-0">Utilisateurs</h2>
-      {% if user_role in ['admin', 'pilote'] %}
+    <div class="card-header bg-primary text-white d-flex align-items-center gap-2">
+      <h2 class="h5 mb-0 me-auto">Utilisateurs</h2>
+        {% if user_role in ['admin', 'pilote'] %}
         <a href="{{ url_for('inscription') }}" class="btn btn-light btn-sm">+ Ajouter</a>
-      {% endif %}
-    </div>
+        <a href="{{ url_for('supprimer') }}" class="btn btn-light btn-sm">- Supprimer</a>
+        {% endif %}
+      </div>
 
     <div class="card-body p-0">
       <div class="table-responsive">
