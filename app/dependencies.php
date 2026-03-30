@@ -2,6 +2,7 @@
 
 use App\Application\Middleware\SessionTwigMiddleware;
 use App\Application\Controller\AuthController; 
+use App\Application\Controller\UtilisateurController;
 use DI\ContainerBuilder;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
@@ -44,6 +45,12 @@ return function (ContainerBuilder $containerBuilder) {
         },
         SessionTwigMiddleware::class => function ($c) {
             return new SessionTwigMiddleware($c->get(Twig::class));
+        },
+        UtilisateurController::class => function ($c) {
+            return new UtilisateurController(
+                $c->get(EntityManager::class),
+                $c->get(Twig::class)
+            );
         },
     ]);
 };

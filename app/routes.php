@@ -9,6 +9,7 @@ use App\Application\Controller\HomeController;
 use App\Application\Controller\OffreController;
 use App\Application\Controller\ProfilController;
 use App\Application\Controller\WishlistController;
+use App\Application\Controller\UtilisateurController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -152,4 +153,12 @@ return function (App $app) {
     $app->get('/permission', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'permission.html.twig', []);
     })->setName('permission');
+    // Ajoute ->setName('utilisateurs') à chaque route
+    $app->get('/utilisateurs', [UtilisateurController::class, 'liste'])
+        ->add(AuthMiddleware::class)
+        ->setName('utilisateurs');
+
+    $app->get('/utilisateurs/{page:[0-9]+}', [UtilisateurController::class, 'liste'])
+        ->add(AuthMiddleware::class)
+        ->setName('utilisateurs_page');
 };
