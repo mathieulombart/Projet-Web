@@ -55,7 +55,7 @@ class OffreController
         $description  = trim($data['description'] ?? '');
         $domaine      = trim($data['domaine'] ?? '');
         $localisation = trim($data['localisation'] ?? '');
-        $type         = $data['type'] ?? Offre::TYPE_STAGE;
+        $type         = $data['type'] ?? 'stage';
         $remuneration = ($data['remuneration'] ?? '') !== '' ? (int)$data['remuneration'] : null;
 
         $offre = new Offre($titre, $description, $domaine, $localisation, $type);
