@@ -18,7 +18,7 @@
         <div class="d-flex align-items-center mb-4">
           <div>
             <h2 class="fw-bold mb-1">{{ utilisateur.nom }}</h2>
-            <span class="badge text-bg-primary rounded-pill px-3 py-2">{{ utilisateur.statut }}</span>
+            <span class="badge text-bg-primary rounded-pill px-3 py-2">{{ utilisateur.role }}</span>
           </div>
         </div>
 
@@ -28,15 +28,15 @@
 
           <div class="list-group-item px-0 d-flex align-items-center gap-3 border-0 border-bottom py-3">
             <div>
-              <small class="text-muted d-block">École</small>
-              <strong>{{ utilisateur.ecole }}</strong>
+              <small class="text-muted d-block">Campus</small>
+              <strong>{{ utilisateur.campus }}</strong>
             </div>
           </div>
 
           <div class="list-group-item px-0 d-flex align-items-center gap-3 border-0 border-bottom py-3">
             <div>
-              <small class="text-muted d-block">Pilote</small>
-              <strong>{{ utilisateur.pilote }}</strong>
+              <small class="text-muted d-block">Promotion</small>
+              <strong>{{ utilisateur.promotion }}</strong>
             </div>
           </div>
 
@@ -49,8 +49,8 @@
 
           <div class="list-group-item px-0 d-flex align-items-center gap-3 border-0 py-3">
             <div>
-              <small class="text-muted d-block">Ville d'étude</small>
-              <strong>{{ utilisateur.ville }}</strong>
+              <small class="text-muted d-block">Identifiant</small>
+              <strong>{{ utilisateur.identifiant }}</strong>
             </div>
           </div>
 

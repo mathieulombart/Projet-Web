@@ -20,10 +20,10 @@ return function (App $app) {
         return $response;
     });
 
-    // Page d'accueil
+
     $app->get('/', [HomeController::class, 'home']);
 
-    // Entreprises (CRUD)
+    
     $app->get('/entreprises[/{page:\d+}]', [EntrepriseController::class, 'liste'])
         ->setName('liste-entreprises');
     $app->get('/ajout-entreprise', [EntrepriseController::class, 'ajoute'])
@@ -50,16 +50,17 @@ return function (App $app) {
     $app->get('/offre/{id:\d+}', [OffreController::class, 'detail'])->setName('detail-offre');
     $app->get('/modifier-offre/{id:\d+}', [OffreController::class, 'modifier'])->setName('modifier-offre')
       ->add(new RoleMiddleware(['admin'],['pilote']))
-      ->add(new AuthMiddleware());;
+      ->add(new AuthMiddleware());
     
     $app->post('/modifier-offre/{id:\d+}', [OffreController::class, 'modifier'])
         ->add(new RoleMiddleware(['admin'],['pilote']))
         ->add(new AuthMiddleware());
+
     // Offres entreprise
     $app->get('/entreprise/{id:\d+}/offres', [EntrepriseController::class, 'offres'])->setName('entreprise-offres')
     ;
 
-    // Pages statiques
+
     $app->get('/inscription', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'inscription.html.twig', []);
         })
@@ -69,11 +70,8 @@ return function (App $app) {
     $app->post('/inscription', [AuthController::class, 'inscription'])
         ->add(new RoleMiddleware(['admin'],['pilote']))
         ->add(new AuthMiddleware());
-    
 
-    /*$app->get('/profil', function (Request $request, Response $response) {
-        return Twig::fromRequest($request)->render($response, 'profil.html.twig', []);
-    })->setName('profil');*/
+    
 
     $app->get('/profil', [ProfilController::class, 'index'])->setName('profil')
         ->add(new AuthMiddleware());
@@ -81,13 +79,8 @@ return function (App $app) {
     $app->get('/postuler/{id:\d+}', [CandidatureController::class, 'formulaire'])->setName('postuler');
     $app->post('/postuler/{id:\d+}', [CandidatureController::class, 'postuler']);
     $app->post('/candidature/retirer/{id:\d+}', [CandidatureController::class, 'retirer'])->setName('candidature-retirer');
-    $app->get('/postuler', function (Request $request, Response $response) {
-        return Twig::fromRequest($request)->render($response, 'postuler.html.twig', []);
-        })
-        ->setName('postuler')
-        ->add(new AuthMiddleware());
 
-    // Pages statiques supplémentaires
+  
     $app->get('/contact', function (Request $request, Response $response) {
         return Twig::fromRequest($request)->render($response, 'contact.html.twig', []);
     })->setName('app_contact');
@@ -105,31 +98,28 @@ return function (App $app) {
         ->setName('wishlist')
         ->add(new AuthMiddleware());
 
-        // routes.php
+       
 
     $app->post('/wishlist', function ($request, $response) {
-        // ... logique d'ajout ...
         return $response->withHeader('Location', '/profil')->withStatus(302);
         })
-        ->setName('wishlist')
         ->add(new AuthMiddleware());
 
     $app->get('/offres-postulees', [ProfilController::class, 'offresPostulees'])
         ->setName('offres-postulees')
         ->add(new AuthMiddleware());
         
-    // >>> Formulaire de création d'offre (GET) <<<
+  
     $app->get('/ajout-offre', [OffreController::class, 'ajoute'])
         ->setName('ajout-offre')
         ->add(new RoleMiddleware(['admin'],['pilote']))
         ->add(new AuthMiddleware());
 
-    // >>> Traitement du formulaire (POST) <<<
+    
     $app->post('/ajout-offre', [OffreController::class, 'ajoute'])
         ->add(new RoleMiddleware(['admin'],['pilote']))
         ->add(new AuthMiddleware());
 
-    // Supprimer une offre
     $app->post('/offre/supprimer/{id:\d+}', [OffreController::class, 'supprimer'])
         ->setName('offre-supprimer')
         ->add(new RoleMiddleware(['admin'],['pilote']))
@@ -144,8 +134,7 @@ return function (App $app) {
         if ($offreId) {
             if (!isset($_SESSION['wishlist'])) $_SESSION['wishlist'] = [];
 
-            // On crée un tableau avec les infos pour l'affichage
-            // Note : Dans un vrai projet, on chercherait ces infos en BDD via l'ID
+           
             $_SESSION['wishlist'][$offreId] = [
                 'id'           => $offreId,
                 'intitule'     => $data['titre'] ?? 'Poste sans titre',
@@ -175,4 +164,5 @@ return function (App $app) {
 
     $app->get('/connexion', [AuthController::class, 'connexion'])->setName('connexion');
     $app->post('/connexion', [AuthController::class, 'connexion']);
+    $app->get('/deconnexion', [AuthController::class, 'deconnexion'])->setName('deconnexion');
 };
