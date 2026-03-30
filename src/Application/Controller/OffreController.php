@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
+use App\Domain\Entreprise;
 
 class OffreController
 {
@@ -35,26 +36,32 @@ class OffreController
     }
 
 
-    public function ajoute(Request $request, Response $response, array $args): Response
+   public function ajoute(Request $request, Response $response, array $args): Response
     {
         $view = Twig::fromRequest($request);
+        $entreprises = $this->em->getRepository(Entreprise::class)->findAll();
 
         if ($request->getMethod() === 'GET') {
             return $view->render($response, 'form-offre.html.twig', [
-                'offre'   => null,
+                'offre' => null,
                 'erreurs' => [],
                 'edition' => false,
+                'entreprises' => $entreprises,
             ]);
         }
 
         $data = $request->getParsedBody();
 
-        $titre        = trim($data['titre'] ?? '');
-        $description  = trim($data['description'] ?? '');
-        $domaine      = trim($data['domaine'] ?? '');
+        $titre = trim($data['titre'] ?? '');
+        $description = trim($data['description'] ?? '');
+        $domaine = trim($data['domaine'] ?? '');
         $localisation = trim($data['localisation'] ?? '');
-        $type         = $data['type'] ?? Offre::TYPE_STAGE;
-        $remuneration = $data['remuneration'] !== '' ? (int) $data['remuneration'] : null;
+        $type = $data['type'] ?? 'stage';
+        $remuneration = ($data['remuneration'] ?? '') !== '' ? (int)$data['remuneration'] : null;
+        $dureeSemaines = ($data['dureeSemaines'] ?? '') !== '' ? (int)$data['dureeSemaines'] : null;
+
+        $entrepriseId = (int)($data['entreprise_id'] ?? 0);
+        $entreprise = $entrepriseId > 0 ? $this->em->find(Entreprise::class, $entrepriseId) : null;
 
         $offre = new Offre(
             $titre,
@@ -63,7 +70,10 @@ class OffreController
             $localisation,
             $type,
         );
+
         $offre->setRemuneration($remuneration);
+        $offre->setDureeSemaines($dureeSemaines);
+        $offre->setEntreprise($entreprise);
 
         $this->em->persist($offre);
         $this->em->flush();
@@ -85,6 +95,8 @@ class OffreController
             return $response->withStatus(404);
         }
 
+        $entreprises = $this->em->getRepository(Entreprise::class)->findAll();
+
         $success = false;
 
         if ($request->getMethod() === 'POST') {
@@ -94,19 +106,27 @@ class OffreController
             $description  = trim($parsedBody['description'] ?? '');
             $domaine      = trim($parsedBody['domaine'] ?? '');
             $localisation = trim($parsedBody['localisation'] ?? '');
-            $type         = $parsedBody['type'] ?? Offre::TYPE_STAGE;
+            $type         = $parsedBody['type'] ?? 'stage';
             $remuneration = $parsedBody['remuneration'] !== '' ? (int)$parsedBody['remuneration'] : null;
+            $dureeSemaines = $parsedBody['dureeSemaines'] !== '' ? (int)$parsedBody['dureeSemaines'] : null;
+
+            $entrepriseId = (int)($parsedBody['entreprise_id'] ?? 0);
+            $entreprise   = $entrepriseId > 0 ? $this->em->find(Entreprise::class, $entrepriseId) : null;
 
             if ($titre !== '' && $description !== '' && $domaine !== '' && $localisation !== '') {
                 $offre->setTitre($titre);
                 $offre->setDescription($description);
                 $offre->setDomaine($domaine);
                 $offre->setLocalisation($localisation);
-                $offre->setType($type);
                 $offre->setRemuneration($remuneration);
+                $offre->setDureeSemaines($dureeSemaines);
+                $offre->setEntreprise($entreprise);
 
                 $this->em->flush();
-                $success = true;
+
+                return $response
+                    ->withHeader('Location', '/offres')
+                    ->withStatus(302);
             }
         }
 
@@ -114,6 +134,7 @@ class OffreController
             'offre'   => $offre,
             'success' => $success,
             'edition' => true,
+            'entreprises' => $entreprises,
         ]);
     }
 

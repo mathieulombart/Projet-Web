@@ -10,14 +10,18 @@ use Slim\Psr7\Response as SlimResponse;
 
 class RoleMiddleware implements MiddlewareInterface
 {
-    public function __construct(private array $rolesRequis) {}
+    private array $rolesRequis;
+
+    public function __construct(array ...$rolesRequis) {
+        $this->rolesRequis = $rolesRequis;
+    }
 
     public function process(Request $request, Handler $handler): Response
     {
         $role = $_SESSION['user_role'] ?? null;
-        if ($role !== 'admin' && !in_array($role, $this->rolesRequis)) {
+        if ($role !== 'admin' && !in_array($role, array_merge(...$this->rolesRequis))) {
             $response = new SlimResponse();
-            return $response->withHeader('Location', '/connexion')->withStatus(302);
+            return $response->withHeader('Location', '/permission')->withStatus(302);
         }
 
         return $handler->handle($request);

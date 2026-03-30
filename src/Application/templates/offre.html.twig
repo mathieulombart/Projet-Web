@@ -47,6 +47,7 @@
                 <th>Entreprise</th>
                 <th>Intitulé</th>
                 <th>Localisation</th>
+                <th>Durée</th>
                 <th>Rémunération</th>
                 <th>Description</th>
                 <th>Actions</th>
@@ -55,37 +56,44 @@
             </thead>
             <tbody>
               {% for offre in offres %}
-              <tr>
-                <td>{{ offre.entreprise ? offre.entreprise.nom : 'N/A' }}</td>
-                <td>{{ offre.titre }}</td>
-                <td>{{ offre.localisation }}</td>
-                <td>{{ offre.entreprise ? offre.entreprise.nom : 'N/A' }}</td>
-                <td><span class="badge bg-success">{{ offre.remuneration ? offre.remuneration ~ ' €/mois' : 'Non rémunéré' }}</span></td>
-                <td>
-                  {{ offre.description }}<br>
-                  
-                  <div class="d-flex gap-2 mt-2" role="group">
-                    <a href="/offre/{{ offre.id }}" class="btn btn-outline-primary btn-sm">
-                      Voir l'offre
-                    </a>
-                    <form method="post" action="{{ url_for('wishlist-ajouter') }}" class="d-inline">
-                        <input type="hidden" name="offre_id" value="{{ offre.id }}">
-                        <input type="hidden" name="titre" value="{{ offre.titre }}">
-                        <input type="hidden" name="entreprise" value="{{ offre.entreprise.nom }}">
-                        <input type="hidden" name="localisation" value="{{ offre.localisation }}">
-                        <button type="submit" class="btn btn-outline-danger btn-sm">Wishlist</button>
-                    </form>
-                    <a href="{{ url_for('modifier-offre', { id: offre.id }) }}" class="btn btn-outline-secondary btn-sm">Modifier</a>
-                    <form method="post"
-                          action="{{ url_for('offre-supprimer', { id: offre.id }) }}"
-                          class="d-inline"
-                          onsubmit="return confirm('Supprimer définitivement cette offre ?');">
-                      <button type="submit" class="btn btn-danger btn-sm"> Supprimer </button>
+                <tr>
+                  <td>{{ offre.entreprise ? offre.entreprise.nom : 'N/A' }}</td>
+                  <td>{{ offre.titre }}</td>
+                  <td>{{ offre.localisation }}</td>
+                  <td>{{ offre.dureeSemaines is not null ? offre.dureeSemaines ~ ' semaines' : 'N/A' }}</td>
+                  <td>
+                      <span class="badge bg-success">
+                          {{ offre.remuneration is not null ? offre.remuneration ~ ' €/mois' : 'Non rémunéré' }}
+                      </span>
+                  </td>
+                  <td>{{ offre.description }}</td>
+                  <td>
+                      <div class="d-flex gap-2 mt-2" role="group">
+                          <a href="/offre/{{ offre.id }}" class="btn btn-outline-primary btn-sm">
+                              Voir l'offre
+                          </a>
 
-                    </form>
-                  </div>
-                </td>
-              </tr>
+                          <form method="post" action="{{ url_for('wishlist-ajouter') }}" class="d-inline">
+                              <input type="hidden" name="offre_id" value="{{ offre.id }}">
+                              <input type="hidden" name="titre" value="{{ offre.titre }}">
+                              <input type="hidden" name="entreprise" value="{{ offre.entreprise.nom }}">
+                              <input type="hidden" name="localisation" value="{{ offre.localisation }}">
+                              <button type="submit" class="btn btn-outline-danger btn-sm">Wishlist</button>
+                          </form>
+
+                          <a href="{{ url_for('modifier-offre', { id: offre.id }) }}" class="btn btn-outline-secondary btn-sm">
+                              Modifier
+                          </a>
+
+                          <form method="post"
+                                action="{{ url_for('offre-supprimer', { id: offre.id }) }}"
+                                class="d-inline"
+                                onsubmit="return confirm('Supprimer définitivement cette offre ?');">
+                              <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                          </form>
+                      </div>
+                  </td>
+               </tr>
               {% endfor %}
             </tbody>
           </table>

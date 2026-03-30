@@ -68,11 +68,24 @@
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Durée du Stage (semaines)</label>
+        <label class="form-label">Durée du stage (semaines)</label>
         <input type="number"
-               name="duree"
+               name="dureeSemaines"
                class="form-control"
-               value="{{ offre ? offre.duree : '' }}">
+               value="{{ offre ? offre.dureeSemaines : '' }}">
+      </div>
+
+      <div class="mb-3">
+        <label for="entreprise_id" class="form-label">Entreprise</label>
+        <select name="entreprise_id" id="entreprise_id" class="form-select" required>
+          <option value="">Choisir une entreprise</option>
+          {% for entreprise in entreprises %}
+            <option value="{{ entreprise.id }}"
+              {{ offre and offre.entreprise and offre.entreprise.id == entreprise.id ? 'selected' : '' }}>
+              {{ entreprise.nom }}
+            </option>
+          {% endfor %}
+        </select>
       </div>
 
       <button type="submit" class="btn btn-primary">
@@ -83,8 +96,6 @@
         {% endif %}
       </button>
     </form>
-
-
   </section>
 </main>
 {% endblock %}

@@ -15,7 +15,7 @@ class AuthMiddleware implements MiddlewareInterface
 
         if (empty($_SESSION['user_id'])) {
             $response = new SlimResponse();
-            return $response->withHeader('Location', '/connexion')->withStatus(302);
+            return $response->withHeader('Location', '/permission')->withStatus(302);
         }
 
         return $handler->handle($request);
