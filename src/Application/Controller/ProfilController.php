@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Controller;
 
 use App\Domain\Candidature;
+use App\Domain\Utilisateur;
 use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -33,9 +34,14 @@ class ProfilController
     {
         $view = Twig::fromRequest($request);
 
-       
+        $utilisateur = $this->em->find(Utilisateur::class, $_SESSION['user_id'] ?? null);
+
+        if (!$utilisateur) {
+            return $response->withHeader('Location', '/connexion')->withStatus(302);
+        }
+
         $candidatures = $this->em->getRepository(Candidature::class)
-            ->findBy([], ['dateCandidature' => 'DESC']);
+            ->findBy(['utilisateur' => $utilisateur], ['dateCandidature' => 'DESC']);
 
         return $view->render($response, 'offres_postulees.html.twig', [
             'candidatures' => $candidatures,
