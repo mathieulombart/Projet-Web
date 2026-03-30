@@ -64,7 +64,7 @@ class CandidatureController
             ]);
         }
 
-        // Éviter les doublons de candidature
+        
         $existe = $this->em->getRepository(Candidature::class)->findOneBy([
             'offre'       => $offre,
             'utilisateur' => $utilisateur,

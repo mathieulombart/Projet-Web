@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un campus – AlloStage{% endblock %}
+
+{% block body %}
+<section class="container py-5" style="max-width: 500px;">
+
+  <h1 class="text-primary fw-semibold mb-4">Modifier le campus</h1>
+
+  <div class="card border-0 shadow-sm rounded-4 p-4">
+    <form method="post" action="/campus/modifier/{{ campus.id }}">
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Ville</label>
+        <input type="text" name="ville" class="form-control" value="{{ campus.ville }}" required>
+      </div>
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="/campus" class="btn btn-outline-secondary">Annuler</a>
+      </div>
+    </form>
+  </div>
+
+</section>
+{% endblock %}

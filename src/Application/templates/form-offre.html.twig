@@ -88,6 +88,19 @@
         </select>
       </div>
 
+      <div class="mb-3">
+        <label for="campus_id" class="form-label">Campus</label>
+        <select name="campus_id" id="campus_id" class="form-select">
+          <option value="">-- Tous les campus --</option>
+          {% for c in campus %}
+            <option value="{{ c.id }}"
+              {{ offre and offre.campus and offre.campus.id == c.id ? 'selected' : '' }}>
+              {{ c.ville }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
       <button type="submit" class="btn btn-primary">
         {% if edition %}
           Mettre à jour

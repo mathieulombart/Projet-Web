@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des campus – AlloStage{% endblock %}
+
+{% block body %}
+<section class="container py-5">
+
+  <h1 class="text-primary fw-semibold mb-4">Gestion des campus</h1>
+
+  {% if success == 'ajoute' %}
+    <div class="alert alert-success">Campus ajouté avec succès.</div>
+  {% elseif success == 'modifie' %}
+    <div class="alert alert-success">Campus modifié avec succès.</div>
+  {% elseif success == 'supprime' %}
+    <div class="alert alert-success">Campus supprimé.</div>
+  {% endif %}
+
+  {# Formulaire d'ajout #}
+  <div class="card border-0 shadow-sm rounded-4 p-4 mb-5">
+    <h2 class="h5 fw-semibold mb-3">Ajouter un campus</h2>
+    <form method="post" action="/campus/ajouter" class="d-flex gap-2">
+      <input type="text" name="ville" class="form-control" placeholder="Nom de la ville" required>
+      <button type="submit" class="btn btn-primary px-4">Ajouter</button>
+    </form>
+  </div>
+
+  {# Liste des campus #}
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="card-header bg-primary text-white">
+      <h2 class="h5 mb-0">Liste des campus</h2>
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-hover mb-0 align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Ville</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in campus %}
+          <tr>
+            <td>{{ c.id }}</td>
+            <td>{{ c.ville }}</td>
+            <td>
+              <div class="d-flex gap-2">
+                <a href="/campus/modifier/{{ c.id }}" class="btn btn-outline-secondary btn-sm">Modifier</a>
+                <form method="post" action="/campus/supprimer/{{ c.id }}"
+                      onsubmit="return confirm('Supprimer ce campus ?');">
+                  <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="3" class="text-center text-muted py-4">Aucun campus enregistré.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
+{% endblock %}
