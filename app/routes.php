@@ -195,10 +195,10 @@ return function (App $app) {
     })->setName('permission');
     // Ajoute ->setName('utilisateurs') à chaque route
     $app->get('/utilisateurs', [UtilisateurController::class, 'liste'])
-        ->add(AuthMiddleware::class)
+        ->add(new AuthMiddleware())
         ->setName('utilisateurs');
 
     $app->get('/utilisateurs/{page:[0-9]+}', [UtilisateurController::class, 'liste'])
-        ->add(AuthMiddleware::class)
+        ->add(new AuthMiddleware())
         ->setName('utilisateurs_page');
 };

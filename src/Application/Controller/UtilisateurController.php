@@ -3,7 +3,7 @@
 namespace App\Application\Controller;
 
 use App\Domain\Utilisateur;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
@@ -11,7 +11,7 @@ use Slim\Views\Twig;
 class UtilisateurController
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private EntityManager $entityManager,
         private Twig $twig
     ) {}
 

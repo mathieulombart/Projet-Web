@@ -51,10 +51,14 @@
             <tr>
               <td class="fw-semibold">{{ utilisateur.nom }}</td>
               <td>{{ utilisateur.prenom ?? '—' }}</td>
-              <td>{{ utilisateur.campus ?? '—' }}</td>
+              <td>{{ utilisateur.campus ? utilisateur.campus.ville : '—' }}</td>
               <td>{{ utilisateur.email ?? '—' }}</td>
               <td>{{ utilisateur.identifiant ?? '—' }}</td>
-              <td>{{ utilisateur.promo ?? '—' }}</td>
+              {% if utilisateur.role in ['admin', 'pilote'] %}
+                <td>{{ utilisateur.role ?? '—' }}</td>
+              {% else %}
+                <td>{{ utilisateur.promotion ?? '—' }}</td>
+              {% endif %}
               {% if user_role == 'admin' %}
                 <td>{{ utilisateur.pilote ? utilisateur.pilote.nom ~ ' ' ~ utilisateur.pilote.prenom : '—' }}</td>
               {% endif %}
