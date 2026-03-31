@@ -41,8 +41,9 @@ class Utilisateur
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private ?string $promotion = null;
 
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    private ?string $pilote = null;
+    #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
+    #[ORM\JoinColumn(name: 'pilote_id', nullable: true, onDelete: 'SET NULL')]
+    private ?Utilisateur $pilote = null;
 
     public function getId(): ?int { return $this->id; }
 
@@ -70,6 +71,6 @@ class Utilisateur
     public function getPromotion(): ?string { return $this->promotion; }
     public function setPromotion(string $promotion): void { $this->promotion = $promotion; }
 
-    public function getPilote(): ?int { return $this->pilote; }
-    public function setPilote(?int $pilote): void { $this->pilote = $pilote; }
+    public function getPilote(): ?Utilisateur { return $this->pilote; }
+    public function setPilote(?Utilisateur $pilote): void { $this->pilote = $pilote; }
 }

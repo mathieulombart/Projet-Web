@@ -116,14 +116,17 @@ return function (App $app) {
     // --- WISHLIST (Controller dédié) ---
     $app->get('/wishlist', [WishlistController::class, 'index'])
         ->setName('wishlist')
+        ->add(new RoleMiddleware(['etudiant']))
         ->add(new AuthMiddleware());
 
     $app->post('/wishlist/ajouter', [WishlistController::class, 'ajouter'])
         ->setName('wishlist-ajouter')
+        ->add(new RoleMiddleware(['etudiant']))
         ->add(new AuthMiddleware());
 
     $app->post('/wishlist/supprimer/{id:\d+}', [WishlistController::class, 'supprimer'])
         ->setName('wishlist-supprimer')
+        ->add(new RoleMiddleware(['etudiant']))
         ->add(new AuthMiddleware());
 
     // --- AUTH & PROFIL ---
@@ -166,15 +169,22 @@ return function (App $app) {
 
     // --- CANDIDATURES ---
     $app->get('/postuler/{id:\d+}', [CandidatureController::class, 'formulaire'])
-        ->setName('postuler');
+        ->setName('postuler')
+        ->add(new RoleMiddleware(['etudiant']))
+        ->add(new AuthMiddleware());
 
-    $app->post('/postuler/{id:\d+}', [CandidatureController::class, 'postuler']);
+    $app->post('/postuler/{id:\d+}', [CandidatureController::class, 'postuler'])
+        ->add(new RoleMiddleware(['etudiant']))
+        ->add(new AuthMiddleware());
 
     $app->post('/candidature/retirer/{id:\d+}', [CandidatureController::class, 'retirer'])
-        ->setName('candidature-retirer');
+        ->setName('candidature-retirer')
+        ->add(new RoleMiddleware(['etudiant']))
+        ->add(new AuthMiddleware());
 
     $app->get('/offres-postulees', [ProfilController::class, 'offresPostulees'])
         ->setName('offres-postulees')
+        ->add(new RoleMiddleware(['etudiant']))
         ->add(new AuthMiddleware());
 
     // --- PAGES STATIQUES ---
@@ -195,10 +205,10 @@ return function (App $app) {
     })->setName('permission');
     // Ajoute ->setName('utilisateurs') à chaque route
     $app->get('/utilisateurs', [UtilisateurController::class, 'liste'])
-        ->add(AuthMiddleware::class)
+        ->add(new AuthMiddleware())
         ->setName('utilisateurs');
 
     $app->get('/utilisateurs/{page:[0-9]+}', [UtilisateurController::class, 'liste'])
-        ->add(AuthMiddleware::class)
+        ->add(new AuthMiddleware())
         ->setName('utilisateurs_page');
 };

@@ -46,6 +46,8 @@
               <th>Nom</th>
               <th>Secteur</th>
               <th>Ville</th>
+              <th>Email</th>
+              <th>Téléphone</th>
               <th>Description</th>
               <th>Actions</th>
             </tr>
@@ -56,6 +58,8 @@
               <td class="fw-semibold">{{ entreprise.nom }}</td>
               <td><span class="badge text-bg-primary rounded-pill">{{ entreprise.secteur }}</span></td>
               <td>{{ entreprise.ville ?? '—' }}</td>
+              <td>{{ entreprise.email ?? '—' }}</td>
+              <td>{{ entreprise.telephone ?? '—' }}</td>
               <td class="text-muted small">{{ entreprise.description }}</td>
               <td>
                 <div class="d-flex gap-2">
