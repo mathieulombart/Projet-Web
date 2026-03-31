@@ -51,7 +51,7 @@
                 <th>Localisation</th>
                 <th>Durée</th>
                 <th>Rémunération</th>
-                <th>Description</th>
+                <th>Compétences</th>
                 <th>Actions</th>
               </tr>
                 
@@ -68,7 +68,7 @@
                           {{ offre.remuneration is not null ? offre.remuneration ~ ' €/mois' : 'Non rémunéré' }}
                       </span>
                   </td>
-                  <td>{{ offre.description }}</td>
+                  <td>{{ offre.competences ?? 'N/A' }}</td>
                   <td>
                       <div class="d-flex gap-2 mt-2" role="group">
                           <a href="/offre/{{ offre.id }}" class="btn btn-outline-primary btn-sm">

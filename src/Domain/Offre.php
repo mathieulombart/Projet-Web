@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Domain;
-
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -9,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'offres')]
 class Offre
 {
-
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue]
@@ -27,8 +24,6 @@ class Offre
     #[ORM\Column(type: 'string', length: 150, nullable: true)]
     private ?string $localisation = null;
 
-    
-
     #[ORM\Column(type: 'decimal', precision: 8, scale: 2, nullable: true)]
     private ?float $remuneration = null;
 
@@ -38,10 +33,11 @@ class Offre
     #[ORM\Column(type: 'date_immutable', nullable: true, name: 'date_debut')]
     private ?DateTimeImmutable $dateDebut = null;
 
-   
-
     #[ORM\Column(type: 'datetime_immutable', name: 'created_at')]
     private DateTimeImmutable $createdAt;
+
+    #[ORM\Column(type: 'string', length: 500, nullable: true)]
+    private ?string $competences;
 
     #[ORM\ManyToOne(targetEntity: Entreprise::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
@@ -56,17 +52,13 @@ class Offre
         ?string $description = null,
         ?string $domaine = null,
         ?string $localisation = null,
-        
     ) {
         $this->titre = $titre;
         $this->description = $description;
         $this->domaine = $domaine;
         $this->localisation = $localisation;
-    
         $this->createdAt = new DateTimeImmutable();
     }
-
-  
 
     public function getId(): ?int
     {
@@ -93,8 +85,6 @@ class Offre
         return $this->localisation;
     }
 
- 
-
     public function getRemuneration(): ?float
     {
         return $this->remuneration;
@@ -110,18 +100,20 @@ class Offre
         return $this->dateDebut;
     }
 
-
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function getCompetences(): ?string
+    {
+        return $this->competences;
     }
 
     public function getEntreprise(): ?Entreprise
     {
         return $this->entreprise;
     }
-
-   
 
     public function setTitre(string $titre): static
     {
@@ -147,8 +139,6 @@ class Offre
         return $this;
     }
 
-    
-
     public function setRemuneration(?float $remuneration): static
     {
         $this->remuneration = $remuneration;
@@ -167,6 +157,11 @@ class Offre
         return $this;
     }
 
+    public function setCompetences(?string $competences): static
+    {
+        $this->competences = $competences;
+        return $this;
+    }
 
     public function setEntreprise(?Entreprise $entreprise): static
     {

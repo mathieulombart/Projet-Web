@@ -89,10 +89,12 @@ class OffreController
         $localisation = trim($data['localisation'] ?? '');
         $dureeSemaines= trim($data['dureeSemaines'] ?? '') !== '' ? (int)$data['dureeSemaines'] : null;
         $remuneration = ($data['remuneration'] ?? '') !== '' ? (int)$data['remuneration'] : null;
+        $competences   = trim($data['competences'] ?? '') !== '' ? $data['competences'] : null;
 
         $offre = new Offre($titre, $description, $domaine, $localisation);
         $offre->setRemuneration($remuneration);
         $offre->setDureeSemaines($dureeSemaines);
+        $offre->setCompetences($competences);
 
         $entreprise = $this->em->find(Entreprise::class, (int)($data['entreprise_id'] ?? 0));
         $offre->setEntreprise($entreprise);
