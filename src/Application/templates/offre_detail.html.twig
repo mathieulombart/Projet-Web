@@ -29,11 +29,35 @@
                     <p>{{ offre.description }}</p>
 
                     <div class="mt-4 d-flex gap-3">
-                    <a href="{{ url_for('postuler', { id: offre.id }) }}" class="btn btn-primary">Postuler</a>
+                    {% if user_role == 'etudiant' and not candidature %}
+                        <a href="{{ url_for('postuler', { id: offre.id }) }}" class="btn btn-primary">Postuler</a>
+                    {% elseif user_role == 'etudiant' and candidature %}
+                        <span class="badge bg-success">Vous avez déjà postulé à cette offre</span>
+                    {% endif %}
+                    
                 </div>
+            {% if candidature %}
+                <hr>
+                    <h2 class="h5">Ma candidature</h2>
+                        <p>
+                            <strong>Statut :</strong>
+                            {% set badge = candidature.statut == 'Acceptée' ? 'success' : (candidature.statut == 'Refusée' ? 'danger' : 'warning text-dark') %}
+                            <span class="badge bg-{{ badge }}">{{ candidature.statut }}</span>
+                        </p>
+                        <p><strong>Lettre de motivation :</strong></p>
+                        <p>{{ candidature.motivation }}</p>
+                {% if candidature.cvPath %}
+                {% set cvFileName = candidature.cvPath|split('/')|last %}
+                    <p><strong>CV envoyé :</strong> {{ cvFileName }}</p>
+                    <a href="{{ candidature.cvPath }}" class="btn btn-outline-secondary btn-sm" download="{{ cvFileName }}">
+                    Télécharger le CV
+                    </a>
+                {% else %}
+                    <p class="text-muted">CV non disponible.</p>
+                {% endif %}
+            {% endif %}
             </div>
         </div>
-
     </section>
 </main>
 

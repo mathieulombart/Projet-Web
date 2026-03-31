@@ -7,6 +7,8 @@ namespace App\Application\Controller;
 use App\Domain\Campus;
 use App\Domain\Entreprise;
 use App\Domain\Offre;
+use App\Domain\Utilisateur;
+use App\Domain\Candidature;
 use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -26,13 +28,43 @@ class OffreController
         $view  = Twig::fromRequest($request);
         $id    = (int)$args['id'];
         $offre = $this->em->find(Offre::class, $id);
-
         if (!$offre) {
             return $response->withStatus(404);
         }
-
+        $candidature = null;
+        $userId = $_SESSION['user_id'] ?? null;
+        $userRole = $_SESSION['user_role'] ?? null;
+        if ($userId) {
+            if ($userRole === 'etudiant') {
+                $etudiant = $this->em->find(Utilisateur::class, (int)$userId);
+                if ($etudiant) {
+                    $candidature = $this->em->getRepository(Candidature::class)->findOneBy([
+                        'offre'       => $offre,
+                        'utilisateur' => $etudiant,
+                    ]);
+                }
+            }
+            if ($userRole === 'pilote') {
+                $etudiantId = (int)($request->getQueryParams()['etudiant_id'] ?? 0);
+                if ($etudiantId > 0) {
+                    $etudiant = $this->em->find(Utilisateur::class, $etudiantId);
+                    if (
+                        $etudiant
+                        && $etudiant->getRole() === Utilisateur::ROLE_ETUDIANT
+                        && $etudiant->getPilote()
+                        && (int)$etudiant->getPilote()->getId() === (int)$userId
+                    ) {
+                        $candidature = $this->em->getRepository(Candidature::class)->findOneBy([
+                            'offre'       => $offre,
+                            'utilisateur' => $etudiant,
+                        ]);
+                    }
+                }
+            }
+        }
         return $view->render($response, 'offre_detail.html.twig', [
-            'offre' => $offre,
+            'offre'       => $offre,
+            'candidature' => $candidature,
         ]);
     }
 
