@@ -49,11 +49,31 @@ class HomeController
              LIMIT 5'
         );
 
+        // 5. 3 offres les plus récentes
+        $offresRecentes = $conn->fetchAllAssociative(
+            'SELECT o.id, o.titre, o.domaine, o.localisation, o.remuneration, o.duree_semaines, o.created_at,
+                    e.nom AS entreprise_nom
+             FROM offres o
+             LEFT JOIN entreprises e ON e.id = o.entreprise_id
+             ORDER BY o.created_at DESC
+             LIMIT 3'
+        );
+
+        // 6. 3 entreprises les plus récentes
+        $entreprisesRecentes = $conn->fetchAllAssociative(
+            'SELECT e.id, e.nom, e.secteur, e.ville, e.description
+             FROM entreprises e
+             ORDER BY e.id DESC
+             LIMIT 3'
+        );
+
         return $view->render($response, 'accueil.html.twig', [
             'totalOffres'          => $totalOffres,
             'moyenneCandidatures'  => $moyenneCandidatures,
             'repartitionDuree'     => $repartitionDuree,
             'topWishlist'          => $topWishlist,
+            'offresRecentes'       => $offresRecentes,
+            'entreprisesRecentes'  => $entreprisesRecentes,
         ]);
     }
 }

@@ -21,8 +21,6 @@
   </div>
 </section>
 
-
-
 <section class="container py-5 text-center">
   <h2 class="mb-4 text-primary">Notre objectif ?</h2>
   <p class="mb-4">
@@ -41,7 +39,6 @@
   <h2 class="text-center mb-4 text-primary">Statistiques</h2>
 
   <div id="carouselStats" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#carouselStats" data-bs-slide-to="0" class="active"></button>
       <button type="button" data-bs-target="#carouselStats" data-bs-slide-to="1"></button>
@@ -51,7 +48,6 @@
 
     <div class="carousel-inner">
 
-      <!-- Slide 1 : Total offres -->
       <div class="carousel-item active">
         <div class="d-flex justify-content-center py-5">
           <div class="card border-0 shadow rounded-4 text-center p-5" style="min-width:350px;">
@@ -61,7 +57,6 @@
         </div>
       </div>
 
-      <!-- Slide 2 : Moyenne candidatures -->
       <div class="carousel-item">
         <div class="d-flex justify-content-center py-5">
           <div class="card border-0 shadow rounded-4 text-center p-5" style="min-width:350px;">
@@ -71,7 +66,6 @@
         </div>
       </div>
 
-      <!-- Slide 3 : Répartition par durée -->
       <div class="carousel-item">
         <div class="d-flex justify-content-center py-5">
           <div class="card border-0 shadow rounded-4 p-5" style="min-width:400px;">
@@ -94,7 +88,6 @@
         </div>
       </div>
 
-      <!-- Slide 4 : Top wishlist -->
       <div class="carousel-item">
         <div class="d-flex justify-content-center py-5">
           <div class="card border-0 shadow rounded-4 p-5" style="min-width:400px;">
@@ -130,49 +123,80 @@
 <section class="container py-5">
   <h2 class="text-center mb-5 text-primary">Offres récentes</h2>
 
+  {% if offresRecentes|length > 0 %}
   <div id="carouselOffres" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
 
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselOffres" data-bs-slide-to="0" class="active"></button>
-      <button type="button" data-bs-target="#carouselOffres" data-bs-slide-to="1"></button>
-      <button type="button" data-bs-target="#carouselOffres" data-bs-slide-to="2"></button>
+      {% for offre in offresRecentes %}
+        <button type="button" data-bs-target="#carouselOffres"
+                data-bs-slide-to="{{ loop.index0 }}"
+                {% if loop.first %}class="active"{% endif %}></button>
+      {% endfor %}
     </div>
 
     <div class="carousel-inner">
+      {% for offre in offresRecentes %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}">
+          <div class="d-flex justify-content-center py-3">
 
-      <div class="carousel-item active">
-        <div class="d-flex justify-content-center py-3">
-          <div class="card shadow border-0 rounded-4" style="max-width:380px; width:100%;">
-            <img src="/image/offre.jpg" class="card-img-top rounded-top-4" alt="Offre">
-            <div class="card-body text-center">
-              <h5 class="card-title">Offre spéciale 1</h5>
+            <div class="card shadow border-0 rounded-4 overflow-hidden" style="max-width:500px; width:100%;">
+
+              <!-- En-tête colorée comme offre_detail -->
+              <div class="card-header bg-primary text-white py-3 px-4">
+                <h5 class="mb-1 fw-bold">{{ offre.titre }}</h5>
+                <p class="mb-0 small opacity-75">
+                  {{ offre.entreprise_nom ?? 'N/A' }} · {{ offre.localisation ?? 'N/A' }}
+                </p>
+              </div>
+
+              <div class="card-body px-4 py-3">
+                <ul class="list-unstyled mb-3">
+                  <li class="mb-2">
+                    <strong>Entreprise :</strong>
+                    {{ offre.entreprise_nom ?? 'N/A' }}
+                  </li>
+                  <li class="mb-2">
+                    <strong>Localisation :</strong>
+                    {{ offre.localisation ?? 'N/A' }}
+                  </li>
+                  <li class="mb-2">
+                    <strong>Rémunération :</strong>
+                    {% if offre.remuneration %}
+                      {{ offre.remuneration }} €/mois
+                    {% else %}
+                      Non rémunéré
+                    {% endif %}
+                  </li>
+                  <li class="mb-2">
+                    <strong>Durée :</strong>
+                    {% if offre.duree_semaines %}
+                      {{ offre.duree_semaines }} semaines
+                    {% else %}
+                      N/A
+                    {% endif %}
+                  </li>
+                  <li class="mb-2">
+                    <strong>Compétences :</strong>
+                    {{ offre.competences ?? 'N/A' }}
+                  </li>
+                </ul>
+
+                <hr>
+
+                <h6 class="fw-semibold mb-2">Description de l'offre</h6>
+                <p class="text-muted small mb-3">
+                  {{ offre.description ? offre.description|slice(0, 150) ~ (offre.description|length > 150 ? '…' : '') : 'Aucune description disponible.' }}
+                </p>
+
+                <a href="{{ url_for('detail-offre', { id: offre.id }) }}" class="btn btn-outline-primary btn-sm rounded-pill px-4">
+                  Voir l'offre complète →
+                </a>
+              </div>
+
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="carousel-item">
-        <div class="d-flex justify-content-center py-3">
-          <div class="card shadow border-0 rounded-4" style="max-width:380px; width:100%;">
-            <img src="/image/offre.jpg" class="card-img-top rounded-top-4" alt="Offre">
-            <div class="card-body text-center">
-              <h5 class="card-title">Offre spéciale 2</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="carousel-item">
-        <div class="d-flex justify-content-center py-3">
-          <div class="card shadow border-0 rounded-4" style="max-width:380px; width:100%;">
-            <img src="/image/offre.jpg" class="card-img-top rounded-top-4" alt="Offre">
-            <div class="card-body text-center">
-              <h5 class="card-title">Offre spéciale 3</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      {% endfor %}
     </div>
 
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselOffres" data-bs-slide="prev">
@@ -182,55 +206,61 @@
       <span class="carousel-control-next-icon bg-primary rounded-circle p-3"></span>
     </button>
   </div>
+  {% else %}
+    <p class="text-center text-muted">Aucune offre disponible pour le moment.</p>
+  {% endif %}
 </section>
 
 <!-- Carrousel Entreprises récentes -->
 <section class="container py-5">
   <h2 class="text-center mb-5 text-primary">Entreprises récentes</h2>
 
+  {% if entreprisesRecentes|length > 0 %}
   <div id="carouselEntreprises" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
 
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselEntreprises" data-bs-slide-to="0" class="active"></button>
-      <button type="button" data-bs-target="#carouselEntreprises" data-bs-slide-to="1"></button>
-      <button type="button" data-bs-target="#carouselEntreprises" data-bs-slide-to="2"></button>
+      {% for entreprise in entreprisesRecentes %}
+        <button type="button" data-bs-target="#carouselEntreprises"
+                data-bs-slide-to="{{ loop.index0 }}"
+                {% if loop.first %}class="active"{% endif %}></button>
+      {% endfor %}
     </div>
 
     <div class="carousel-inner">
+      {% for entreprise in entreprisesRecentes %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}">
+          <div class="d-flex justify-content-center py-3">
+            <div class="card shadow border-0 rounded-4 overflow-hidden" style="max-width:500px; width:100%;">
 
-      <div class="carousel-item active">
-        <div class="d-flex justify-content-center py-3">
-          <div class="card shadow border-0 rounded-4 text-center" style="max-width:380px; width:100%;">
-            <img src="/image/entreprise.jpg" class="card-img-top rounded-top-4" alt="Entreprise">
-            <div class="card-body">
-              <h5>Entreprise récente 1</h5>
+              <div class="card-header bg-primary text-white py-3 px-4">
+                <h5 class="mb-0 fw-bold">{{ entreprise.nom }}</h5>
+                {% if entreprise.secteur %}
+                  <p class="mb-0 small opacity-75">{{ entreprise.secteur }}</p>
+                {% endif %}
+              </div>
+
+              <div class="card-body px-4 py-3">
+                <ul class="list-unstyled mb-3">
+                  <li class="mb-2">
+                    <strong>Secteur :</strong> {{ entreprise.secteur ?? 'N/A' }}
+                  </li>
+                  <li class="mb-2">
+                    <strong>Ville :</strong> {{ entreprise.ville ?? 'N/A' }}
+                  </li>
+                </ul>
+                {% if entreprise.description %}
+                  <hr>
+                  <h6 class="fw-semibold mb-2">À propos</h6>
+                  <p class="text-muted small">
+                    {{ entreprise.description|slice(0, 150) }}{% if entreprise.description|length > 150 %}…{% endif %}
+                  </p>
+                {% endif %}
+              </div>
+
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="carousel-item">
-        <div class="d-flex justify-content-center py-3">
-          <div class="card shadow border-0 rounded-4 text-center" style="max-width:380px; width:100%;">
-            <img src="/image/entreprise.jpg" class="card-img-top rounded-top-4" alt="Entreprise">
-            <div class="card-body">
-              <h5>Entreprise récente 2</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="carousel-item">
-        <div class="d-flex justify-content-center py-3">
-          <div class="card shadow border-0 rounded-4 text-center" style="max-width:380px; width:100%;">
-            <img src="/image/entreprise.jpg" class="card-img-top rounded-top-4" alt="Entreprise">
-            <div class="card-body">
-              <h5>Entreprise récente 3</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      {% endfor %}
     </div>
 
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselEntreprises" data-bs-slide="prev">
@@ -240,6 +270,9 @@
       <span class="carousel-control-next-icon bg-primary rounded-circle p-3"></span>
     </button>
   </div>
+  {% else %}
+    <p class="text-center text-muted">Aucune entreprise disponible pour le moment.</p>
+  {% endif %}
 </section>
 
 <hr class="container">
