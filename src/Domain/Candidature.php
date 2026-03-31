@@ -31,18 +31,23 @@ class Candidature
     #[ORM\Column(type: 'text')]
     private string $motivation;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'cv_path')]
+    private ?string $cvPath = null;
+
     #[ORM\Column(type: 'datetime_immutable', name: 'date_candidature')]
     private DateTimeImmutable $dateCandidature;
 
     #[ORM\Column(type: 'string', length: 30)]
     private string $statut = self::STATUT_EN_ATTENTE;
 
-    public function __construct(Offre $offre, Utilisateur $utilisateur, string $motivation)
+    public function __construct(Offre $offre, Utilisateur $utilisateur, string $motivation, ?string $cvPath = null)
     {
-        $this->offre           = $offre;
-        $this->utilisateur     = $utilisateur;
-        $this->motivation      = $motivation;
+        $this->offre = $offre;
+        $this->utilisateur = $utilisateur;
+        $this->motivation = $motivation;
+        $this->cvPath = $cvPath;
         $this->dateCandidature = new DateTimeImmutable();
+        
     }
 
     public function getId(): ?int                           
@@ -61,6 +66,10 @@ class Candidature
     { 
         return $this->motivation; 
     }
+    public function getCvPath(): ?string
+    {
+        return $this->cvPath;
+    }
     public function getStatut(): string                   
     {
         return $this->statut; 
@@ -71,5 +80,13 @@ class Candidature
     public function setStatut(string $statut): void        
     {
         $this->statut = $statut; 
+    }
+    public function setCvPath(?string $cvPath): void
+    {
+        $this->cvPath = $cvPath;
+    }
+    public function setMotivation(string $motivation): void
+    {
+        $this->motivation = $motivation;
     }
 }
