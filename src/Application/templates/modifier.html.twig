@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Supprimer un utilisateur – AlloStage{% endblock %}
+{% block title %}Modifier un utilisateur – AlloStage{% endblock %}
 
 {% block body %}
 
@@ -10,9 +10,9 @@
 
 <section class="container py-5 d-flex justify-content-center">
   <div class="card shadow border-0 rounded-4 p-4" style="max-width: 550px; width: 100%;">
-    <h2 class="text-center text-primary fw-semibold mb-4">Supprimer un compte</h2>
+    <h2 class="text-center text-primary fw-semibold mb-4">Modifier un utilisateur</h2>
     
-    <form action="{{ url_for('supprimer') }}" method="post">
+    <form action="{{ url_for('modifier') }}" method="post">
       
       <div class="row g-3 mb-3">
         <div class="col-md-6">
@@ -35,12 +35,22 @@
         <input type="text" name="identifiant" class="form-control rounded-pill px-4" placeholder="Choisir un pseudo" required>
       </div>
 
-      {% if user_role in ['admin','pilote'] %}
-
+      
         <div class="mb-3">
+        <label class="form-label fw-semibold">Campus</label>
+        <select class="form-select rounded-pill px-4" name="campus" id="campus">
+          <option value="">-- Choisir un campus --</option>
+                <option value="pilote">Pilote</option>
+                <option value="etudiant">Étudiant</option>
+                <option value="admin">Admin</option>
+                <option value="etudiant">Étudiant</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
         <label class="form-label fw-semibold">Rôle</label>
         <select class="form-select rounded-pill px-4" name="role" id="role">
-        <option value="">-- Choisir un rôle --</option>
+          <option value="">-- Choisir un rôle --</option>
 
             {% if user_role == 'admin' %}
                 <option value="pilote">Pilote</option>
@@ -53,14 +63,11 @@
             {% endif %}
         </select>
       </div>
-      {% endif %}
+
 
       <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold">Supprimer</button>
+        <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold">Modifier</button>
       </div>
-
-    </form>
-  </div>
 </section>
 
 {% endblock %}

@@ -45,10 +45,12 @@ class Utilisateur
     #[ORM\JoinColumn(name: 'pilote_id', nullable: true, onDelete: 'SET NULL')]
     private ?Utilisateur $pilote = null;
 
+    // --- Getters et Setters ---
+
     public function getId(): ?int { return $this->id; }
 
     public function getEmail(): ?string { return $this->email; }
-    public function setEmail(string $email): void { $this->email = $email; }
+    public function setEmail(?string $email): void { $this->email = $email; }
 
     public function getIdentifiant(): string { return $this->identifiant; }
     public function setIdentifiant(string $identifiant): void { $this->identifiant = $identifiant; }
@@ -60,17 +62,21 @@ class Utilisateur
     public function setRole(string $role): void { $this->role = $role; }
 
     public function getNom(): ?string { return $this->nom; }
-    public function setNom(string $nom): void { $this->nom = $nom; }
+    public function setNom(?string $nom): void { $this->nom = $nom; }
 
     public function getPrenom(): ?string { return $this->prenom; }
-    public function setPrenom(string $prenom): void { $this->prenom = $prenom; }
+    public function setPrenom(?string $prenom): void { $this->prenom = $prenom; }
 
     public function getCampus(): ?Campus { return $this->campus; }
     public function setCampus(?Campus $campus): void { $this->campus = $campus; }
 
     public function getPromotion(): ?string { return $this->promotion; }
-    public function setPromotion(string $promotion): void { $this->promotion = $promotion; }
+    public function setPromotion(?string $promotion): void { $this->promotion = $promotion; }
 
+    /**
+     * Correction de la fusion : 
+     * On utilise bien l'objet Utilisateur (relation ManyToOne) et non un string.
+     */
     public function getPilote(): ?Utilisateur { return $this->pilote; }
     public function setPilote(?Utilisateur $pilote): void { $this->pilote = $pilote; }
 }

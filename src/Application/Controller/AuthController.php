@@ -16,7 +16,6 @@ class AuthController
         private Twig $twig
     ) {}
 
-    // Affiche le formulaire (GET) ou traite l'inscription (POST)
     public function inscription(Request $request, Response $response): Response
     {
         if ($request->getMethod() === 'POST') {
@@ -24,7 +23,6 @@ class AuthController
 
             $erreurs = [];
 
-            // Validation basique
             if (empty($data['email']))    $erreurs[] = 'L\'email est obligatoire.';
             if (empty($data['identifiant']))    $erreurs[] = 'L\'identifiant est obligatoire.';
             if (empty($data['nom']))      $erreurs[] = 'Le nom est obligatoire.';
@@ -34,17 +32,14 @@ class AuthController
                 $erreurs[] = 'Les mots de passe ne correspondent pas.';
             }
 
-            // Si erreurs → on réaffiche le formulaire avec les messages
             if (!empty($erreurs)) {
                 return $this->twig->render($response, 'inscription.html.twig', [
                     'erreurs' => $erreurs
                 ]);
             }
 
-            // Hash du mot de passe
             $hash = password_hash($data['password'], PASSWORD_BCRYPT);
 
-            // Création de l'utilisateur
             $utilisateur = new Utilisateur();
             $utilisateur->setEmail($data['email']);
             $utilisateur->setIdentifiant($data['identifiant']);
@@ -69,15 +64,12 @@ class AuthController
                 }
             }
 
-            // Sauvegarde en BDD
             $this->entityManager->persist($utilisateur);
             $this->entityManager->flush();
 
-            // Redirige vers la connexion après inscription
             return $response->withHeader('Location', '/connexion')->withStatus(302);
         }
 
-        // GET → affiche le formulaire avec la liste des campus
         $campus = $this->entityManager->getRepository(Campus::class)->findBy([], ['ville' => 'ASC']);
         return $this->twig->render($response, 'inscription.html.twig', ['campus' => $campus]);
     }
@@ -96,14 +88,13 @@ class AuthController
                     'erreur' => 'Identifiant ou mot de passe incorrect.'
                 ]);
             }
-            if(strlen($utilisateur->getMotDePasse())>=20){
+            if (strlen($utilisateur->getMotDePasse()) >= 20) {
                 if (!password_verify($data['password'], $utilisateur->getMotDePasse())) {
                     return $this->twig->render($response, 'connexion.html.twig', [
                         'erreur' => 'Identifiant ou mot de passe incorrect.'
                     ]);
                 }
-            }
-            else if($data['password']!=$utilisateur->getMotDePasse()){
+            } else if ($data['password'] != $utilisateur->getMotDePasse()) {
                 return $this->twig->render($response, 'connexion.html.twig', [
                     'erreur' => 'Identifiant ou mot de passe incorrect.'
                 ]);
@@ -117,9 +108,77 @@ class AuthController
 
         return $this->twig->render($response, 'connexion.html.twig');
     }
+
     public function deconnexion(Request $request, Response $response): Response
     {
         session_destroy();
         return $response->withHeader('Location', '/connexion')->withStatus(302);
     }
+
+    public function supprimer(Request $request, Response $response): Response
+    {
+        if ($request->getMethod() === 'POST') {
+            $data = $request->getParsedBody();
+
+            $utilisateur = $this->entityManager
+                ->getRepository(Utilisateur::class)
+                ->findOneBy([
+                    'identifiant' => $data['identifiant'],
+                    'email'       => $data['email'],
+                ]);
+
+            if (!$utilisateur) {
+                return $this->twig->render($response, 'supprimer.html.twig', [
+                    'erreur' => 'Aucun utilisateur trouvé avec ces informations.'
+                ]);
+            }
+
+            if (
+                strtolower($utilisateur->getNom())    !== strtolower($data['nom']) ||
+                strtolower($utilisateur->getPrenom()) !== strtolower($data['prenom'])
+            ) {
+                return $this->twig->render($response, 'supprimer.html.twig', [
+                    'erreur' => 'Les informations saisies ne correspondent pas.'
+                ]);
+            }
+
+            $this->entityManager->remove($utilisateur);
+            $this->entityManager->flush();
+
+            return $response->withHeader('Location', '/utilisateurs')->withStatus(302);
+        }
+
+        return $this->twig->render($response, 'supprimer.html.twig');
+    }
+
+    public function modifier(Request $request, Response $response): Response
+{
+    if ($request->getMethod() === 'POST') {
+        $data = $request->getParsedBody();
+
+        // Recherche par identifiant uniquement
+        $utilisateur = $this->entityManager
+            ->getRepository(Utilisateur::class)
+            ->findOneBy(['identifiant' => $data['identifiant']]);
+
+        if (!$utilisateur) {
+            return $this->twig->render($response, 'modifier.html.twig', [
+                'erreur' => 'Aucun utilisateur trouvé avec ces informations.'
+            ]);
+        }
+
+        if (!empty($data['nom']))         $utilisateur->setNom($data['nom']);
+        if (!empty($data['prenom']))      $utilisateur->setPrenom($data['prenom']);
+        if (!empty($data['email']))       $utilisateur->setEmail($data['email']);
+        if (!empty($data['identifiant'])) $utilisateur->setIdentifiant($data['identifiant']);
+        if (!empty($data['role']))        $utilisateur->setRole($data['role']);
+
+        $this->entityManager->flush();
+
+        return $response->withHeader('Location', '/utilisateurs')->withStatus(302);
+    }
+
+    $campus = $this->entityManager->getRepository(Campus::class)->findBy([], ['ville' => 'ASC']);
+    return $this->twig->render($response, 'modifier.html.twig', ['campus' => $campus]);
+}
 }

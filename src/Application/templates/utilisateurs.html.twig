@@ -15,20 +15,15 @@
   <button class="btn btn-outline-primary" type="submit">Rechercher</button>
 </form>
 
-
-
-</section>
-
 <section class="container pb-5">
 
   <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
     <div class="card-header bg-primary text-white d-flex align-items-center gap-2">
       <h2 class="h5 mb-0 me-auto">Utilisateurs</h2>
-        {% if user_role in ['admin', 'pilote'] %}
+      {% if user_role in ['admin', 'pilote'] %}
         <a href="{{ url_for('inscription') }}" class="btn btn-light btn-sm">+ Ajouter</a>
-        <a href="{{ url_for('supprimer') }}" class="btn btn-light btn-sm">- Supprimer</a>
-        {% endif %}
-      </div>
+      {% endif %}
+    </div>
 
     <div class="card-body p-0">
       <div class="table-responsive">
@@ -38,11 +33,14 @@
               <th>Nom</th>
               <th>Prénom</th>
               <th>Campus</th>
-              <th>email</th>
+              <th>Email</th>
               <th>Identifiant</th>
-              <th>Promotion</th>
+              <th>Promotion / Rôle</th>
               {% if user_role == 'admin' %}
                 <th>Pilote</th>
+              {% endif %}
+              {% if user_role in ['admin', 'pilote'] %}
+                <th>Actions</th>
               {% endif %}
             </tr>
           </thead>
@@ -51,28 +49,42 @@
             <tr>
               <td class="fw-semibold">{{ utilisateur.nom }}</td>
               <td>{{ utilisateur.prenom ?? '—' }}</td>
-              <td>{{ utilisateur.campus ? utilisateur.campus.ville : '—' }}</td>
+              
+              {# Fusion : On vérifie si campus est un objet (ville) ou une chaîne #}
+              <td>{{ utilisateur.campus.ville is defined ? utilisateur.campus.ville : (utilisateur.campus ?? '—') }}</td>
+              
               <td>{{ utilisateur.email ?? '—' }}</td>
               <td>{{ utilisateur.identifiant ?? '—' }}</td>
-              {% if utilisateur.role in ['admin', 'pilote'] %}
-                <td>{{ utilisateur.role ?? '—' }}</td>
-              {% else %}
-                <td>{{ utilisateur.promotion ?? '—' }}</td>
-              {% endif %}
+
+              {# Fusion Logique : Affiche le rôle pour les staffs, la promo pour les autres #}
+              <td>
+                {% if utilisateur.role in ['admin', 'pilote'] %}
+                  <span class="badge bg-info text-dark">{{ utilisateur.role }}</span>
+                {% else %}
+                  {{ utilisateur.promotion ?? '—' }}
+                {% endif %}
+              </td>
+
               {% if user_role == 'admin' %}
                 <td>{{ utilisateur.pilote ? utilisateur.pilote.nom ~ ' ' ~ utilisateur.pilote.prenom : '—' }}</td>
               {% endif %}
+
+              {% if user_role in ['admin', 'pilote'] %}
               <td>
                 <div class="d-flex gap-2">
-                  {#<a href="{{ url_for('modifier-entreprise', { id: utilisateur.id }) }}" class="btn btn-outline-secondary btn-sm">Modifier</a>
-                  <form method="post"
-                        action="{{ url_for('supprimer-entreprise', { id: utilisateur.id }) }}"
-                        class="d-inline"
-                        onsubmit="return confirm('Supprimer définitivement cette entreprise ?');">
-                    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                  </form>#}
+                  <a href="{{ url_for('modifier') }}" class="btn btn-outline-primary btn-sm">+ Modifier</a>
+
+                  <form method="post" action="{{ url_for('supprimer') }}" class="d-inline"
+                        onsubmit="return confirm('Supprimer définitivement cet utilisateur ?');">
+                    <input type="hidden" name="nom" value="{{ utilisateur.nom }}">
+                    <input type="hidden" name="prenom" value="{{ utilisateur.prenom }}">
+                    <input type="hidden" name="email" value="{{ utilisateur.email }}">
+                    <input type="hidden" name="identifiant" value="{{ utilisateur.identifiant }}">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">- Supprimer</button>
+                  </form>
                 </div>
               </td>
+              {% endif %}
             </tr>
             {% endfor %}
           </tbody>
@@ -81,27 +93,24 @@
     </div>
   </div>
 
-<div class="d-flex justify-content-center mt-5">
-  <nav>
-    <ul class="pagination">
-
-      <li class="page-item {{ pageCourante == 1 ? 'disabled' : '' }}">
-        <a class="page-link" href="/utilisateurs/{{ pageCourante - 1 }}">Précédent</a>
-      </li>
-
-      {% for i in 1..totalPages %}
-        <li class="page-item {{ i == pageCourante ? 'active' : '' }}">
-          <a class="page-link" href="/utilisateurs/{{ i }}">{{ i }}</a>
+  {# Pagination #}
+  <div class="d-flex justify-content-center mt-5">
+    <nav>
+      <ul class="pagination">
+        <li class="page-item {{ pageCourante == 1 ? 'disabled' : '' }}">
+          <a class="page-link" href="/utilisateurs/{{ pageCourante - 1 }}">Précédent</a>
         </li>
-      {% endfor %}
-
-      <li class="page-item {{ pageCourante == totalPages ? 'disabled' : '' }}">
-        <a class="page-link" href="/utilisateurs/{{ pageCourante + 1 }}">Suivant</a>
-      </li>
-
-    </ul>
-  </nav>
-</div>
+        {% for i in 1..totalPages %}
+          <li class="page-item {{ i == pageCourante ? 'active' : '' }}">
+            <a class="page-link" href="/utilisateurs/{{ i }}">{{ i }}</a>
+          </li>
+        {% endfor %}
+        <li class="page-item {{ pageCourante == totalPages ? 'disabled' : '' }}">
+          <a class="page-link" href="/utilisateurs/{{ pageCourante + 1 }}">Suivant</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 
 </section>
 {% endblock %}
