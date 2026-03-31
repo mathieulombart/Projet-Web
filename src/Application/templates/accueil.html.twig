@@ -126,63 +126,119 @@
   </div>
 </section>
 
+<!-- Carrousel Offres récentes -->
 <section class="container py-5">
   <h2 class="text-center mb-5 text-primary">Offres récentes</h2>
-  <div class="row g-4">
-    <div class="col-md-4">
-      <div class="card h-100 shadow border-0 rounded-4">
-        <img src="/image/offre.jpg" class="card-img-top rounded-top-4" alt="Offre">
-        <div class="card-body text-center">
-          <h5 class="card-title">Offre spéciale 1</h5>
+
+  <div id="carouselOffres" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
+
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselOffres" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#carouselOffres" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#carouselOffres" data-bs-slide-to="2"></button>
+    </div>
+
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+        <div class="d-flex justify-content-center py-3">
+          <div class="card shadow border-0 rounded-4" style="max-width:380px; width:100%;">
+            <img src="/image/offre.jpg" class="card-img-top rounded-top-4" alt="Offre">
+            <div class="card-body text-center">
+              <h5 class="card-title">Offre spéciale 1</h5>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card h-100 shadow border-0 rounded-4">
-        <img src="/image/offre.jpg" class="card-img-top rounded-top-4" alt="Offre">
-        <div class="card-body text-center">
-          <h5 class="card-title">Offre spéciale 2</h5>
+
+      <div class="carousel-item">
+        <div class="d-flex justify-content-center py-3">
+          <div class="card shadow border-0 rounded-4" style="max-width:380px; width:100%;">
+            <img src="/image/offre.jpg" class="card-img-top rounded-top-4" alt="Offre">
+            <div class="card-body text-center">
+              <h5 class="card-title">Offre spéciale 2</h5>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card h-100 shadow border-0 rounded-4">
-        <img src="/image/offre.jpg" class="card-img-top rounded-top-4" alt="Offre">
-        <div class="card-body text-center">
-          <h5 class="card-title">Offre spéciale 3</h5>
+
+      <div class="carousel-item">
+        <div class="d-flex justify-content-center py-3">
+          <div class="card shadow border-0 rounded-4" style="max-width:380px; width:100%;">
+            <img src="/image/offre.jpg" class="card-img-top rounded-top-4" alt="Offre">
+            <div class="card-body text-center">
+              <h5 class="card-title">Offre spéciale 3</h5>
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselOffres" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon bg-primary rounded-circle p-3"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselOffres" data-bs-slide="next">
+      <span class="carousel-control-next-icon bg-primary rounded-circle p-3"></span>
+    </button>
   </div>
 </section>
 
+<!-- Carrousel Entreprises récentes -->
 <section class="container py-5">
   <h2 class="text-center mb-5 text-primary">Entreprises récentes</h2>
-  <div class="row g-4">
-    <div class="col-md-4">
-      <div class="card shadow border-0 rounded-4 text-center">
-        <img src="/image/entreprise.jpg" class="card-img-top rounded-top-4" alt="Entreprise">
-        <div class="card-body">
-          <h5>Entreprise récente 1</h5>
+
+  <div id="carouselEntreprises" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
+
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselEntreprises" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#carouselEntreprises" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#carouselEntreprises" data-bs-slide-to="2"></button>
+    </div>
+
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+        <div class="d-flex justify-content-center py-3">
+          <div class="card shadow border-0 rounded-4 text-center" style="max-width:380px; width:100%;">
+            <img src="/image/entreprise.jpg" class="card-img-top rounded-top-4" alt="Entreprise">
+            <div class="card-body">
+              <h5>Entreprise récente 1</h5>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card shadow border-0 rounded-4 text-center">
-        <img src="/image/entreprise.jpg" class="card-img-top rounded-top-4" alt="Entreprise">
-        <div class="card-body">
-          <h5>Entreprise récente 2</h5>
+
+      <div class="carousel-item">
+        <div class="d-flex justify-content-center py-3">
+          <div class="card shadow border-0 rounded-4 text-center" style="max-width:380px; width:100%;">
+            <img src="/image/entreprise.jpg" class="card-img-top rounded-top-4" alt="Entreprise">
+            <div class="card-body">
+              <h5>Entreprise récente 2</h5>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card shadow border-0 rounded-4 text-center">
-        <img src="/image/entreprise.jpg" class="card-img-top rounded-top-4" alt="Entreprise">
-        <div class="card-body">
-          <h5>Entreprise récente 3</h5>
+
+      <div class="carousel-item">
+        <div class="d-flex justify-content-center py-3">
+          <div class="card shadow border-0 rounded-4 text-center" style="max-width:380px; width:100%;">
+            <img src="/image/entreprise.jpg" class="card-img-top rounded-top-4" alt="Entreprise">
+            <div class="card-body">
+              <h5>Entreprise récente 3</h5>
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselEntreprises" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon bg-primary rounded-circle p-3"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselEntreprises" data-bs-slide="next">
+      <span class="carousel-control-next-icon bg-primary rounded-circle p-3"></span>
+    </button>
   </div>
 </section>
 
