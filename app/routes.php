@@ -152,12 +152,10 @@ return function (App $app) {
         ->add(new RoleMiddleware(['admin'], ['pilote']))
         ->add(new AuthMiddleware());
 
-    $app->get('/modifier', function (Request $request, Response $response) {
-    return Twig::fromRequest($request)->render($response, 'modifier.html.twig', []);
-    })
-    ->setName('modifier')
-    ->add(new RoleMiddleware(['admin'], ['pilote']))
-    ->add(new AuthMiddleware());
+    $app->get('/modifier', [AuthController::class, 'modifier'])
+        ->setName('modifier')
+        ->add(new RoleMiddleware(['admin'], ['pilote']))
+        ->add(new AuthMiddleware());
 
     $app->post('/modifier', [AuthController::class, 'modifier'])
     ->add(new RoleMiddleware(['admin'], ['pilote']))

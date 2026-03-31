@@ -36,16 +36,29 @@
       </div>
 
       
-        <div class="mb-3">
+      <div class="mb-3">
         <label class="form-label fw-semibold">Campus</label>
-        <select class="form-select rounded-pill px-4" name="campus" id="campus">
+        <select class="form-select rounded-pill px-4" name="campus_id">
           <option value="">-- Choisir un campus --</option>
-                <option value="pilote">Pilote</option>
-                <option value="etudiant">Étudiant</option>
-                <option value="admin">Admin</option>
-                <option value="etudiant">Étudiant</option>
+          {% for c in campus %}
+            <option value="{{ c.id }}">{{ c.ville }}</option>
+          {% endfor %}
         </select>
       </div>
+
+      
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Promotion</label>
+        <select class="form-select rounded-pill px-4" name="promo" id="promo">
+          <option value="">-- Choisir une promotion --</option>
+          <option value="A1">CPI A1</option>
+          <option value="A2">CPI A2</option>
+          <option value="A3">FISA A3</option>
+          <option value="A4">FISA A4</option>
+          <option value="A5">FISA A5</option>
+        </select>
+      </div>
+      
 
       <div class="mb-3">
         <label class="form-label fw-semibold">Rôle</label>
