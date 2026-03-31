@@ -50,7 +50,7 @@
             <tr>
               <td class="fw-semibold">{{ utilisateur.nom }}</td>
               <td>{{ utilisateur.prenom ?? '—' }}</td>
-              <td>{{ utilisateur.campus ?? '—' }}</td>
+              <td>{{ utilisateur.campus ? utilisateur.campus.ville : '—' }}</td>
               <td>{{ utilisateur.identifiant ?? '—' }}</td>
               <td>{{ utilisateur.email ?? '—' }}</td>
               {% if user_role == 'admin' %}
