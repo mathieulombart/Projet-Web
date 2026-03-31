@@ -130,9 +130,7 @@ return function (App $app) {
         ->add(new AuthMiddleware());
 
     // --- AUTH & PROFIL ---
-    $app->get('/inscription', function (Request $request, Response $response) {
-        return Twig::fromRequest($request)->render($response, 'inscription.html.twig', []);
-    })
+    $app->get('/inscription', [AuthController::class, 'inscription'])
         ->setName('inscription')
         ->add(new RoleMiddleware(['admin'], ['pilote']))
         ->add(new AuthMiddleware());

@@ -62,9 +62,9 @@
       </div>
 
       <div class="mb-3">
-        <label class="form-label fw-semibold">Zone</label>
+        <label class="form-label fw-semibold">Campus</label>
         <select class="form-select rounded-pill px-4" name="campus_id" id="campus_id">
-          <option value="">-- Choisir une zone --</option>
+          <option value="">-- Choisir un campus --</option>
           {% for c in campus %}
             <option value="{{ c.id }}">{{ c.ville }}</option>
           {% endfor %}
