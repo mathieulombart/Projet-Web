@@ -72,6 +72,7 @@
               {% if user_role in ['admin', 'pilote'] %}
               <td>
                 <div class="d-flex gap-2">
+
                   <a href="{{ url_for('modifier') }}" class="btn btn-outline-primary btn-sm">+ Modifier</a>
 
                   <form method="post" action="{{ url_for('supprimer') }}" class="d-inline"
@@ -82,6 +83,10 @@
                     <input type="hidden" name="identifiant" value="{{ utilisateur.identifiant }}">
                     <button type="submit" class="btn btn-outline-danger btn-sm">- Supprimer</button>
                   </form>
+                  {% if user_role == 'pilote' %}
+                    <a href="{{ url_for('candidatures-etudiant', { id: utilisateur.id }) }}" 
+                      class="btn btn-outline-secondary btn-sm">Candidatures</a>
+                  {% endif %}
                 </div>
               </td>
               {% endif %}

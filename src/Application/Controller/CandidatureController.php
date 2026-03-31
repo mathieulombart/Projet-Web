@@ -90,4 +90,30 @@ class CandidatureController
 
         return $response->withHeader('Location', '/offres-postulees')->withStatus(302);
     }
+
+    public function candidaturesEtudiant(Request $request, Response $response, array $args): Response
+    {
+        $etudiantId = (int) $args['id'];
+
+        $etudiant = $this->em->find(Utilisateur::class, $etudiantId);
+
+        if (!$etudiant || $etudiant->getRole() !== 'etudiant') {
+            return $response->withStatus(404);
+        }
+
+        $piloteId = $_SESSION['user_id'] ?? null;
+        if ($etudiant->getPilote()?->getId() !== $piloteId) {
+            return $response->withStatus(403);
+        }
+
+        $candidatures = $this->em->getRepository(Candidature::class)->findBy([
+            'utilisateur' => $etudiant,
+        ]);
+
+        return Twig::fromRequest($request)->render($response, 'offres_postulees.html.twig', [
+            'candidatures' => $candidatures,
+            'etudiant'     => $etudiant,
+            'user_role'    => 'pilote',
+        ]);
+    }
 }

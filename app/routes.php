@@ -195,6 +195,11 @@ return function (App $app) {
         ->setName('offres-postulees')
         ->add(new RoleMiddleware(['etudiant']))
         ->add(new AuthMiddleware());
+        
+    $app->get('/etudiant/{id:\d+}/candidatures', [CandidatureController::class, 'candidaturesEtudiant'])
+        ->setName('candidatures-etudiant')
+        ->add(new RoleMiddleware(['pilote']))
+        ->add(new AuthMiddleware());
 
     // --- PAGES STATIQUES ---
     $app->get('/contact', function (Request $request, Response $response) {
