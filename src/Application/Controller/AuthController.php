@@ -65,7 +65,7 @@ class AuthController
                         'campus'    => $campus,
                     ]);
                 if ($pilote) {
-                    $utilisateur->setPilote($pilote->getId());
+                    $utilisateur->setPilote($pilote); // ✅ passe l'objet directement
                 }
             }
 
