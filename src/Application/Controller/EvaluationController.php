@@ -26,13 +26,15 @@ class EvaluationController
     public function formulaire(Request $request, Response $response, array $args): Response
     {
         $entreprise = $this->entityManager->find(Entreprise::class, (int) $args['id']);
-
+        $stats = $entreprise ? $this->getStatsEntreprise($entreprise) : ['moyenne' => null, 'total' => 0];
         return $this->twig->render($response, 'evaluation.html.twig', [
             'entreprise'  => $entreprise,
             'errors'      => [],
             'success'     => false,
             'old'         => [],
             'evaluations' => [],
+            'moyenne'     => $stats['moyenne'],
+            'totalAvis'   => $stats['total'],
         ]);
     }
 
@@ -45,9 +47,8 @@ class EvaluationController
         $errors = [];
 
         $entreprise = $this->entityManager->find(Entreprise::class, (int) $args['id']);
-
-        
         $utilisateur = $this->entityManager->find(Utilisateur::class, 1);
+        $stats = $entreprise ? $this->getStatsEntreprise($entreprise) : ['moyenne' => null, 'total' => 0];
 
         if ($note < 1 || $note > 5) {
             $errors[] = 'La note doit être comprise entre 1 et 5.';
@@ -72,6 +73,9 @@ class EvaluationController
                 'success'     => false,
                 'old'         => $data,
                 'evaluations' => [],
+                'moyenne'     => $stats['moyenne'],
+                'totalAvis'   => $stats['total'],
+
             ]);
         }
 
@@ -79,8 +83,28 @@ class EvaluationController
         $this->entityManager->persist($evaluation);
         $this->entityManager->flush();
 
+        $routeParser = \Slim\Routing\RouteContext::fromRequest($request)->getRouteParser();
+        $url = $routeParser->urlFor('entreprise-evaluer', ['id' => $args['id']]);
+
         return $response
-            ->withHeader('Location', '/entreprise/' . $args['id'])
+            ->withHeader('Location', $url)
             ->withStatus(302);
+    }
+    private function getStatsEntreprise(Entreprise $entreprise): array
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $result = $qb
+            ->select('AVG(e.note) AS moyenne', 'COUNT(e.id) AS total')
+            ->from(Evaluation::class, 'e')
+            ->where('e.entreprise = :entreprise')
+            ->setParameter('entreprise', $entreprise)
+            ->getQuery()
+            ->getSingleResult();
+
+        return [
+            'moyenne' => $result['moyenne'] !== null ? (float) $result['moyenne'] : null,
+            'total' => (int) $result['total'],
+        ];
     }
 }

@@ -20,6 +20,7 @@ $container = $containerBuilder->build();
 AppFactory::setContainer($container);
 $app = AppFactory::create();
 
+
 $middleware = require __DIR__ . '/../app/middleware.php';
 $middleware($app);
 
