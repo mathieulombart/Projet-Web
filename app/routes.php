@@ -17,6 +17,7 @@ use Slim\App;
 use Slim\Views\Twig;
 use App\Application\Middleware\RoleMiddleware;
 use App\Application\Middleware\AuthMiddleware;
+use App\Application\Controller\EvaluationController;
 
 return function (App $app) {
 
@@ -223,4 +224,13 @@ return function (App $app) {
     $app->get('/utilisateurs/{page:[0-9]+}', [UtilisateurController::class, 'liste'])
         ->add(new AuthMiddleware())
         ->setName('utilisateurs_page');
+
+    $app->get('/entreprise/{id:\d+}/evaluer', [EvaluationController::class, 'formulaire'])
+        ->setName('entreprise-evaluer')
+        ->add(new RoleMiddleware(['etudiant']))
+        ->add(new AuthMiddleware());
+
+    $app->post('/entreprise/{id:\d+}/evaluer', [EvaluationController::class, 'evaluer'])
+        ->add(new RoleMiddleware(['etudiant']))
+        ->add(new AuthMiddleware());
 };
