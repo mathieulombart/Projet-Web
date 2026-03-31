@@ -36,6 +36,8 @@ class EntrepriseController
 
             if ($nom !== '' && $secteur !== '') {
                 $entreprise = new Entreprise($nom, $secteur);
+                $entreprise->setEmail(trim($parsedBody['email'] ?? ''));
+                $entreprise->setTelephone(trim($parsedBody['telephone'] ?? ''));
                 $this->em->persist($entreprise);
                 $this->em->flush();
                 $success = true;
@@ -69,6 +71,8 @@ class EntrepriseController
             if ($nom !== '' && $secteur !== '') {
                 $entreprise->setNom($nom);
                 $entreprise->setSecteur($secteur);
+                $entreprise->setEmail(trim($parsedBody['email'] ?? ''));
+                $entreprise->setTelephone(trim($parsedBody['telephone'] ?? ''));
                 $this->em->flush();
                 $success = true;
             }

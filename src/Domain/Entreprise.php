@@ -31,6 +31,12 @@ class Entreprise
     #[Column(type: 'string', nullable: true)]
     private ?string $secteur = null;
 
+    #[Column(type: 'string', length: 255, nullable: true)]
+    private ?string $email = null;
+
+    #[Column(type: 'string', length: 20, nullable: true)]
+    private ?string $telephone = null;
+
     #[ManyToOne(targetEntity: Campus::class)]
     #[JoinColumn(name: 'campus_id', nullable: true, onDelete: 'SET NULL')]
     private ?Campus $campus = null;
@@ -89,4 +95,10 @@ class Entreprise
 
     public function getCampus(): ?Campus { return $this->campus; }
     public function setCampus(?Campus $campus): void { $this->campus = $campus; }
+
+    public function getEmail(): ?string { return $this->email; }
+    public function setEmail(?string $email): void { $this->email = $email; }
+
+    public function getTelephone(): ?string { return $this->telephone; }
+    public function setTelephone(?string $telephone): void { $this->telephone = $telephone; }
 }

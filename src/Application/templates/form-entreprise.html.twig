@@ -51,6 +51,18 @@
                 </select>
               </div>
 
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email"
+                       value="{{ edition ? entreprise.email : '' }}" placeholder="contact@entreprise.com">
+              </div>
+
+              <div class="mb-3">
+                <label for="telephone" class="form-label">Téléphone</label>
+                <input type="tel" class="form-control" id="telephone" name="telephone"
+                       value="{{ edition ? entreprise.telephone : '' }}" placeholder="01 23 45 67 89">
+              </div>
+
               <hr>
 
               <div class="d-flex justify-content-between">
