@@ -55,11 +55,12 @@ class OffreController
         $description  = trim($data['description'] ?? '');
         $domaine      = trim($data['domaine'] ?? '');
         $localisation = trim($data['localisation'] ?? '');
-        $type         = $data['type'] ?? 'stage';
+        $dureeSemaines= trim($data['dureeSemaines'] ?? '') !== '' ? (int)$data['dureeSemaines'] : null;
         $remuneration = ($data['remuneration'] ?? '') !== '' ? (int)$data['remuneration'] : null;
 
-        $offre = new Offre($titre, $description, $domaine, $localisation, $type);
+        $offre = new Offre($titre, $description, $domaine, $localisation);
         $offre->setRemuneration($remuneration);
+        $offre->setDureeSemaines($dureeSemaines);
 
         $entreprise = $this->em->find(Entreprise::class, (int)($data['entreprise_id'] ?? 0));
         $offre->setEntreprise($entreprise);
@@ -69,6 +70,56 @@ class OffreController
         
 
         $this->em->persist($offre);
+        $this->em->flush();
+
+        return $response
+            ->withHeader('Location', '/offres')
+            ->withStatus(302);
+    }
+
+    public function modifier(Request $request, Response $response, array $args): Response
+    {
+        $view = Twig::fromRequest($request);
+        $id = (int) $args['id'];
+
+        $offre = $this->em->find(Offre::class, $id);
+
+        if (!$offre) {
+            return $response->withStatus(404);
+        }
+
+        if ($request->getMethod() === 'GET') {
+            return $view->render($response, 'form-offre.html.twig', [
+                'offre'       => $offre,
+                'edition'     => true,
+                'erreurs'     => [],
+                'entreprises' => $this->em->getRepository(Entreprise::class)->findBy([], ['nom' => 'ASC']),
+                'campus'      => $this->em->getRepository(Campus::class)->findBy([], ['ville' => 'ASC']),
+            ]);
+        }
+
+        $data = $request->getParsedBody();
+
+        $titre        = trim($data['titre'] ?? '');
+        $description  = trim($data['description'] ?? '');
+        $domaine      = trim($data['domaine'] ?? '');
+        $localisation = trim($data['localisation'] ?? '');
+        $dureeSemaines = ($data['dureeSemaines'] ?? '') !== '' ? (int)$data['dureeSemaines'] : null;
+        $remuneration = ($data['remuneration'] ?? '') !== '' ? (int)$data['remuneration'] : null;
+
+        $offre->setTitre($titre);
+        $offre->setDescription($description);
+        $offre->setDomaine($domaine);
+        $offre->setLocalisation($localisation);
+        $offre->setDureeSemaines($dureeSemaines);
+        $offre->setRemuneration($remuneration);
+
+        $entreprise = $this->em->find(Entreprise::class, (int)($data['entreprise_id'] ?? 0));
+        $offre->setEntreprise($entreprise);
+
+        $campus = $this->em->find(Campus::class, (int)($data['campus_id'] ?? 0));
+        $offre->setCampus($campus);
+
         $this->em->flush();
 
         return $response
