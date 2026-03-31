@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Supprimer un utilisateur – AlloStage{% endblock %}
+{% block title %}Modifier un utilisateur – AlloStage{% endblock %}
 
 {% block body %}
 
@@ -10,57 +10,63 @@
 
 <section class="container py-5 d-flex justify-content-center">
   <div class="card shadow border-0 rounded-4 p-4" style="max-width: 550px; width: 100%;">
-    <h2 class="text-center text-primary fw-semibold mb-4">Supprimer un compte</h2>
+    <h2 class="text-center text-primary fw-semibold mb-4">Modifier un utilisateur</h2>
     
-    <form action="{{ url_for('supprimer') }}" method="post">
+    <form action="{{ url_for('modifier', {id: utilisateur.id}) }}" method="post">
       
       <div class="row g-3 mb-3">
         <div class="col-md-6">
           <label class="form-label fw-semibold">Nom</label>
-          <input type="text" name="nom" class="form-control rounded-pill px-4" placeholder="Nom" required>
+          <input type="text" name="nom" class="form-control rounded-pill px-4" 
+                 value="{{ utilisateur.nom }}" placeholder="Nom" required>
         </div>
         <div class="col-md-6">
           <label class="form-label fw-semibold">Prénom</label>
-          <input type="text" name="prenom" class="form-control rounded-pill px-4" placeholder="Prénom" required>
+          <input type="text" name="prenom" class="form-control rounded-pill px-4" 
+                 value="{{ utilisateur.prenom }}" placeholder="Prénom" required>
         </div>
       </div>
 
       <div class="mb-3">
         <label class="form-label fw-semibold">Email</label>
-        <input type="email" name="email" class="form-control rounded-pill px-4" placeholder="nom@exemple.com" required>
+        <input type="email" name="email" class="form-control rounded-pill px-4" 
+               value="{{ utilisateur.email }}" placeholder="nom@exemple.com" required>
       </div>
 
       <div class="mb-3">
         <label class="form-label fw-semibold">Identifiant</label>
-        <input type="text" name="identifiant" class="form-control rounded-pill px-4" placeholder="Choisir un pseudo" required>
+        <input type="text" name="identifiant" class="form-control rounded-pill px-4" 
+               value="{{ utilisateur.identifiant }}" placeholder="Choisir un pseudo" required>
       </div>
 
-      {% if user_role in ['admin','pilote'] %}
-
-        <div class="mb-3">
-        <label class="form-label fw-semibold">Rôle</label>
-        <select class="form-select rounded-pill px-4" name="role" id="role">
-        <option value="">-- Choisir un rôle --</option>
-
-            {% if user_role == 'admin' %}
-                <option value="pilote">Pilote</option>
-                <option value="etudiant">Étudiant</option>
-                <option value="admin">Admin</option>
-            {% endif %}
-
-            {% if user_role in ['pilote'] %}
-                <option value="etudiant">Étudiant</option>
-            {% endif %}
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Campus</label>
+        <select class="form-select rounded-pill px-4" name="campus_id">
+          <option value="">-- Choisir un campus --</option>
+          {% for c in campus %}
+            <option value="{{ c.id }}" {{ utilisateur.campus and utilisateur.campus.id == c.id ? 'selected' : '' }}>
+              {{ c.ville }}
+            </option>
+          {% endfor %}
         </select>
       </div>
-      {% endif %}
 
-      <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold">Supprimer</button>
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Promotion</label>
+        <select class="form-select rounded-pill px-4" name="promotion" id="promo">
+          <option value="">-- Choisir une promotion --</option>
+          <option value="A1" {{ utilisateur.promotion == 'A1' ? 'selected' : '' }}>CPI A1</option>
+          <option value="A2" {{ utilisateur.promotion == 'A2' ? 'selected' : '' }}>CPI A2</option>
+          <option value="A3" {{ utilisateur.promotion == 'A3' ? 'selected' : '' }}>FISA A3</option>
+          <option value="A4" {{ utilisateur.promotion == 'A4' ? 'selected' : '' }}>FISA A4</option>
+          <option value="A5" {{ utilisateur.promotion == 'A5' ? 'selected' : '' }}>FISA A5</option>
+        </select>
       </div>
 
-    </form>
-  </div>
-</section>
-
-{% endblock %}
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Rôle</label>
+        <select class="form-select rounded-pill px-4" name="role" id="role">
+          <option value="">-- Choisir un rôle --</option>
+          {% if user_role == 'admin' %}
+            <option value="pilote"   {{ utilisateur.role == 'pilote'   ? 'selected' : '' }}>Pilote</option>
+            <option value="etudiant
