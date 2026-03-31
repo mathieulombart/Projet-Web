@@ -16,7 +16,7 @@
 <section class="container mb-5">
   <div class="d-flex flex-column flex-md-row gap-3 align-items-center mb-3">
     <input type="text" class="form-control rounded-pill px-4"
-           placeholder="🔍 Rechercher une entreprise, un secteur…">
+           placeholder="Rechercher une entreprise, un secteur…">
     <a href="#" class="btn btn-primary rounded-pill px-4">Rechercher</a>
   </div>
 </section>
@@ -34,6 +34,96 @@
     <li class="list-group-item">Valoriser les compétences des candidats.</li>
     <li class="list-group-item">Stimuler l'engagement entre jeunes et entreprises.</li>
   </ul>
+</section>
+
+<!-- Carrousel Statistiques -->
+<section class="container py-5">
+  <h2 class="text-center mb-4 text-primary">Statistiques</h2>
+
+  <div id="carouselStats" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselStats" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#carouselStats" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#carouselStats" data-bs-slide-to="2"></button>
+      <button type="button" data-bs-target="#carouselStats" data-bs-slide-to="3"></button>
+    </div>
+
+    <div class="carousel-inner">
+
+      <!-- Slide 1 : Total offres -->
+      <div class="carousel-item active">
+        <div class="d-flex justify-content-center py-5">
+          <div class="card border-0 shadow rounded-4 text-center p-5" style="min-width:350px;">
+            <h3 class="text-primary display-1 fw-bold">{{ totalOffres }}</h3>
+            <p class="text-muted fs-5 mt-2">Offres disponibles</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 : Moyenne candidatures -->
+      <div class="carousel-item">
+        <div class="d-flex justify-content-center py-5">
+          <div class="card border-0 shadow rounded-4 text-center p-5" style="min-width:350px;">
+            <h3 class="text-primary display-1 fw-bold">{{ moyenneCandidatures }}</h3>
+            <p class="text-muted fs-5 mt-2">Candidatures en moyenne par offre</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 : Répartition par durée -->
+      <div class="carousel-item">
+        <div class="d-flex justify-content-center py-5">
+          <div class="card border-0 shadow rounded-4 p-5" style="min-width:400px;">
+            <h4 class="text-primary text-center mb-4">Répartition par durée</h4>
+            <div class="d-flex justify-content-around text-center">
+              <div>
+                <span class="display-5 fw-bold text-primary">{{ repartitionDuree.courte }}</span>
+                <p class="text-muted mt-1">&lt; 4 sem.</p>
+              </div>
+              <div>
+                <span class="display-5 fw-bold text-primary">{{ repartitionDuree.moyenne }}</span>
+                <p class="text-muted mt-1">4–8 sem.</p>
+              </div>
+              <div>
+                <span class="display-5 fw-bold text-primary">{{ repartitionDuree.longue }}</span>
+                <p class="text-muted mt-1">&gt; 8 sem.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 4 : Top wishlist -->
+      <div class="carousel-item">
+        <div class="d-flex justify-content-center py-5">
+          <div class="card border-0 shadow rounded-4 p-5" style="min-width:400px;">
+            <h4 class="text-primary text-center mb-4">Top Wishlist</h4>
+            {% if topWishlist|length > 0 %}
+              <ol class="list-group list-group-numbered list-group-flush">
+                {% for item in topWishlist %}
+                  <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+                    {{ item.titre }}
+                    <span class="badge bg-primary rounded-pill">{{ item.nb }}</span>
+                  </li>
+                {% endfor %}
+              </ol>
+            {% else %}
+              <p class="text-muted text-center">Aucune donnée pour le moment</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselStats" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon bg-primary rounded-circle p-3"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselStats" data-bs-slide="next">
+      <span class="carousel-control-next-icon bg-primary rounded-circle p-3"></span>
+    </button>
+  </div>
 </section>
 
 <section class="container py-5">
