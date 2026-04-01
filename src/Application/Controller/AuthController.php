@@ -52,15 +52,11 @@ class AuthController
             $campus = $this->entityManager->find(Campus::class, (int)($data['campus_id'] ?? 0));
             $utilisateur->setCampus($campus);
 
-            if ($data['role'] === 'etudiant') {
-                $pilote = $this->entityManager->getRepository(Utilisateur::class)
-                    ->findOneBy([
-                        'role'      => Utilisateur::ROLE_PILOTE,
-                        'promotion' => $data['promo'],
-                        'campus'    => $campus,
-                    ]);
+            // Si un pilote est connecté et crée un étudiant, on lie l'étudiant à ce pilote
+            if (isset($_SESSION['user_id']) && isset($_SESSION['user_role']) && $_SESSION['user_role'] === Utilisateur::ROLE_PILOTE) {
+                $pilote = $this->entityManager->find(Utilisateur::class, $_SESSION['user_id']);
                 if ($pilote) {
-                    $utilisateur->setPilote($pilote); // ✅ passe l'objet directement
+                    $utilisateur->setPilote($pilote);
                 }
             }
 
