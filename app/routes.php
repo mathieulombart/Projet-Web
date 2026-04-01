@@ -17,6 +17,7 @@ use Slim\App;
 use Slim\Views\Twig;
 use App\Application\Middleware\RoleMiddleware;
 use App\Application\Middleware\AuthMiddleware;
+use App\Application\Controller\EvaluationController;
 
 return function (App $app) {
 
@@ -152,12 +153,10 @@ return function (App $app) {
         ->add(new RoleMiddleware(['admin'], ['pilote']))
         ->add(new AuthMiddleware());
 
-    $app->get('/modifier', function (Request $request, Response $response) {
-    return Twig::fromRequest($request)->render($response, 'modifier.html.twig', []);
-    })
-    ->setName('modifier')
-    ->add(new RoleMiddleware(['admin'], ['pilote']))
-    ->add(new AuthMiddleware());
+    $app->get('/modifier', [AuthController::class, 'modifier'])
+        ->setName('modifier')
+        ->add(new RoleMiddleware(['admin'], ['pilote']))
+        ->add(new AuthMiddleware());
 
     $app->post('/modifier', [AuthController::class, 'modifier'])
     ->add(new RoleMiddleware(['admin'], ['pilote']))
@@ -195,6 +194,11 @@ return function (App $app) {
         ->setName('offres-postulees')
         ->add(new RoleMiddleware(['etudiant']))
         ->add(new AuthMiddleware());
+        
+    $app->get('/etudiant/{id:\d+}/candidatures', [CandidatureController::class, 'candidaturesEtudiant'])
+        ->setName('candidatures-etudiant')
+        ->add(new RoleMiddleware(['pilote']))
+        ->add(new AuthMiddleware());
 
     // --- PAGES STATIQUES ---
     $app->get('/contact', function (Request $request, Response $response) {
@@ -220,4 +224,13 @@ return function (App $app) {
     $app->get('/utilisateurs/{page:[0-9]+}', [UtilisateurController::class, 'liste'])
         ->add(new AuthMiddleware())
         ->setName('utilisateurs_page');
+
+    $app->get('/entreprise/{id:\d+}/evaluer', [EvaluationController::class, 'formulaire'])
+        ->setName('entreprise-evaluer')
+        ->add(new RoleMiddleware(['etudiant']))
+        ->add(new AuthMiddleware());
+
+    $app->post('/entreprise/{id:\d+}/evaluer', [EvaluationController::class, 'evaluer'])
+        ->add(new RoleMiddleware(['etudiant']))
+        ->add(new AuthMiddleware());
 };

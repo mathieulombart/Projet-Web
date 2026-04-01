@@ -37,11 +37,23 @@
       </div>
 
       <div class="mt-3 d-flex gap-2">
-        <a href="{{ url_for('detail-offre', { id: c.offre.id }) }}" class="btn btn-sm btn-outline-primary rounded-pill">Voir l'offre</a>
-        <form method="post" action="{{ url_for('candidature-retirer', { id: c.id }) }}"
-              onsubmit="return confirm('Retirer cette candidature ?');">
-          <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill">Retirer</button>
-        </form>
+        {% if user_role == 'pilote' and etudiant is defined %}
+          <a href="{{ url_for('detail-offre', { id: c.offre.id }) }}?etudiant_id={{ etudiant.id }}"
+            class="btn btn-sm btn-outline-primary rounded-pill">
+            Voir l'offre
+          </a>
+        {% else %}
+          <a href="{{ url_for('detail-offre', { id: c.offre.id }) }}"
+            class="btn btn-sm btn-outline-primary rounded-pill">
+            Voir l'offre
+          </a>
+        {% endif %}
+        {% if user_role == 'etudiant' %}
+          <form method="post" action="{{ url_for('candidature-retirer', { id: c.id }) }}"
+                onsubmit="return confirm('Retirer cette candidature ?');">
+            <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill">Retirer</button>
+          </form>
+        {% endif %}
       </div>
     </div>
     {% else %}

@@ -152,14 +152,15 @@ class AuthController
     if ($request->getMethod() === 'POST') {
         $data = $request->getParsedBody();
 
-        // Recherche par identifiant uniquement
         $utilisateur = $this->entityManager
             ->getRepository(Utilisateur::class)
             ->findOneBy(['identifiant' => $data['identifiant']]);
 
         if (!$utilisateur) {
+            $campus = $this->entityManager->getRepository(Campus::class)->findBy([], ['ville' => 'ASC']);
             return $this->twig->render($response, 'modifier.html.twig', [
-                'erreur' => 'Aucun utilisateur trouvé avec ces informations.'
+                'erreur' => 'Aucun utilisateur trouvé avec ces informations.',
+                'campus' => $campus
             ]);
         }
 
@@ -168,9 +169,13 @@ class AuthController
         if (!empty($data['email']))       $utilisateur->setEmail($data['email']);
         if (!empty($data['identifiant'])) $utilisateur->setIdentifiant($data['identifiant']);
         if (!empty($data['role']))        $utilisateur->setRole($data['role']);
+        if (!empty($data['promotion']))   $utilisateur->setPromotion($data['promotion']);
+        if (!empty($data['campus_id'])) {
+            $campusObj = $this->entityManager->find(Campus::class, (int)$data['campus_id']);
+            $utilisateur->setCampus($campusObj);
+        }
 
         $this->entityManager->flush();
-
         return $response->withHeader('Location', '/utilisateurs')->withStatus(302);
     }
 

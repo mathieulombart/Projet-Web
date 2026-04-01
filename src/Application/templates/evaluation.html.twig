@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Évaluer {{ entreprise.nom }}{% endblock %}
+
+
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
+                    <h1 class="h3 mb-3">Évaluer l'entreprise</h1>
+
+                    <p class="text-muted mb-4">
+                        Donnez une note et laissez un commentaire sur votre expérience avec
+                        <strong>{{ entreprise.nom }}</strong>.
+                    </p>
+                    
+                   {% if moyenne is not null %}
+                        <div class="alert alert-info">
+                            Moyenne des notes : <strong>{{ moyenne|round(1) }}/5</strong> ({{ totalAvis }} avis)
+                        </div>
+                   {% else %}
+                        <div class="alert alert-secondary">
+                            Aucune évaluation pour le moment.
+                        </div>
+                   {% endif %}
+
+                    {% if errors is defined and errors is not empty %}
+                        <div class="alert alert-danger" role="alert">
+                            <ul class="mb-0">
+                                {% for error in errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    {% if success is defined and success %}
+                        <div class="alert alert-success" role="alert">
+                            Votre évaluation a bien été enregistrée.
+                        </div>
+                    {% endif %}
+                    
+                   
+
+                    <form method="POST" action="{{ url_for('entreprise-evaluer', {'id': entreprise.id}) }}">
+                        <div class="mb-3">
+                            <label for="note" class="form-label">Note</label>
+                            <select name="note" id="note" class="form-select" required>
+                                <option value="">Choisir une note</option>
+                                <option value="1" {% if old.note is defined and old.note == '1' %}selected{% endif %}>1 / 5</option>
+                                <option value="2" {% if old.note is defined and old.note == '2' %}selected{% endif %}>2 / 5</option>
+                                <option value="3" {% if old.note is defined and old.note == '3' %}selected{% endif %}>3 / 5</option>
+                                <option value="4" {% if old.note is defined and old.note == '4' %}selected{% endif %}>4 / 5</option>
+                                <option value="5" {% if old.note is defined and old.note == '5' %}selected{% endif %}>5 / 5</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="commentaire" class="form-label">Commentaire</label>
+                            <textarea
+                                name="commentaire"
+                                id="commentaire"
+                                class="form-control"
+                                rows="5"
+                                placeholder="Décrivez votre expérience avec cette entreprise..."
+                                required
+                            >{{ old.commentaire is defined ? old.commentaire : '' }}</textarea>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                Envoyer l’évaluation
+                            </button>
+
+                            <a href="/entreprise/{{ entreprise.id }}" class="btn btn-outline-secondary">
+                                Retour
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {% if evaluations is defined and evaluations is not empty %}
+                <div class="card shadow-sm border-0 mt-4">
+                    <div class="card-body p-4">
+                        <h2 class="h5 mb-3">Avis déjà publiés</h2>
+
+                        {% for evaluation in evaluations %}
+                            <div class="border-bottom pb-3 mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>
+                                        {{ evaluation.utilisateur.nom ?? evaluation.utilisateur.email ?? 'Utilisateur' }}
+                                    </strong>
+                                    <span class="badge bg-primary">{{ evaluation.note }}/5</span>
+                                </div>
+
+                                <p class="mb-1">{{ evaluation.commentaire }}</p>
+
+                                {% if evaluation.createdAt is defined and evaluation.createdAt %}
+                                    <small class="text-muted">
+                                        Publié le {{ evaluation.createdAt|date('d/m/Y à H:i') }}
+                                    </small>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
