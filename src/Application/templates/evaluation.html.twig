@@ -15,7 +15,7 @@
                         Donnez une note et laissez un commentaire sur votre expérience avec
                         <strong>{{ entreprise.nom }}</strong>.
                     </p>
-                    
+
                    {% if moyenne is not null %}
                         <div class="alert alert-info">
                             Moyenne des notes : <strong>{{ moyenne|round(1) }}/5</strong> ({{ totalAvis }} avis)
@@ -74,9 +74,9 @@
                                 Envoyer l’évaluation
                             </button>
 
-                            <a href="/entreprise/{{ entreprise.id }}" class="btn btn-outline-secondary">
+                           <a href="{{ url_for('entreprise-offres', {'id': entreprise.id}) }}" class="btn btn-outline-secondary">
                                 Retour
-                            </a>
+                           </a>
                         </div>
                     </form>
                 </div>

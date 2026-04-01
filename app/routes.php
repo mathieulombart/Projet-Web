@@ -227,10 +227,10 @@ return function (App $app) {
 
     $app->get('/entreprise/{id:\d+}/evaluer', [EvaluationController::class, 'formulaire'])
         ->setName('entreprise-evaluer')
-        ->add(new RoleMiddleware(['etudiant']))
+        ->add(new RoleMiddleware(['admin'], ['pilote']))
         ->add(new AuthMiddleware());
 
     $app->post('/entreprise/{id:\d+}/evaluer', [EvaluationController::class, 'evaluer'])
-        ->add(new RoleMiddleware(['etudiant']))
+        ->add(new RoleMiddleware(['admin'], ['pilote']))
         ->add(new AuthMiddleware());
 };

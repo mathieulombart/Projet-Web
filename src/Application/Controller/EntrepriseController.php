@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
+use App\Domain\Evaluation;
 
 class EntrepriseController
 {
@@ -97,10 +98,10 @@ class EntrepriseController
         return $response->withHeader('Location', '/entreprises')->withStatus(302);
     }
 
-    public function offres(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+   public function offres(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $view       = Twig::fromRequest($request);
-        $id         = (int)$args['id'];
+        $id         = (int) $args['id'];
         $entreprise = $this->em->find(Entreprise::class, $id);
 
         if (!$entreprise) {
@@ -114,9 +115,30 @@ class EntrepriseController
             ->getQuery()
             ->getResult();
 
+        $evaluations = $this->em->getRepository(Evaluation::class)
+            ->createQueryBuilder('e')
+            ->where('e.entreprise = :entreprise')
+            ->setParameter('entreprise', $entreprise)
+            ->getQuery()
+            ->getResult();
+
+        $totalAvis = count($evaluations);
+        $moyenne = null;
+
+        if ($totalAvis > 0) {
+            $somme = 0;
+            foreach ($evaluations as $evaluation) {
+                $somme += $evaluation->getNote();
+            }
+            $moyenne = $somme / $totalAvis;
+        }
+
         return $view->render($response, 'entreprise_offres.html.twig', [
             'entreprise' => $entreprise,
             'offres'     => $offres,
+            'moyenne'    => $moyenne,
+            'totalAvis'  => $totalAvis,
+            'evaluations'=> $evaluations,
         ]);
     }
 
@@ -170,6 +192,7 @@ class EntrepriseController
             'search'       => $search,
         ]);
     }
-
+    
+ 
 
 }
