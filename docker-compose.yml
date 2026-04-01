@@ -1,20 +1,21 @@
-db:
-  image: mysql:8.4
-  container_name: allostage-db
-  restart: always
-  ports:
-    - "3307:3306"
-  environment:
-    MYSQL_ROOT_PASSWORD: example
-    MYSQL_DATABASE: toto
+services:
+  db:
+    image: mysql:8.4
+    container_name: allostage-db
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: toto
 
-phpmyadmin:
-  image: phpmyadmin
-  container_name: allostage-pma
-  restart: always
-  ports:
-    - "99:80"
-  environment:
-    PMA_HOST: db
-    PMA_USER: root
-    PMA_PASSWORD: example
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: allostage-pma
+    restart: always
+    ports:
+      - "99:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: example

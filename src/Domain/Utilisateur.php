@@ -45,7 +45,7 @@ class Utilisateur
     #[ORM\JoinColumn(name: 'pilote_id', nullable: true, onDelete: 'SET NULL')]
     private ?Utilisateur $pilote = null;
 
-    // --- Getters et Setters ---
+    
 
     public function getId(): ?int { return $this->id; }
 
