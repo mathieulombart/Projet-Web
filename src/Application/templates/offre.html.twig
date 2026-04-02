@@ -74,7 +74,7 @@
                               <input type="hidden" name="localisation" value="{{ offre.localisation }}">
                               <button type="submit" class="btn btn-outline-danger btn-sm">Wishlist</button>
                           </form>
-
+                          {% if user_role in ['admin', 'pilote'] %}
                           <a href="{{ url_for('modifier-offre', { id: offre.id }) }}" class="btn btn-outline-secondary btn-sm">
                               Modifier
                           </a>
@@ -85,6 +85,7 @@
                                 onsubmit="return confirm('Supprimer définitivement cette offre ?');">
                               <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
                           </form>
+                          {% endif %}
                       </div>
                   </td>
                </tr>

@@ -62,8 +62,11 @@
               <td>{{ entreprise.telephone ?? '—' }}</td>
               <td class="text-muted small">{{ entreprise.description }}</td>
               <td>
+              
                 <div class="d-flex gap-2">
-                  <a href="/entreprise/{{ entreprise.id }}/offres" class="btn btn-outline-primary btn-sm">Voir les offres</a>
+                  <a href="/entreprise/{{ entreprise.id }}/offres" class="btn btn-outline-primary btn-sm">Détails de l'entreprise</a>
+                  
+                  {% if user_role in ['admin', 'pilote'] %}
                   <a href="{{ url_for('modifier-entreprise', { id: entreprise.id }) }}" class="btn btn-outline-secondary btn-sm">Modifier</a>
                   <form method="post"
                         action="{{ url_for('supprimer-entreprise', { id: entreprise.id }) }}"
@@ -74,7 +77,9 @@
                   <a href="{{ url_for('entreprise-evaluer', {'id': entreprise.id}) }}" class="btn btn-primary">
                     Évaluer l'entreprise
                   </a>
+                  {% endif %}
                 </div>
+              
               </td>
             </tr>
             {% endfor %}
