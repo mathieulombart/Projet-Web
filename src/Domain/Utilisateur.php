@@ -45,7 +45,7 @@ class Utilisateur
     #[ORM\JoinColumn(name: 'pilote_id', nullable: true, onDelete: 'SET NULL')]
     private ?Utilisateur $pilote = null;
 
-    // --- Getters et Setters ---
+    
 
     public function getId(): ?int { return $this->id; }
 
@@ -73,10 +73,6 @@ class Utilisateur
     public function getPromotion(): ?string { return $this->promotion; }
     public function setPromotion(?string $promotion): void { $this->promotion = $promotion; }
 
-    /**
-     * Correction de la fusion : 
-     * On utilise bien l'objet Utilisateur (relation ManyToOne) et non un string.
-     */
     public function getPilote(): ?Utilisateur { return $this->pilote; }
     public function setPilote(?Utilisateur $pilote): void { $this->pilote = $pilote; }
 }
